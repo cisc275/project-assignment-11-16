@@ -2,5 +2,10 @@
 project-assignment-11-16 created by GitHub Classroom
 
 
-brief description of your project and enlists all team members
-asana link: https://app.asana.com/0/1115803740049588/board
+Brief description:
+An educational game with 3 sections. Eating, migrating, and breeding minigames. Based on the killdeer bird.
+
+Team members:
+Wenki, Zihan, Kelly, Zachary, Prescott
+
+Asana link: https://app.asana.com/0/1115803740049588/board
