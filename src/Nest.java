@@ -1,10 +1,8 @@
 
 public class Nest extends Moveable{
 	
-	int egg1;
-	int egg2;
-	int egg3;
-
+	int numEggs; 
+	
 	//nest does not move
 	Nest(int xP, int yP, int r){
 		x = xP;
@@ -12,6 +10,16 @@ public class Nest extends Moveable{
 		radius = r;
 		xVelocity = 0;
 		yVelocity = 0;	
+		numEggs = 3;
+	}
+
+	Nest(int xP, int yP, int r, int e){
+		x = xP;
+		y = yP;
+		radius = r;
+		xVelocity = 0;
+		yVelocity = 0;	
+		numEggs = e;
 	}
 
 

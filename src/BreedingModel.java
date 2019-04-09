@@ -15,12 +15,22 @@ class BreedingModel extends Model{
 		predators = new ArrayList<>();
 	}
 	
-	//for testing ease
+	//for testing 
 	BreedingModel(int w, int h, BreedingBird b, List<Predator> p){
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
 		predators = p;
+		nest = new Nest(0, 0, 0);
+	}	
+	
+	//for testing 
+	BreedingModel(int w, int h, BreedingBird b, List<Predator> p, Nest n){
+		frameHeight = w;
+		frameWidth = h;
+		bird = b;
+		predators = p;
+		nest = n;
 	}	
 	
 	void update() {}
