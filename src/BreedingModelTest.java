@@ -28,6 +28,7 @@ class BreedingModelTest{
 		assertEquals(bModel, bModel2);
 	}
 	
+	@Test
 	void predatorTest2() {
 		predatorList.add(new Predator(10, 10, 10, 1, 1));
 		predatorList.add(new Predator(100, 100, 10, 1, 1));
@@ -45,6 +46,7 @@ class BreedingModelTest{
 		assertEquals(bModel, bModel2);
 	}
 	
+	@Test
 	void nestTest() {
 		BreedingModel bModel = new BreedingModel(frameWidth, frameHeight, new BreedingBird(0, 0, 0, 0, 0), predatorList, new Nest(0,0,0));
 		
@@ -54,6 +56,7 @@ class BreedingModelTest{
 		assertTrue(bModel2.endGame());
 	}
 	
+	@Test
 	void predatorGenerateTest() {
 		BreedingModel bModel = new BreedingModel(frameWidth, frameHeight, new BreedingBird(0, 0, 0, 0, 0), predatorList);
 		BreedingModel bModel2 = new BreedingModel(frameWidth, frameHeight, new BreedingBird(0, 0, 0, 0, 0), predatorList);
