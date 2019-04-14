@@ -102,7 +102,8 @@ public class Controller implements MouseMotionListener,MouseListener{
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (model == mModel) {
-			mModel.mouseUpdate(e.getXOnScreen(), e.getYOnScreen());
+			mModel.mouseUpdate(e.getX(), e.getY());
+			System.out.println(e.getX() + " " + e.getY());
 		}
 		
 	}

@@ -20,7 +20,8 @@ public class MigratingBird extends Moveable{
 	@Override
 	void update() {
 		// TODO Auto-generated method stub
-		
+		this.x += this.xVelocity;
+		this.y += this.yVelocity;
 	}
 	
 	void mouseUpdate(int xPos, int yPos) {
