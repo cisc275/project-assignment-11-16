@@ -2,7 +2,7 @@
 public class Food extends Moveable{
 
 	//different for different subclasses of food, maybe make abstract later
-	static int scoreValue;
+	int scoreValue;
 	
 	Food(int xP, int yP, int r, int xV, int yV){
 		x = xP;
@@ -18,14 +18,6 @@ public class Food extends Moveable{
 
 	@Override
 	void update() {
-		// TODO Auto-generated method stub
-		
+		move();
 	}
-
-	@Override
-	void move() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

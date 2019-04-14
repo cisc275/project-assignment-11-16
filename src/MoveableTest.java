@@ -2,26 +2,24 @@ import static org.junit.Assert.*;
 import org.junit.jupiter.api.Test;
 
 class MoveableTest {
-
-	//(int xP, int yP, int r, int xV, int yV)
-	MigratingBird mBird = new MigratingBird(30, 30, 10, 1 ,1);
-	Enemy closeEnemy = new Enemy(25, 25, 10, 1, 1);
-	Enemy farEnemy = new Enemy(100, 100, 10, 1, 1);
-
-	Enemy edgeEnemy1 = new Enemy(10, 10, 10, 1 , 1);
-	Enemy edgeEnemy2 = new Enemy(50, 50, 10, 1 , 1);
 	
 	
 	@Test
-	public void basicCollision() {		
-		assertTrue( "close location, but doesn't collide" , mBird.collidesWith(closeEnemy) );
-		assertTrue( "close location, but doesn't collide" , closeEnemy.collidesWith(mBird) );
-		assertFalse("far away, but collides", mBird.collidesWith(farEnemy) );
-		assertFalse("far away, but collides", farEnemy.collidesWith(closeEnemy) );
+	public void basicCollision() {
+		EatingBird bird = new EatingBird(0, 0); //radius 20
+		assertTrue("together", bird.collidesWith(new Food(0, 0, 10, 0, 0)));
+		assertTrue("no center", bird.collidesWith(new Food(30, 0, 20, 0, 0)));
+		assertTrue("diagonal", bird.collidesWith(new Food(21, 21, 20, 0, 0)));
+		assertTrue("edges touching", bird.collidesWith(new Food(bird.getRadius()+10, 0, 10, 0, 0)));
+		assertFalse("just barely not", bird.collidesWith(new Food(bird.getRadius()+10, 1, 10, 0, 0)));
+		//assertTrue( "close location, but doesn't collide" , mBird.collidesWith(closeEnemy) );
+		//assertTrue( "close location, but doesn't collide" , closeEnemy.collidesWith(mBird) );
+		//assertFalse("far away, but collides", mBird.collidesWith(farEnemy) );
+		//assertFalse("far away, but collides", farEnemy.collidesWith(closeEnemy) );
 	}
 	
 	
-	@Test
+	/*@Test
 	public void edgeCollision() {
 		assertTrue("edges touch, but doesn't collide", mBird.collidesWith(edgeEnemy1));
 		assertTrue("edges touch, but doesn't collide", mBird.collidesWith(edgeEnemy2));
@@ -31,7 +29,7 @@ class MoveableTest {
 	public void exitsFrame() {
 		assertTrue(mBird.exitsFrame(10, 10) );
 		assertFalse(mBird.exitsFrame(100,100));
-	}
+	}*/
 	
 
 

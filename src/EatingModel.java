@@ -11,11 +11,11 @@ class EatingModel extends Model{
 	int foodScore = 0;
 	
 	//pass frame height/width from view to create models
-	EatingModel(int w, int h){
+	EatingModel(int w, int h) {
 		frameHeight = w;
 		frameWidth = h;
 		bird = new EatingBird(0,0,0,0,0);
-		food = new ArrayList<>();
+		food = new ArrayList<Food>();
 	}
 	
 	//for testing ease
@@ -41,7 +41,7 @@ class EatingModel extends Model{
 	boolean endGame() {return false;}
 	
 	Collection<Moveable> getMoveables(){
-		Collection<Moveable> m = new ArrayList<>();
+		Collection<Moveable> m = new ArrayList<Moveable>();
 		m.addAll(food);
 		m.add(bird);
 		return m;
