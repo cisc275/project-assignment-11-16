@@ -8,7 +8,7 @@ public class EatingBird extends Moveable {
 	int speed;
 	
 	EatingBird(int xP, int yP){
-		super(xP, yP, 10, 0, 0);
+		super(xP, yP, 70, 0, 0);
 		destinationX = xP;
 		destinationY = yP;
 		speed = BASE_SPEED;
@@ -18,7 +18,7 @@ public class EatingBird extends Moveable {
 	public void update() {
 		// TODO Auto-generated method stub
 		if (x != destinationX || y != destinationY) {
-			double theta = Math.atan2(destinationY - this.y, destinationX - this.x);
+			double theta = angleTo(destinationX, destinationY);
 			xVelocity = (int) Math.round(Math.cos(theta) * speed);
 			yVelocity = (int) Math.round(Math.sin(theta) * speed);
 			move();
@@ -29,5 +29,6 @@ public class EatingBird extends Moveable {
 		destinationX = tox;
 		destinationY = toy;
 	}
-
+	
+	
 }

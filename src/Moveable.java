@@ -69,7 +69,7 @@ public abstract class Moveable {
 	}
 	
 	boolean collidesWith(Moveable other) {
-		return distanceTo(other) <= this.radius + other.getRadius();
+		return distanceTo(other) <= (this.radius + other.getRadius());
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public abstract class Moveable {
 	 * @return Whether this is entirely out of frame.
 	 */
 	boolean exitsFrame(int frameWidth, int frameHeight) {
-		return x + radius < 0 || y + radius < 0 || x - radius > frameWidth || y - radius < frameHeight;
+		return x + radius < 0 || y + radius < 0 || x - radius > frameWidth || y - radius > frameHeight;
 	}
 	
 
