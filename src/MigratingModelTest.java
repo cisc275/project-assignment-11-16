@@ -59,6 +59,7 @@ class MigratingModelTest {
 		assertEquals(mModel, mModel2);
 	}
 	
+	/*
 	@Test
 	void despawnTest2() {
 		//no enemies or gust
@@ -71,6 +72,7 @@ class MigratingModelTest {
 		mModel2.despawn();
 		assertEquals(mModel, mModel2);
 	}
+	*/
 	
 	@Test
 	void spawnTest() {
@@ -80,7 +82,7 @@ class MigratingModelTest {
 		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
 		MigratingModel mModel3 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
 
-		mModel2.generateEnemies();
+		mModel2.generateEnemy();
 		assertNotEquals(mModel, mModel2);
 		
 		mModel3.generateGusts();
