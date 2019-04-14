@@ -1,5 +1,5 @@
 
-public class Enemy extends Moveable{
+public class Enemy extends Moveable {
 
 	Enemy(int xP, int yP, int r, int xV, int yV){
 		x = xP;
@@ -8,17 +8,17 @@ public class Enemy extends Moveable{
 		xVelocity = xV;
 		yVelocity = yV;
 	}
-
-	@Override
-	void update() {
-		// TODO Auto-generated method stub
-		
+	Enemy(int xP, int yP ){
+		x = xP;
+		y = yP;
+		radius = 20;
+		xVelocity = -5;
+		yVelocity = 0;
 	}
 
 	@Override
-	void move() {
-		// TODO Auto-generated method stub
-		
+	void update() {
+		move();
 	}
 
 }
