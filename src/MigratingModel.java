@@ -7,8 +7,8 @@ class MigratingModel extends Model{
 	List<Enemy> enemies;
 	List <Gust> gusts;
 	
-	Iterator <Enemy> enemiesIterator;
-	Iterator <Gust> gustIterator;
+
+	
 	
 	private static int enemyScore = -10; 
 	private static int gustScore = 20;
@@ -21,8 +21,7 @@ class MigratingModel extends Model{
 		enemies = new ArrayList<>();
 		enemies.add(new Enemy(frameWidth-50, 150));
 		gusts = new ArrayList<>();
-		enemiesIterator = enemies.iterator();
-		gustIterator = gusts.iterator();
+
 	}
 	
 	//for testing ease
@@ -78,10 +77,9 @@ class MigratingModel extends Model{
 		//if bird collideswith enemy for all enemy 
 		//remove enemy from list
 		//score.setscore(decrement);
-		
+		Iterator <Enemy> enemiesIterator = enemies.iterator();
 		while(enemiesIterator.hasNext()) {
 			Enemy e = enemiesIterator.next();
-			System.out.print(bird.collidesWith(e));
 			if(bird.collidesWith(e)) {
 				enemiesIterator.remove();
 				this.setScore(this.getScore() + enemyScore);
@@ -94,6 +92,7 @@ class MigratingModel extends Model{
 	
 	//add something to up bird velocity for a certain peroid
 	void updateGustCollision() {
+		Iterator <Gust> gustIterator = gusts.iterator();
 		while(gustIterator.hasNext()) {
 			Gust g = gustIterator.next();
 			if(bird.collidesWith(g)) {
