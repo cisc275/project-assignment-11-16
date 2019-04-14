@@ -21,7 +21,7 @@ public class Controller implements MouseMotionListener,MouseListener{
 		bModel = new BreedingModel(frameWidth, frameHeight);
 		
 		//can switch models later
-		model = mModel;		
+		model = eModel;		
 	}
 	
 	//for testing
@@ -43,9 +43,8 @@ public class Controller implements MouseMotionListener,MouseListener{
 		for(int i = 0; i < 5000; i++) {
 			//increment the x and y coordinates, alter direction if necessary
 			model.update();
-			System.out.println("past model update");
 			view.update(model.getMoveables());
-			System.out.println("past view update");
+
 		}
 	}
 
