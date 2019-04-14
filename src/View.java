@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.Collection;
+
 import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +16,12 @@ class View extends JPanel{
 	static int frameHeight = 300;
 	static Dimension windowSize  = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
+	BufferedImage[] images; 
+	Collection <Moveable> moveables; 
+
 	
 	View(){
+		this.createImages();
 		this.buildFrame();
 	}
 
@@ -41,11 +47,53 @@ class View extends JPanel{
 		this.setFocusable(true);
 	}
 	
-	public void paint(Graphics g) {}
+	public void paint(Graphics g) {
+		try {
+			for(Moveable m : moveables) {
+				g.drawImage(this.getImage(m), m.getX(), m.getY(), this);
+			}
+
+		} catch (NullPointerException e) {}
+	}
 	void addControllerToMouse(MouseMotionListener m) {}
+	
+	void update(Collection <Moveable> moveables) {
+		this.moveables = moveables;
+		frame.repaint();
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private BufferedImage createImage(String str) {
+		BufferedImage bufferedImage;
+		try {
+			bufferedImage = ImageIO.read(new File(str));
+			return bufferedImage;
+		} catch (IOException e) {
+			System.out.println(str);
+			e.printStackTrace();
+		}
+		return null;
+	}
+	private void createImages() {
+		images = new BufferedImage[5];
+		images[0] = createImage("src/images/bird.png");
+		images[1] = createImage("src/images/enemy.png");
+		images[2] = createImage("src/images/gust.png");
+		images[3] = createImage("src/images/food.png");
+		images[4] = createImage("src/images/food.png");
+	}
+	
+	//make an id or smth idk
+	BufferedImage getImage(Moveable m) {return images[0];}
+/*
 	void update(EatingBird b, List food) {}
 	void update(MigratingBird b, List enemies, List gusts) {}
 	void update(BreedingBird b, List predators, Nest n) {}
+*/
 	JPanel generateQuiz() {
 		JPanel panel = new JPanel();
 		return panel;

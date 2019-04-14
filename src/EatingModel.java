@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 class EatingModel extends Model{
@@ -38,6 +39,13 @@ class EatingModel extends Model{
 	void update() {}
 	void updateCollision() {}
 	boolean endGame() {return false;}
+	
+	Collection<Moveable> getMoveables(){
+		Collection<Moveable> m = new ArrayList<>();
+		m.addAll(food);
+		m.add(bird);
+		return m;
+	}
 	
 	boolean foodEaten() {
 		return false;

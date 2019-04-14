@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 class BreedingModel extends Model{
@@ -36,6 +37,14 @@ class BreedingModel extends Model{
 	void update() {}
 	void updateCollision() {}
 	boolean endGame() {return false;}
+	
+	Collection<Moveable> getMoveables(){
+		Collection<Moveable> m = new ArrayList<>();
+		m.addAll(predators);
+		m.add(bird);
+		m.add(nest);
+		return m;
+	}
 		
 	//checks when to create pop-up quiz
 	boolean isQuizTime() {return false;}
