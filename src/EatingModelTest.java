@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 class EatingModelTest {
 	
-	EatingBird testBird = new EatingBird(0, 0, 0, 0, 0);
+	EatingBird testBird = new EatingBird(0, 0);
 	List<Food> foodList = new ArrayList<>();
 	int frameWidth = 500;
 	int frameHeight= 500;

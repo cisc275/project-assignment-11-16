@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 class MigratingModel extends Model{
 
 	MigratingBird bird;
@@ -16,9 +17,9 @@ class MigratingModel extends Model{
 	MigratingModel(int w, int h){
 		frameHeight = w;
 		frameWidth = h;
-		bird = new MigratingBird(0, 20, 200, 0, 0); //bird is still
+		bird = new MigratingBird(frameWidth/2, frameHeight/2); //bird is still
 		enemies = new ArrayList<>();
-		enemies.add(new Enemy(300, 300, 200, 10, 10));
+		enemies.add(new Enemy(frameWidth-50, 150));
 		gusts = new ArrayList<>();
 		enemiesIterator = enemies.iterator();
 		gustIterator = gusts.iterator();
@@ -34,8 +35,22 @@ class MigratingModel extends Model{
 	}
 		
 	//also update score based on time completion
-	void update() {}
-	void updateCollision() {}
+	void update() {
+		bird.update();
+
+		for (Moveable o : enemies) {
+			o.update();
+		}
+		for (Moveable o : gusts) {
+			o.update();
+		}
+		updateCollision(); // ????
+	}
+	void updateCollision() {
+		updateEnemyCollision();
+		updateGustCollision();
+	}
+	
 	boolean endGame() {return false;}
 	
 	Collection<Moveable> getMoveables(){
@@ -56,7 +71,9 @@ class MigratingModel extends Model{
 	}
 	
 
-	//if bird collides with Moveable, update lists and bird
+	/**
+	 * if bird collides with Moveable, update lists and bird
+	 */
 	void updateEnemyCollision() {
 		//if bird collideswith enemy for all enemy 
 		//remove enemy from list
@@ -64,7 +81,8 @@ class MigratingModel extends Model{
 		
 		while(enemiesIterator.hasNext()) {
 			Enemy e = enemiesIterator.next();
-			if(e.collidesWith(bird)) {
+			System.out.print(bird.collidesWith(e));
+			if(bird.collidesWith(e)) {
 				enemiesIterator.remove();
 				this.setScore(this.getScore() + enemyScore);
 			}else if(e.exitsFrame(frameWidth, frameHeight)) {

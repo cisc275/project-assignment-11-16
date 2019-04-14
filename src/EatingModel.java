@@ -14,7 +14,7 @@ class EatingModel extends Model{
 	EatingModel(int w, int h) {
 		frameHeight = w;
 		frameWidth = h;
-		bird = new EatingBird(0,0,0,0,0);
+		bird = new EatingBird(0,0);
 		food = new ArrayList<Food>();
 	}
 	

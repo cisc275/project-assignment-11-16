@@ -50,7 +50,8 @@ class View extends JPanel{
 	public void paint(Graphics g) {
 		try {
 			for(Moveable m : moveables) {
-				g.drawImage(this.getImage(m), m.getX(), m.getY(), this);
+				g.fillOval(m.getX()-m.getRadius()/2, m.getY()-m.getRadius()/2, m.getRadius(), m.getRadius());
+				//g.drawImage(this.getImage(m), m.getX(), m.getY(), this);
 			}
 
 		} catch (NullPointerException e) {}
