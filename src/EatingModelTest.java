@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class EatingModelTest {
 	
 	EatingBird testBird = new EatingBird(0, 0);
-	List<Food> foodList = new ArrayList<>();
+	List<Food> foodList = new ArrayList<Food>();
 	int frameWidth = 500;
 	int frameHeight= 500;
 	
@@ -15,8 +15,6 @@ class EatingModelTest {
 	void eatingTest() {
 		foodList.add(new Food(0, 0, 0, 0, 0));
 		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList);
-		
-		assertTrue(eModel.foodEaten());
 		
 	}
 	
