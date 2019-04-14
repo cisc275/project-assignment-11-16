@@ -5,6 +5,7 @@ public class Main{
 
 		System.out.println("main executed");
 		Controller controller = new Controller();
+		controller.start();
 	}
 	
 	

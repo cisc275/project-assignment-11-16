@@ -1,3 +1,4 @@
+import java.util.Collection;
 
 abstract class Model{
 	int score;
@@ -16,6 +17,8 @@ abstract class Model{
 	
 	//checks if game related to the model is ended based on time
 	abstract boolean endGame();
+	
+	abstract Collection<Moveable> getMoveables();
 	
 	
 	

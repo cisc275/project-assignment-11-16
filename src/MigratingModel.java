@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class MigratingModel extends Model{
 
@@ -11,8 +10,9 @@ class MigratingModel extends Model{
 	MigratingModel(int w, int h){
 		frameHeight = w;
 		frameWidth = h;
-		bird = new MigratingBird(0, 0, 0, 0, 0);
+		bird = new MigratingBird(0, 0, 200, 0, 0);
 		enemies = new ArrayList<>();
+		enemies.add(new Enemy(300, 300, 200, 10, 10));
 		gusts = new ArrayList<>();
 	}
 	
@@ -30,6 +30,14 @@ class MigratingModel extends Model{
 	void updateCollision() {}
 	boolean endGame() {return false;}
 	
+	Collection<Moveable> getMoveables(){
+		Collection<Moveable> m = new ArrayList<>();
+		m.addAll(enemies);
+		m.add(bird);
+		m.addAll(gusts);
+		return m;
+	}
+		
 	//adds new Moveable objects when they disappear or at time intervals
 	void generateEnemies() {}
 	void generateGusts() {}
