@@ -60,6 +60,10 @@ class MigratingModel extends Model{
 		m.addAll(gusts);
 		return m;
 	}
+	
+	void mouseUpdate(int x, int y) {
+		this.bird.mouseUpdate(x, y);
+	}
 		
 	//check to make sure enemies don't overlap later
 	void generateEnemy() {
@@ -75,7 +79,7 @@ class MigratingModel extends Model{
 	 * if bird collides with Moveable, update lists and bird
 	 */
 	void updateEnemyCollision() {
-		//if bird collideswith enemy for all enemy 
+		//if bird collides with enemy for all enemy 
 		//remove enemy from list
 		//score.setscore(decrement);
 		
@@ -92,7 +96,7 @@ class MigratingModel extends Model{
 	}
 	
 	
-	//add something to up bird velocity for a certain peroid
+	//add something to up bird velocity for a certain period
 	void updateGustCollision() {
 		while(gustIterator.hasNext()) {
 			Gust g = gustIterator.next();
@@ -104,5 +108,6 @@ class MigratingModel extends Model{
 			}
 		}
 	}
+	
 	
 }

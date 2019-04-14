@@ -22,11 +22,15 @@ public class MigratingBird extends Moveable{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	void mouseUpdate(int xPos, int yPos) {
+		yVelocity = yPos - this.y;
+		// xVelocity = xPos - this.x;
+	}
 
 	@Override
 	void move() {
 		// TODO Auto-generated method stub
-		
 	}
 
 }

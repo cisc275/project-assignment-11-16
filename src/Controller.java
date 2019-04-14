@@ -101,6 +101,9 @@ public class Controller implements MouseMotionListener,MouseListener{
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
+		if (model == mModel) {
+			mModel.mouseUpdate(e.getXOnScreen(), e.getYOnScreen());
+		}
 		
 	}
 }

@@ -81,11 +81,11 @@ class View extends JPanel{
 	}
 	private void createImages() {
 		images = new BufferedImage[5];
-		images[0] = createImage("src/images/bird.png");
-		images[1] = createImage("src/images/enemy.png");
-		images[2] = createImage("src/images/gust.png");
-		images[3] = createImage("src/images/food.png");
-		images[4] = createImage("src/images/food.png");
+		images[0] = createImage("/images/bird.png");
+		images[1] = createImage("/images/enemy.png");
+		images[2] = createImage("/images/gust.png");
+		images[3] = createImage("/images/food.png");
+		images[4] = createImage("/images/food.png");
 	}
 	
 	//make an id or smth idk
