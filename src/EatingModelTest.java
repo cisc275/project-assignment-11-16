@@ -23,13 +23,9 @@ class EatingModelTest {
 		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList);
 		EatingModel eModel2 = new EatingModel(frameWidth, frameHeight, testBird, foodList);
 		
-		eModel.generateFood();
+		eModel.spawnRandomFood();
 		
 		assertNotEquals(eModel, eModel2);
-		
-		eModel.despawnFood();
-		
-		assertEquals(eModel, eModel2);
 	}
 	
 	@Test

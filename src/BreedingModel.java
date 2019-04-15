@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class BreedingModel extends Model{
+class BreedingModel extends Model {
 	
 	BreedingBird bird;
 	List<Predator> predators;
@@ -35,12 +35,10 @@ class BreedingModel extends Model{
 		nest = n;
 	}	
 	
-	void updateMouse(int xPos, int yPos) {
-		this.bird.mouseDownUpdate(xPos, yPos);
+	void setDestination(int x, int y) {
+		this.bird.setDestination(x, y);
 	}
-	void updateMouse() {
-		this.bird.mouseUpUpdate();
-	}
+	
 	void updateBird(int xB, int yB) {
 		for (Predator p : this.predators) {
 			p.updateBirdLoc(xB, yB);
@@ -66,12 +64,18 @@ class BreedingModel extends Model{
 		return m;
 	}
 		
-	//checks when to create pop-up quiz
+	/**
+	 * checks when to create pop-up quiz
+	 * @return
+	 */
 	boolean isQuizTime() {return false;}
 	
-	//
 	void generatePredators() {
+		
 	}
-	void updatePredatorCollision() {}
+	
+	void updatePredatorCollision() {
+		
+	}
 	
 }
