@@ -12,8 +12,9 @@ class BreedingModel extends Model{
 	BreedingModel(int w, int h){
 		frameHeight = w;
 		frameWidth = h;
-		bird = new BreedingBird(0, 0, 0, 0, 0);
+		bird = new BreedingBird(130, 130, 30, 0, 0);
 		predators = new ArrayList<Predator>();
+		predators.add(new Predator(40, 40, 10, 5, 0));
 	}
 	
 	//for testing 
@@ -34,7 +35,26 @@ class BreedingModel extends Model{
 		nest = n;
 	}	
 	
-	void update() {}
+	void updateMouse(int xPos, int yPos) {
+		this.bird.mouseDownUpdate(xPos, yPos);
+	}
+	void updateMouse() {
+		this.bird.mouseUpUpdate();
+	}
+	void updateBird(int xB, int yB) {
+		for (Predator p : this.predators) {
+			p.updateBirdLoc(xB, yB);
+		}
+	}
+	
+	void update() {
+		bird.update();
+		for (Predator p : this.predators) {
+			p.update();
+			this.updateBird(this.bird.getX(), this.bird.getY());
+		}
+	}
+	
 	void updateCollision() {}
 	boolean endGame() {return false;}
 	
@@ -50,7 +70,8 @@ class BreedingModel extends Model{
 	boolean isQuizTime() {return false;}
 	
 	//
-	void generatePredators() {}
+	void generatePredators() {
+	}
 	void updatePredatorCollision() {}
 	
 }

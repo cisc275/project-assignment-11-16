@@ -11,6 +11,7 @@ public class Controller implements MouseMotionListener,MouseListener{
 		view = new View();
 		view.addControllerToMouse(this);
 		
+		//model = bModel;		
 		startMainMenu();
 	}
 	
@@ -119,11 +120,19 @@ public class Controller implements MouseMotionListener,MouseListener{
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		if (model == bModel) {
+			bModel.updateMouse(e.getX(), e.getY());
+		}
 	}
 	
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		if (model == mModel) {
+			mModel.mouseUpdate(e.getX(), e.getY());
+			System.out.println(e.getX() + " " + e.getY());
+		} else if (model == bModel) {
+			bModel.updateMouse();
+    }
 		if (model instanceof MigratingModel) {
 			MigratingModel mModel = (MigratingModel) model;
 			mModel.setDestination(e.getX(), e.getY());
