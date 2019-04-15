@@ -41,11 +41,17 @@ class BreedingModel extends Model{
 	void updateMouse() {
 		this.bird.mouseUpUpdate();
 	}
+	void updateBird(int xB, int yB) {
+		for (Predator p : this.predators) {
+			p.updateBirdLoc(xB, yB);
+		}
+	}
 	
 	void update() {
 		bird.update();
 		for (Predator p : this.predators) {
 			p.update();
+			this.updateBird(this.bird.getX(), this.bird.getY());
 		}
 	}
 	
