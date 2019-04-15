@@ -12,7 +12,7 @@ class BreedingModel extends Model{
 	BreedingModel(int w, int h){
 		frameHeight = w;
 		frameWidth = h;
-		bird = new BreedingBird(200, 200, 30, 0, 0);
+		bird = new BreedingBird(130, 130, 30, 0, 0);
 		predators = new ArrayList<>();
 	}
 	
@@ -34,7 +34,17 @@ class BreedingModel extends Model{
 		nest = n;
 	}	
 	
-	void update() {}
+	void updateMouse(int xPos, int yPos) {
+		this.bird.mouseDownUpdate(xPos, yPos);
+	}
+	void updateMouse() {
+		this.bird.mouseUpUpdate();
+	}
+	
+	void update() {
+		bird.update();
+	}
+	
 	void updateCollision() {}
 	boolean endGame() {return false;}
 	

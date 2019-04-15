@@ -21,7 +21,7 @@ public class Controller implements MouseMotionListener,MouseListener{
 		bModel = new BreedingModel(frameWidth, frameHeight);
 		
 		//can switch models later
-		model = bModel;		
+		model = eModel;		
 	}
 	
 	//for testing
@@ -92,7 +92,9 @@ public class Controller implements MouseMotionListener,MouseListener{
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		if (model == bModel) {
+			bModel.updateMouse(e.getX(), e.getY());
+		}
 	}
 
 
@@ -103,6 +105,8 @@ public class Controller implements MouseMotionListener,MouseListener{
 		if (model == mModel) {
 			mModel.mouseUpdate(e.getX(), e.getY());
 			System.out.println(e.getX() + " " + e.getY());
+		} else if (model == bModel) {
+			bModel.updateMouse();
 		}
 		
 	}
