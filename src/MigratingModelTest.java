@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 
 class MigratingModelTest {
 //	Enemy(int xP, int yP, int r, int xV, int yV)
-	ArrayList<Enemy> enemies = new ArrayList<>();
-	ArrayList<Gust> gusts = new ArrayList<>();
+	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	ArrayList<Gust> gusts = new ArrayList<Gust>();
 	MigratingBird bird = new MigratingBird(0,0,0,0,0);
 	int frameWidth = 500;
 	int frameHeight= 500;
