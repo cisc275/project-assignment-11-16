@@ -1,15 +1,14 @@
 
 public class MigratingBird extends Moveable{
 
-	int followDistanceCoefficient;
+	final double followDistanceCoefficient = .4;
+	int destinationX;
+	int destinationY;
 	
 	MigratingBird(int xP, int yP){
-		x = xP;
-		y = yP;
-		followDistanceCoefficient = 2;
-		radius = 50;
-		xVelocity = 0;
-		yVelocity = 0;
+		super(xP, yP, 50, 0, 0);
+		destinationX = xP;
+		destinationY = yP;
 	}
 	
 	MigratingBird(int xP, int yP, int r, int xV, int yV){
@@ -22,30 +21,14 @@ public class MigratingBird extends Moveable{
 
 	@Override
 	void update() {
-		// TODO Auto-generated method stub
-		this.x += this.xVelocity;
-		this.y += this.yVelocity;
-		if (this.xVelocity > 0) {
-			xVelocity -= 1;
-		} else if (this.xVelocity < 0) {
-			xVelocity += 1;
-		}
-
-		if (this.yVelocity > 0) {
-			yVelocity -= 1;
-		} else if (this.yVelocity < 0) {
-			yVelocity += 1;
-		}
+		xVelocity = (int) Math.ceil((destinationX - this.x) * this.followDistanceCoefficient);
+		yVelocity = (int) Math.ceil((destinationY - this.y) * this.followDistanceCoefficient);
+		move();
 	}
 	
-	void mouseUpdate(int xPos, int yPos) {
-		yVelocity = (yPos - this.y)/this.followDistanceCoefficient;
-		xVelocity = (xPos - this.x)/this.followDistanceCoefficient;
-	}
-
-	@Override
-	void move() {
-		// TODO Auto-generated method stub
+	void setDestination(int xPos, int yPos) {
+		destinationX = xPos;
+		destinationY = yPos;
 	}
 
 }

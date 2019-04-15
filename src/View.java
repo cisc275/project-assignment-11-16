@@ -1,27 +1,33 @@
 import java.io.*;
 import java.util.Collection;
-
+import java.util.HashMap;
+import java.util.Map;
 import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.*;
 
 
-
-
-class View extends JPanel{
+@SuppressWarnings("serial")
+class View extends JPanel {
+	public static final boolean NO_IMAGES = true;
+	
 	JFrame frame;
-	static int frameWidth = 300;
-	static int frameHeight = 300;
+	static int frameWidth = 500;
+	static int frameHeight = 400;
 	static Dimension windowSize  = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
-	BufferedImage[] images; 
-	Collection <Moveable> moveables; 
-
+	static final String[] IMAGE_NAMES = {"bird", "enemy", "gust", "food"};
+	Map<String, BufferedImage> images; 
+	Collection <Moveable> moveables;
+	Collection <MenuObject> menuObjects;
+	int cameraOffX = 0;
+	int cameraOffY = 0;
+	
 	
 	View(){
-		this.createImages();
+		if (!NO_IMAGES)
+			this.createImages();
 		this.buildFrame();
 	}
 
@@ -37,6 +43,7 @@ class View extends JPanel{
 		frame.getContentPane().add(this);
 		//frame.setBackground(Color.gray);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Killdeer Simulator");
 		frame.setSize(frameWidth, frameHeight);
 		
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
@@ -50,22 +57,48 @@ class View extends JPanel{
 	public void paint(Graphics g) {
 		try {
 			for(Moveable m : moveables) {
-				g.fillOval(m.getX()-m.getRadius(), m.getY()-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
-				//g.drawImage(this.getImage(m), m.getX(), m.getY(), this);
+				int sx = m.getX() - cameraOffX;
+				int sy = m.getY() - cameraOffY;
+				if (NO_IMAGES)
+					g.fillOval(sx-m.getRadius(), sy-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
+				else
+					g.drawImage(this.getImage(m), sx, sy, this);
+			}
+			for(MenuObject m : menuObjects) {
+				g.drawRect(m.getX(), m.getY(), m.getWidth(), m.getHeight());
+				g.drawString(m.getText(), m.getX(), m.getY()+m.getHeight()/2);
 			}
 
 		} catch (NullPointerException e) {}
 	}
-	void addControllerToMouse(MouseMotionListener m) {}
 	
-	void update(Collection <Moveable> moveables) {
+	void update(Collection<Moveable> moveables, Collection<MenuObject> menuObjects) {
 		this.moveables = moveables;
+		this.menuObjects = menuObjects;
 		frame.repaint();
 		try {
-			Thread.sleep(100);
+			Thread.sleep(50);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	void resetCamera() {
+		cameraOffX = 0;
+		cameraOffY = 0;
+	}
+	
+	void moveCamera(int centerX, int centerY) {
+		cameraOffX = centerX - frameWidth/2;
+		cameraOffY = centerY - frameHeight/2;
+	}
+	
+	int actualX(int clickx) {
+		return clickx + cameraOffX;
+	}
+	
+	int actualY(int clicky) {
+		return clicky + cameraOffY;
 	}
 	
 	private BufferedImage createImage(String str) {
@@ -80,34 +113,19 @@ class View extends JPanel{
 		return null;
 	}
 	private void createImages() {
-		images = new BufferedImage[5];
-		images[0] = createImage("/images/bird.png");
-		images[1] = createImage("/images/enemy.png");
-		images[2] = createImage("/images/gust.png");
-		images[3] = createImage("/images/food.png");
-		images[4] = createImage("/images/food.png");
+		images = new HashMap<String, BufferedImage>();
+		for (String nom : IMAGE_NAMES) {
+			images.put(nom, createImage("/images/"+nom+".png"));
+		}
 	}
 	
-	//make an id or smth idk
-	BufferedImage getImage(Moveable m) {return images[0];}
-/*
-	void update(EatingBird b, List food) {}
-	void update(MigratingBird b, List enemies, List gusts) {}
-	void update(BreedingBird b, List predators, Nest n) {}
-*/
-	JPanel generateQuiz() {
-		JPanel panel = new JPanel();
-		return panel;
+	//make an id or something idk
+	BufferedImage getImage(Moveable m) {
+		return images.get("bird");
 	}
-	void displayScore(int eScore, int mScore, int bScore) {}
-	
 	
 	public void addControllerToMouse(Controller controller) {
-		// TODO Auto-generated method stub
 		this.addMouseListener(controller);
 		this.addMouseMotionListener(controller);
 	}
-
-	
-	
 }

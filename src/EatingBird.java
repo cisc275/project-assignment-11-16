@@ -18,10 +18,15 @@ public class EatingBird extends Moveable {
 	public void update() {
 		// TODO Auto-generated method stub
 		if (x != destinationX || y != destinationY) {
-			double theta = angleTo(destinationX, destinationY);
-			xVelocity = (int) Math.round(Math.cos(theta) * speed);
-			yVelocity = (int) Math.round(Math.sin(theta) * speed);
-			move();
+			if (distanceTo(destinationX, destinationY) <= speed) {
+				x = destinationX;
+				y = destinationY;
+			} else {
+				double theta = angleTo(destinationX, destinationY);
+				xVelocity = (int) Math.round(Math.cos(theta) * speed);
+				yVelocity = (int) Math.round(Math.sin(theta) * speed);
+				move();
+			}
 		}
 	}
 	

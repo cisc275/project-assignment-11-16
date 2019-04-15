@@ -2,7 +2,7 @@
 public class Earthworm extends Food {
 	
 	public Earthworm(int inx, int iny) {
-		super(inx, iny, 30, 1, 0);
+		super(inx, iny, 30, 0, 0);
 		scoreValue = 20;
 	}
 	
