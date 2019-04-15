@@ -12,7 +12,7 @@ class BreedingModel extends Model{
 	BreedingModel(int w, int h){
 		frameHeight = w;
 		frameWidth = h;
-		bird = new BreedingBird(0, 0, 0, 0, 0);
+		bird = new BreedingBird(200, 200, 30, 0, 0);
 		predators = new ArrayList<>();
 	}
 	
