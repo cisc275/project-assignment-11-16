@@ -21,7 +21,7 @@ public class Controller implements MouseMotionListener,MouseListener{
 		bModel = new BreedingModel(frameWidth, frameHeight);
 		
 		//can switch models later
-		model = eModel;		
+		model = bModel;		
 	}
 	
 	//for testing

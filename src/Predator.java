@@ -12,7 +12,8 @@ public class Predator extends Moveable{
 	@Override
 	void update() {
 		// TODO Auto-generated method stub
-		
+		this.x += this.xVelocity;
+		this.y += this.yVelocity;
 	}
 
 	@Override

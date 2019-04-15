@@ -1,9 +1,9 @@
 
 public class BreedingBird extends Moveable{
 
-	int gravity;
-	int xScreenCenter;
-	int yScreenCenter;
+	public final int gravity = 3;
+	public final int xScreenCenter = 130;
+	public final int yScreenCenter = 130;
 	
 	BreedingBird(int xP, int yP, int r, int xV, int yV){
 		x = xP;
@@ -11,9 +11,6 @@ public class BreedingBird extends Moveable{
 		radius = r;
 		xVelocity = xV;
 		yVelocity = yV;
-		gravity = 3;
-		xScreenCenter = 130;
-		yScreenCenter = 130;
 	}
 
 	@Override

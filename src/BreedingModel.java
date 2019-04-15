@@ -14,6 +14,7 @@ class BreedingModel extends Model{
 		frameWidth = h;
 		bird = new BreedingBird(130, 130, 30, 0, 0);
 		predators = new ArrayList<>();
+		predators.add(new Predator(40, 40, 10, 5, 0));
 	}
 	
 	//for testing 
@@ -43,6 +44,9 @@ class BreedingModel extends Model{
 	
 	void update() {
 		bird.update();
+		for (Predator p : this.predators) {
+			p.update();
+		}
 	}
 	
 	void updateCollision() {}
@@ -60,7 +64,8 @@ class BreedingModel extends Model{
 	boolean isQuizTime() {return false;}
 	
 	//
-	void generatePredators() {}
+	void generatePredators() {
+	}
 	void updatePredatorCollision() {}
 	
 }
