@@ -40,7 +40,7 @@ public abstract class Moveable {
 	abstract void update();
 	
 	/**
-	 * Moves the object, generally acording to its own velocity.
+	 * Moves the object, generally according to its own velocity.
 	 */
 	void move() {
 		x += xVelocity;
