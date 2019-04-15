@@ -5,22 +5,23 @@ class MigratingModel extends Model{
 
 	MigratingBird bird;
 	List<Enemy> enemies;
-	List <Gust> gusts;
-	
-
-	
+	List<Gust> gusts;
 	
 	private static int enemyScore = -10; 
 	private static int gustScore = 20;
 	
-	//pass frame height/width from view to create models
-	MigratingModel(int w, int h){
+	/**
+	 * pass frame height/width from view to create models
+	 * @param w
+	 * @param h
+	 */
+	MigratingModel(int w, int h ){
 		frameHeight = w;
 		frameWidth = h;
 		bird = new MigratingBird(frameWidth/2, frameHeight/2); //bird is still
-		enemies = new ArrayList<>();
+		enemies = new ArrayList<Enemy>();
 		enemies.add(new Enemy(frameWidth-50, 150));
-		gusts = new ArrayList<>();
+		gusts = new ArrayList<Gust>();
 
 	}
 	
@@ -60,8 +61,8 @@ class MigratingModel extends Model{
 		return m;
 	}
 	
-	void mouseUpdate(int x, int y) {
-		this.bird.mouseUpdate(x, y);
+	void setDestination(int x, int y) {
+		this.bird.setDestination(x, y);
 	}
 		
 	//check to make sure enemies don't overlap later
@@ -84,10 +85,10 @@ class MigratingModel extends Model{
 		Iterator <Enemy> enemiesIterator = enemies.iterator();
 		while(enemiesIterator.hasNext()) {
 			Enemy e = enemiesIterator.next();
-			if(bird.collidesWith(e)) {
+			if (bird.collidesWith(e)) {
 				enemiesIterator.remove();
 				this.setScore(this.getScore() + enemyScore);
-			}else if(e.exitsFrame(frameWidth, frameHeight)) {
+			} else if (e.exitsFrame(frameWidth, frameHeight)) {
 				enemiesIterator.remove();
 			}
 		}

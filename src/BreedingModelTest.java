@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class BreedingModelTest{
 	
 	BreedingBird testBird = new BreedingBird(0, 0, 0, 0, 0);
-	ArrayList<Predator> predatorList = new ArrayList<>();
+	ArrayList<Predator> predatorList = new ArrayList<Predator>();
 	int frameWidth = 500;
 	int frameHeight= 500;
 	

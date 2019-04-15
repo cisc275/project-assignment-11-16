@@ -1,6 +1,7 @@
+import java.util.ArrayList;
 import java.util.Collection;
 
-abstract class Model{
+abstract class Model {
 	int score;
 	int frameHeight;
 	int frameWidth;
@@ -22,6 +23,7 @@ abstract class Model{
 	
 	abstract Collection<Moveable> getMoveables();
 	
-	
-	
+	Collection<MenuObject> getMenuObjects() {
+		return new ArrayList<MenuObject>();
+	}
 }

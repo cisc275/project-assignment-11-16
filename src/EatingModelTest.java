@@ -14,7 +14,7 @@ class EatingModelTest {
 	@Test
 	void eatingTest() {
 		foodList.add(new Food(0, 0, 0, 0, 0));
-		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList);
+		//EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList);
 		
 	}
 	

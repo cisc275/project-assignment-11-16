@@ -67,6 +67,8 @@ class EatingModel extends Model{
 			if (bird.collidesWith(f)) {
 				foodIt.remove();
 				this.score += f.getScoreValue();
+			} else if (f.exitsFrame(worldWidth, worldHeight)) {
+				foodIt.remove();
 			}
 		}
 	}
@@ -86,11 +88,15 @@ class EatingModel extends Model{
 		return m;
 	}
 	
-	//for randomly generating food
-	void generateFood() {}
-	void despawnFood() {}
+	void setDestination(int x, int y) {
+		this.bird.setDestination(x, y);
+	}
 	
-	//if bird collides with food, update list, bird, and score
-	void updateFoodCollision() {}
+	public int getBirdX() {
+		return bird.getX();
+	}
 	
+	public int getBirdY() {
+		return bird.getY();
+	}
 }
