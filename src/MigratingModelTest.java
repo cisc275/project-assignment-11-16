@@ -53,8 +53,8 @@ class MigratingModelTest {
 	@Test
 	void test() {
 
-		enemies.add(new Enemy(10, 10, 10, 1, 1));
-		enemies.add(new Enemy(100, 100, 10, 1, 1));
+		enemies.add(new Hawk(10, 10, 10, 1, 1));
+		enemies.add(new Hawk(100, 100, 10, 1, 1));
 		gusts.add(new Gust(100, 100, 10, 1, 1));
 
 		MigratingModel mModel = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
@@ -72,8 +72,8 @@ class MigratingModelTest {
 	
 	@Test
 	void test2() {
-		enemies.add(new Enemy(10, 10, 10, 1, 1));
-		enemies.add(new Enemy(100, 100, 10, 1, 1));
+		enemies.add(new Hawk(10, 10, 10, 1, 1));
+		enemies.add(new Hawk(100, 100, 10, 1, 1));
 		MigratingModel mModel = new MigratingModel(frameWidth, frameHeight, new MigratingBird(10,10,10,1,1), enemies, gusts);
 		
 		for(Enemy e : enemies) {
@@ -90,7 +90,7 @@ class MigratingModelTest {
 		//no enemies or gust
 		MigratingModel mModel = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
 		
-		enemies.add(new Enemy(10, 10, 10, 1000, 1000));
+		enemies.add(new Hawk(10, 10, 10, 1000, 1000));
 		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
 		
 		mModel2.update();

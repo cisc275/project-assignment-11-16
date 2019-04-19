@@ -12,17 +12,12 @@ public class MigratingBird extends Moveable{
 	}
 	
 	MigratingBird(int xP, int yP, int r, int xV, int yV){
-		x = xP;
-		y = yP;
-		radius = r;
-		xVelocity = xV;
-		yVelocity = yV;
+		super(xP, yP, r, xV, yV);
 	}
 
 	@Override
 	void update() {
-		xVelocity = (int) Math.ceil((destinationX - this.x) * this.followDistanceCoefficient);
-		yVelocity = (int) Math.ceil((destinationY - this.y) * this.followDistanceCoefficient);
+		velocity.setXY((int) Math.ceil((destinationX - this.x) * this.followDistanceCoefficient), (int) Math.ceil((destinationY - this.y) * this.followDistanceCoefficient));
 		move();
 	}
 	
@@ -31,4 +26,8 @@ public class MigratingBird extends Moveable{
 		destinationY = yPos;
 	}
 
+	@Override
+	public String getImageName() {
+		return "migratingbird";
+	}
 }

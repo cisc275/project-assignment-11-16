@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
+
 import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
@@ -10,15 +12,22 @@ import java.awt.image.*;
 
 @SuppressWarnings("serial")
 class View extends JPanel {
-	public static final boolean NO_IMAGES = true;
+	public static final boolean NO_IMAGES = false;
+	public static final boolean SPRITE_INFO = true;
 	
 	JFrame frame;
 	static int frameWidth = 500;
 	static int frameHeight = 400;
 	static Dimension windowSize  = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
-	static final String[] IMAGE_NAMES = {"bird", "enemy", "gust", "food"};
-	Map<String, BufferedImage> images; 
+	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "migratingbird", "earthworm", "grasshopper", "hawk"};
+	static final String[] DIRECTION_NAMES = {"right", "up", "left", "down"};
+	/**
+	 * I'll leave it up to you if you want to do 4 or 8 directions.
+	 * images.get("name")[direction][cycle num] 
+	 */
+	Map<String, BufferedImage[][]> images;
+	Map<Moveable, Integer> picCycles;
 	Collection <Moveable> moveables;
 	Collection <MenuObject> menuObjects;
 	int cameraOffX = 0;
@@ -26,8 +35,10 @@ class View extends JPanel {
 	
 	
 	View(){
-		if (!NO_IMAGES)
+		if (!NO_IMAGES) {
 			this.createImages();
+		}
+		picCycles = new WeakHashMap<Moveable, Integer>();
 		this.buildFrame();
 	}
 
@@ -54,22 +65,26 @@ class View extends JPanel {
 		this.setFocusable(true);
 	}
 	
+	@SuppressWarnings("unused")
 	public void paint(Graphics g) {
-		try {
-			for(Moveable m : moveables) {
-				int sx = m.getX() - cameraOffX;
-				int sy = m.getY() - cameraOffY;
-				if (NO_IMAGES)
-					g.fillOval(sx-m.getRadius(), sy-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
-				else
-					g.drawImage(this.getImage(m), sx, sy, this);
+		for(Moveable m : moveables) {
+			int sx = m.getX() - cameraOffX;
+			int sy = m.getY() - cameraOffY;
+			BufferedImage img = getImage(m);
+			//System.out.println(img);
+			if (img == null || NO_IMAGES) {
+				g.fillOval(sx-m.getRadius(), sy-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
+			} else {
+				g.drawImage(img, sx-img.getWidth()/2, sy-img.getHeight()/2, this);
 			}
-			for(MenuObject m : menuObjects) {
-				g.drawRect(m.getX(), m.getY(), m.getWidth(), m.getHeight());
-				g.drawString(m.getText(), m.getX(), m.getY()+m.getHeight()/2);
+			if (SPRITE_INFO) {
+				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
 			}
-
-		} catch (NullPointerException e) {}
+		}
+		for(MenuObject m : menuObjects) {
+			g.drawRect(m.getX(), m.getY(), m.getWidth(), m.getHeight());
+			g.drawString(m.getText(), m.getX(), m.getY()+m.getHeight()/2);
+		}
 	}
 	
 	void update(Collection<Moveable> moveables, Collection<MenuObject> menuObjects) {
@@ -101,31 +116,90 @@ class View extends JPanel {
 		return clicky + cameraOffY;
 	}
 	
-	private BufferedImage createImage(String str) {
+	private BufferedImage createImage(String sauce) {
 		BufferedImage bufferedImage;
 		try {
-			bufferedImage = ImageIO.read(new File(str));
+			bufferedImage = ImageIO.read(new File(sauce));
 			return bufferedImage;
 		} catch (IOException e) {
-			System.out.println(str);
-			e.printStackTrace();
+			System.out.println(sauce + " could not be found");
+			//e.printStackTrace();
 		}
 		return null;
 	}
+	
 	private void createImages() {
-		images = new HashMap<String, BufferedImage>();
+		images = new HashMap<String, BufferedImage[][]>();
 		for (String nom : IMAGE_NAMES) {
-			images.put(nom, createImage("/images/"+nom+".png"));
+			BufferedImage[][] currmatrix = new BufferedImage[DIRECTION_NAMES.length][];
+			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
+				BufferedImage sheet = createImage("src/images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
+				if (sheet != null) {
+					int subsize = sheet.getHeight();
+					int numSprites = sheet.getWidth() / subsize;
+					currmatrix[i] = new BufferedImage[numSprites];
+					for (int j = 0; j < numSprites; j++) {
+						//System.out.println(nom+"-"+DIRECTION_NAMES[i]+" "+j+" ("+subsize*j+"+"+subsize+")/"+sheet.getWidth());
+						try {
+							currmatrix[i][j] = sheet.getSubimage(subsize*j, 0, subsize-1, subsize);
+							//System.out.println(nom+"-"+DIRECTION_NAMES[i]+" "+j+" ("+subsize*j+"+"+subsize+")/"+sheet.getWidth() + " completed");
+						} catch (RasterFormatException e) {
+							currmatrix[i][j] = null;
+							System.out.println(nom+"-"+DIRECTION_NAMES[i]+" "+j+" ("+subsize*j+"+"+subsize+")/"+sheet.getWidth() + " failed");
+							System.out.println(e);
+						}
+					}
+				} else {
+					currmatrix[i] = null;
+				}
+			}
+			images.put(nom, currmatrix);
 		}
 	}
 	
-	//make an id or something idk
 	BufferedImage getImage(Moveable m) {
-		return images.get("bird");
+		try {
+			BufferedImage[] row = images.get(m.getImageName())[angleToFaceIndex(m.getFacing())];
+			Integer Dex = picCycles.get(m);
+			int dex;
+			if (Dex != null) {
+				dex = Dex.intValue();
+				dex = dex % row.length;
+			} else {
+				dex = 0;
+			}
+			picCycles.put(m, dex+1);
+			return row[dex];
+		} catch (NullPointerException e) {
+			//System.out.println("nullpointer");
+			return null;
+		} catch (IndexOutOfBoundsException e) {
+			//System.out.println("index");
+			return null;
+		}
 	}
 	
 	public void addControllerToMouse(Controller controller) {
 		this.addMouseListener(controller);
 		this.addMouseMotionListener(controller);
+	}
+	
+	/**
+	 * 
+	 * @param theta The angle in radians
+	 * @return An integer representing the index of the facing (0=right, 1=up, 2=left, 3=down)
+	 */
+	static int angleToFaceIndex(double theta) {
+		theta = (theta + Math.PI*2) % (Math.PI*2);
+		if (theta <= Math.PI/4)
+			return 0;
+		else if (theta < Math.PI*3/4)
+			return 3;
+		else if (theta <= Math.PI*5/4)
+			return 2;
+		else if (theta < Math.PI*7/4)
+			return 1;
+		else
+			return 0;
 	}
 }

@@ -5,17 +5,19 @@ public abstract class Moveable {
 	protected int x;
 	protected int y;
 	protected int radius;
-	protected int xVelocity;
-	protected int yVelocity;
+	protected VVector velocity;
 
 	int getX() {return x;}
 	int getY() {return y;}
 	int getR() {return radius;}
 	int getRadius() {return radius;}
-	int getXV() {return xVelocity;}
-	int getYV() {return yVelocity;}
-	int getXVelocity() {return xVelocity;}
-	int getYVelocity() {return yVelocity;}
+	//int getXV() {return xVelocity;}
+	//int getYV() {return yVelocity;}
+	//int getXVelocity() {return xVelocity;}
+	//int getYVelocity() {return yVelocity;}
+	public double getFacing() {
+		return velocity.getTheta();
+	}
 	
 	public Moveable() {
 		
@@ -25,9 +27,16 @@ public abstract class Moveable {
 		this.x = inx;
 		this.y = iny;
 		this.radius = inr;
-		this.xVelocity = indx;
-		this.yVelocity = indy;
+		this.velocity = new VVector(indx, indy);
 	}
+	
+	
+	/**
+	 * Updates the Moveable.
+	 */
+	abstract void update();
+	
+	public abstract String getImageName();
 	
 	void setLocation(int xP, int yP) {
 		x = xP;
@@ -35,22 +44,17 @@ public abstract class Moveable {
 	}
 	
 	/**
-	 * Updates the Moveable.
-	 */
-	abstract void update();
-	
-	/**
 	 * Moves the object, generally according to its own velocity.
 	 */
 	void move() {
-		x += xVelocity;
-		y += yVelocity;
+		x += velocity.getX();
+		y += velocity.getY();
 	}
 	
-	void move(double delta) {
+	/*void move(double delta) {
 		x += xVelocity*delta;
 		y += yVelocity*delta;
-	}
+	}*/
 
 	double angleTo(int otherx, int othery) {
 		return Math.atan2(othery - this.y, otherx - this.x);
@@ -82,5 +86,4 @@ public abstract class Moveable {
 		return x + radius < 0 || y + radius < 0 || x - radius > frameWidth || y - radius > frameHeight;
 	}
 	
-
 }

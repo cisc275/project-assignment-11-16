@@ -2,11 +2,7 @@
 public class Gust extends Moveable{
 
 	Gust(int xP, int yP, int r, int xV, int yV){
-		x = xP;
-		y = yP;
-		radius = r;
-		xVelocity = xV;
-		yVelocity = yV;
+		super(xP, yP, r, xV, yV);
 	}
 
 	@Override
@@ -14,11 +10,9 @@ public class Gust extends Moveable{
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	void move() {
-		// TODO Auto-generated method stub
-		
+	
+	public String getImageName() {
+		return "gust";
 	}
 
 }
