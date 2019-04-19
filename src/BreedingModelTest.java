@@ -12,8 +12,8 @@ class BreedingModelTest{
 	
 	@Test
 	void predatorTest() {
-		predatorList.add(new Predator(10, 10, 10, 1, 1));
-		predatorList.add(new Predator(100, 100, 10, 1, 1));
+		predatorList.add(new Raccoon(10, 10, 10, 1, 1));
+		predatorList.add(new Raccoon(100, 100, 10, 1, 1));
 		
 		BreedingModel bModel = new BreedingModel(frameWidth, frameHeight, testBird, predatorList);
 		
@@ -30,8 +30,8 @@ class BreedingModelTest{
 	
 	@Test
 	void predatorTest2() {
-		predatorList.add(new Predator(10, 10, 10, 1, 1));
-		predatorList.add(new Predator(100, 100, 10, 1, 1));
+		predatorList.add(new Raccoon(10, 10, 10, 1, 1));
+		predatorList.add(new Raccoon(100, 100, 10, 1, 1));
 		
 		BreedingModel bModel = new BreedingModel(frameWidth, frameHeight, new BreedingBird(10, 10, 10, 1, 1), predatorList);
 		

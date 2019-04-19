@@ -6,7 +6,7 @@ public class WalkingBird extends Moveable {
 	int speed;
 	
 	WalkingBird(int xP, int yP){
-		super(xP, yP, 70, 0, 0);
+		super(xP, yP, 60, 0, 0);
 		destinationX = xP;
 		destinationY = yP;
 		speed = BASE_SPEED;
@@ -20,25 +20,23 @@ public class WalkingBird extends Moveable {
 	}
 
 	public void update() {
-		move();
-	}
-	
-	public void move() {
-		if (x != destinationX || y != destinationY) {
-			if (distanceTo(destinationX, destinationY) <= speed) {
-				x = destinationX;
-				y = destinationY;
-			} else {
-				double theta = angleTo(destinationX, destinationY);
-				xVelocity = (int) Math.round(Math.cos(theta) * speed);
-				yVelocity = (int) Math.round(Math.sin(theta) * speed);
-				super.move();
-			}
+		if (distanceTo(destinationX, destinationY) <= speed) {
+			velocity.setXY(destinationX - x, destinationY - y);
+		} else {
+			velocity.setPolar(speed, angleTo(destinationX, destinationY));
+			//double theta = angleTo(destinationX, destinationY);
+			//xVelocity = (int) Math.round(Math.cos(theta) * speed);
+			//yVelocity = (int) Math.round(Math.sin(theta) * speed);
 		}
+		move();
 	}
 	
 	public void setDestination(int tox, int toy) {
 		destinationX = tox;
 		destinationY = toy;
+	}
+	
+	public String getImageName() {
+		return velocity.getR() > 0 ? "walkingbird" : "standingbird";
 	}
 }

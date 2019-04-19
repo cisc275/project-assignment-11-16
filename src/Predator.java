@@ -1,34 +1,29 @@
 
-public class Predator extends Moveable{
+public abstract class Predator extends Moveable {
 	
-	static final int gravity = 100;
-	int xB;
-	int yB;
+	//static final int gravity = 100;
+	//int xB;
+	//int yB;
+	int speed;
 
-	Predator(int xP, int yP, int r, int xV, int yV){
-		x = xP;
-		y = yP;
-		radius = r;
-		xVelocity = xV;
-		yVelocity = yV;
+	Predator(int xP, int yP, int r, int xV, int yV) {
+		super(xP, yP, r, xV, yV);
 	}
 
 	@Override
 	void update() {
-		// TODO Auto-generated method stub
-		this.x += this.xVelocity;
-		this.y += this.yVelocity;
+		move();
 	}
 	
-	void updateBirdLoc(int xBird, int yBird) {
-		yVelocity = (yBird - this.y)/Predator.gravity;
-		xVelocity = (xBird - this.x)/Predator.gravity;
+	/**
+	 * Sets velocity to be moving towards the provided location.
+	 * @param birdX
+	 * @param birdY
+	 */
+	void updateBirdLoc(int birdX, int birdY) {
+		velocity.setPolar(speed, angleTo(birdX, birdY));
+		//yVelocity = (yBird - this.y)/Predator.gravity;
+		//xVelocity = (xBird - this.x)/Predator.gravity;
 	}
-
-	@Override
-	void move() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 }

@@ -7,7 +7,7 @@ class EatingModel extends Model{
 	
 	EatingBird bird;
 	List<Food> food;
-	int scoreGoal;
+	int scoreGoal = 500;
 	int timeLimit;
 	int timeTaken;
 	int foodSpawnTimer;
@@ -21,6 +21,8 @@ class EatingModel extends Model{
 	 * @param h
 	 */
 	EatingModel(int w, int h) {
+		timeLimit = 600;
+		timeTaken = 0;
 		frameHeight = w;
 		frameWidth = h;
 		bird = new EatingBird(worldWidth/2, worldHeight/2);
@@ -49,6 +51,7 @@ class EatingModel extends Model{
 
 	
 	public void update() {
+		timeTaken++;
 		if (food.size() < maxFood)
 			spawnRandomFood();
 		bird.update();
@@ -74,18 +77,35 @@ class EatingModel extends Model{
 	}
 	
 	void spawnRandomFood() {
-		food.add(new Earthworm((int) (Math.random()*worldWidth), (int) (Math.random()*worldHeight)));
+		double rand = Math.random();
+		Food toAdd;
+		if (rand < .5) {
+			toAdd = new Earthworm((int) (Math.random()*worldWidth), (int) (Math.random()*worldHeight));
+		} else if (rand < 1) {
+			toAdd = new Grasshopper((int) (Math.random()*worldWidth), (int) (Math.random()*worldHeight));
+		} else {
+			return;
+		}
+		food.add(toAdd);
 	}
 	
 	boolean endGame() {
 		return timeTaken >= timeLimit;
 	}
 	
-	Collection<Moveable> getMoveables(){
+	Collection<Moveable> getMoveables() {
 		Collection<Moveable> m = new ArrayList<Moveable>();
 		m.addAll(food);
 		m.add(bird);
 		return m;
+	}
+	
+	@Override
+	Collection<MenuObject> getMenuObjects() {
+		List<MenuObject> jex = new ArrayList<MenuObject>();
+		jex.add(new Label(0, 0, 200, 40, this.score + "/" + this.scoreGoal));
+		jex.add(new Label(400, 0, 200, 40, this.timeTaken + "/" + this.timeLimit));
+		return jex;
 	}
 	
 	void setDestination(int x, int y) {

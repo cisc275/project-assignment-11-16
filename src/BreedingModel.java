@@ -14,7 +14,7 @@ class BreedingModel extends Model {
 		frameWidth = h;
 		bird = new BreedingBird(130, 130, 30, 0, 0);
 		predators = new ArrayList<Predator>();
-		predators.add(new Predator(40, 40, 10, 5, 0));
+		predators.add(new Raccoon(40, 40, 10, 5, 0));
 	}
 	
 	//for testing 
