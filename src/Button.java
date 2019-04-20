@@ -22,9 +22,7 @@ public class Button extends MenuObject {
 	public Button(int inx, int iny, int inwidth, int inheight, String intext, Runnable infunc) {
 		this(inx, iny, inwidth, inheight, intext);
 		func = infunc;
-	}
-	
-	
+	}	
 	
 	/**
 	 * If this button clicked, executes its function.

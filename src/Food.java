@@ -1,5 +1,5 @@
 
-public class Food extends Moveable{
+public abstract class Food extends Moveable{
 	
 	int scoreValue;
 	

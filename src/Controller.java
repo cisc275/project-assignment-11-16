@@ -71,12 +71,12 @@ public class Controller implements MouseMotionListener,MouseListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		checkModel();
-		System.out.println("click " + e.getX() + ", " + e.getY());
+		//checkModel();
+		//System.out.println("click " + e.getX() + ", " + e.getY());
 		if (model instanceof Menu) {
 			Menu meModel = (Menu) model;
 			meModel.click(e.getX(), e.getY());
-			System.out.println(e.getX() + ", " + e.getY());
+			//System.out.println(e.getX() + ", " + e.getY());
 		}
 	}
 
@@ -87,7 +87,7 @@ public class Controller implements MouseMotionListener,MouseListener{
 		if (model instanceof EatingModel) {
 			EatingModel eModel = (EatingModel) model;
 			eModel.setDestination(view.actualX(e.getX()), view.actualY(e.getY()));
-			System.out.println(e.getX() + ", " + e.getY());
+			//System.out.println(e.getX() + ", " + e.getY());
 		} else if (model instanceof BreedingModel) {
 			BreedingModel bModel = (BreedingModel) model;
 			bModel.setDestination(e.getX(), e.getY());
