@@ -22,9 +22,10 @@ public class MigratingBird extends Moveable{
 	}
 	
 	void setDestination(int xPos, int yPos) {
-		destinationX = xPos;
+		//destinationX = xPos; mute to make the bird in an fixed X position
 		destinationY = yPos;
 	}
+	
 
 	@Override
 	public String getImageName() {

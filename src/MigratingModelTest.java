@@ -17,8 +17,12 @@ class MigratingModelTest {
 	
 	@Test
 	void constructor() {
-		MigratingModel m2 = new MigratingModel(0,0);
-		assertEquals(m,m2);
+		enemies.add(new Hawk(frameWidth-50, 150));
+		MigratingModel m1 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
+		MigratingModel m2 = new MigratingModel(frameWidth, frameHeight);
+		
+		//should be true. Possible that failed due to they are different object w/ same properties
+		assertEquals(m2,m1);
 	}
 	
 	@Test 
@@ -101,12 +105,12 @@ class MigratingModelTest {
 	
 	@Test
 	void test4() { //test if gust outside the frame
-		gusts.add(new Gust(10000, 10000, 10, 1, 1));
+		
 		MigratingModel mModel = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
 		
-		
+		gusts.add(new Gust(1000, 1000, 10, 1000, 1000));
 		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
-		
+		mModel.update();
 		mModel2.update();
 		assertEquals(mModel, mModel2);
 	}
