@@ -71,7 +71,7 @@ class MigratingModelTest {
 	}
 	
 	@Test
-	void test2() {
+	void test2() { //test if collision w/ hawk
 		enemies.add(new Hawk(10, 10, 10, 1, 1));
 		enemies.add(new Hawk(100, 100, 10, 1, 1));
 		MigratingModel mModel = new MigratingModel(frameWidth, frameHeight, new MigratingBird(10,10,10,1,1), enemies, gusts);
@@ -85,6 +85,31 @@ class MigratingModelTest {
 		assertNotEquals(mModel, mModel2);
 	}
 	
+	@Test
+	void test3() { //test if collision w/ gust
+		gusts.add(new Gust(10, 10, 10, 1, 1));
+		gusts.add(new Gust(100, 100, 10, 1, 1));
+		MigratingModel mModel = new MigratingModel(frameWidth, frameHeight, new MigratingBird(10,10,10,1,1), enemies, gusts);
+		for(Gust g : gusts) {
+			g.move();
+		}
+		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, new MigratingBird(10,10,10,1,1), enemies, gusts);
+		
+		mModel.update();
+		assertNotEquals(mModel, mModel2);
+	}
+	
+	@Test
+	void test4() { //test if gust outside the frame
+		gusts.add(new Gust(10000, 10000, 10, 1, 1));
+		MigratingModel mModel = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
+		
+		
+		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
+		
+		mModel2.update();
+		assertEquals(mModel, mModel2);
+	}
 	@Test
 	void despawnTest() {
 		//no enemies or gust
