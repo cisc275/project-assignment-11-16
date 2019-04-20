@@ -19,11 +19,46 @@ class EatingModelTest {
 	}
 	
 	@Test
+	void constructorTest() {
+		
+	}
+	
+	@Test
+	void updateTest() {
+		
+	}
+	
+	@Test
+	void updateCollisionTest() {
+		
+	}
+	
+	@Test
+	void getMoveablesTest() {
+		
+	}
+	
+	@Test
+	void getMenuObjectsTest() {
+		
+	}
+	
+	@Test
+	void setDestinationTest() {
+		
+	}
+	
+	@Test
+	void getBirdXYTest() {
+		
+	}
+	
+	@Test
 	void generateFoodTest() {
 		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList);
 		EatingModel eModel2 = new EatingModel(frameWidth, frameHeight, testBird, foodList);
 		
-		eModel.spawnRandomFood();
+		eModel.spawnRandomFood(); //add more to this test
 		
 		assertNotEquals(eModel, eModel2);
 	}
