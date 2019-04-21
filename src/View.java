@@ -16,8 +16,8 @@ class View extends JPanel {
 	public static final boolean SPRITE_INFO = true;
 	
 	JFrame frame;
-	static int frameWidth = 500;
-	static int frameHeight = 400;
+	static int frameWidth = 2040;
+	static int frameHeight = 1080;
 	static Dimension windowSize  = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
 	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "migratingbird", "earthworm", "grasshopper", "hawk"};
@@ -32,6 +32,7 @@ class View extends JPanel {
 	Collection <MenuObject> menuObjects;
 	int cameraOffX = 0;
 	int cameraOffY = 0;
+	boolean Migrate = false;
 	
 	
 	View(){
@@ -67,7 +68,52 @@ class View extends JPanel {
 	
 	@SuppressWarnings("unused")
 	public void paint(Graphics g) {
+
+		if(Migrate) {
+			BufferedImage background = createImageBG() ;
+			g.drawImage(background,0,0,this);
+			
+		}
 		for(Moveable m : moveables) {
+			if(Migrate) {
+				int sx = m.getX() - cameraOffX;
+				int sy = m.getY() - cameraOffY;
+				BufferedImage imgEnemy = createImageEnemy();
+				BufferedImage imgGust = createImageGust();
+				BufferedImage imgBird = createImageBird();
+				//System.out.println(img);
+				if(m instanceof Enemy) {
+				if (imgEnemy == null || NO_IMAGES) {
+					g.fillOval(sx-m.getRadius(), sy-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
+				} else {
+					g.drawImage(imgEnemy, sx-imgEnemy.getWidth()/2, sy-imgEnemy.getHeight()/2, this);
+				}
+				if (SPRITE_INFO) {
+					g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
+				}
+				}
+				else if(m instanceof MigratingBird) {
+					if (imgBird == null || NO_IMAGES) {
+						g.fillOval(sx-m.getRadius(), sy-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
+					} else {
+						g.drawImage(imgBird, sx-imgBird.getWidth()/2, sy-imgBird.getHeight()/2, this);
+					}
+					if (SPRITE_INFO) {
+						g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
+					}
+					}
+				else if(m instanceof Gust) {
+					if (imgGust == null || NO_IMAGES) {
+						g.fillOval(sx-m.getRadius(), sy-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
+					} else {
+						g.drawImage(imgGust, sx-imgGust.getWidth()/2, sy-imgGust.getHeight()/2, this);
+					}
+					if (SPRITE_INFO) {
+						g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
+					}
+					}
+			}
+			else {
 			int sx = m.getX() - cameraOffX;
 			int sy = m.getY() - cameraOffY;
 			BufferedImage img = getImage(m);
@@ -81,6 +127,7 @@ class View extends JPanel {
 				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
 			}
 		}
+	}
 		for(MenuObject m : menuObjects) {
 			g.drawRect(m.getX(), m.getY(), m.getWidth(), m.getHeight());
 			g.drawString(m.getText(), m.getX(), m.getY()+m.getHeight()/2);
@@ -127,7 +174,51 @@ class View extends JPanel {
 		}
 		return null;
 	}
+	private BufferedImage createImageBG() {
+		BufferedImage bufferedImage;
+		try {
+			bufferedImage = ImageIO.read(new File("src/images/migrationbackground.png"));
+			return bufferedImage;
+		} catch (IOException e) {
+			System.out.println("background could not be found");
+			//e.printStackTrace();
+		}
+		return null;
+	}
+	private BufferedImage createImageEnemy() {
+		BufferedImage bufferedImage;
+		try {
+			bufferedImage = ImageIO.read(new File("src/images/enemy.png"));
+			return bufferedImage;
+		} catch (IOException e) {
+			System.out.println("enemy could not be found");
+			//e.printStackTrace();
+		}
+		return null;
+	}
+	private BufferedImage createImageGust() {
+		BufferedImage bufferedImage;
+		try {
+			bufferedImage = ImageIO.read(new File("src/images/gust.png"));
+			return bufferedImage;
+		} catch (IOException e) {
+			System.out.println("gust could not be found");
+			//e.printStackTrace();
+		}
+		return null;
+	}
 	
+	private BufferedImage createImageBird() {
+		BufferedImage bufferedImage;
+		try {
+			bufferedImage = ImageIO.read(new File("src/images/bird.png"));
+			return bufferedImage;
+		} catch (IOException e) {
+			System.out.println("bird could not be found");
+			//e.printStackTrace();
+		}
+		return null;
+	}
 	private void createImages() {
 		images = new HashMap<String, BufferedImage[][]>();
 		for (String nom : IMAGE_NAMES) {
