@@ -69,13 +69,7 @@ class View extends JPanel {
 	@SuppressWarnings("unused")
 	public void paint(Graphics g) {
 
-		if(Migrate) {
-			BufferedImage background = createImages("migrationbackground") ;
-			g.drawImage(background,0,0,this);
-			
-		}
 		for(Moveable m : moveables) {
-
 			int sx = m.getX() - cameraOffX;
 			int sy = m.getY() - cameraOffY;
 			BufferedImage img = getImage(m);
@@ -140,7 +134,7 @@ class View extends JPanel {
 	private BufferedImage createImages(String type){//create image for the background
 		BufferedImage bufferedImage;
 		try {
-			bufferedImage = ImageIO.read(new File("/images/"+type+".png"));
+			bufferedImage = ImageIO.read(new File("/src/images/"+type+".png"));
 			return bufferedImage;
 		} catch (IOException e) {
 			System.out.println(type+" could not be found");
@@ -153,7 +147,7 @@ class View extends JPanel {
 		for (String nom : IMAGE_NAMES) {
 			BufferedImage[][] currmatrix = new BufferedImage[DIRECTION_NAMES.length][];
 			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
-				BufferedImage sheet = createImage("images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
+				BufferedImage sheet = createImage("/src/images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
 				if (sheet != null) {
 					int subsize = sheet.getHeight();
 					int numSprites = sheet.getWidth() / subsize;
