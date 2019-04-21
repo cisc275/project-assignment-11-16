@@ -14,7 +14,8 @@ public abstract class Enemy extends Moveable {
 	}*/
 	
 	void update() {
-		move();
+		x -= velocity.getX();
+		y -= velocity.getY();
 	}
 	
 }

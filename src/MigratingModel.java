@@ -20,8 +20,9 @@ class MigratingModel extends Model{
 		frameWidth = h;
 		bird = new MigratingBird(frameWidth/2, frameHeight/2); //bird is still
 		enemies = new ArrayList<Enemy>();
-		enemies.add(new Hawk(frameWidth-50, 150));
+		enemies.add(new Hawk(frameWidth, 400));
 		gusts = new ArrayList<Gust>();
+		gusts.add(new Gust(frameWidth-100,150));
 
 	}
 	
@@ -67,11 +68,12 @@ class MigratingModel extends Model{
 		
 	//check to make sure enemies don't overlap later
 	void generateEnemy() {
-		Enemy e = new Hawk(frameWidth-2 , (int) Math.random()*frameHeight);
+		Enemy e = new Hawk((int) Math.random()*frameWidth , (int) Math.random()*frameHeight);
 		enemies.add(e);
 	}
 	void generateGusts() {
-		
+		Gust g = new Gust((int) Math.random()*frameWidth, (int) Math.random()*frameHeight);
+		gusts.add(g);
 	}
 	
 
