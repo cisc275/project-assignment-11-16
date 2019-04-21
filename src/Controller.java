@@ -93,15 +93,27 @@ public class Controller implements MouseMotionListener,MouseListener{
 			//System.out.println(e.getX() + ", " + e.getY());
 		} else if (model instanceof BreedingModel) {
 			BreedingModel bModel = (BreedingModel) model;
-			bModel.setDestination(e.getX(), e.getY());
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				//if left click, move
+				bModel.setDestination(e.getX(), e.getY());
+			}
+			else if (e.getButton() == MouseEvent.BUTTON2) {
+				// if right click, show broken wing
+			bModel.bird.showBrokenWing = true;
+			}
 		}
 	}
+		
 
 
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if (model instanceof BreedingModel) {
+			BreedingModel bModel = (BreedingModel) model;
+			bModel.bird.showBrokenWing = false;
+			//should reset the bird
+		}
 		
 	}
 

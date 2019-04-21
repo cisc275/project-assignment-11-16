@@ -5,7 +5,8 @@ import java.util.List;
 class BreedingModel extends Model {
 	
 	BreedingBird bird;
-	List<Predator> predators;
+	//List<Predator> predators;
+	Predator p;
 	Nest nest;
 	
 	//pass frame height/width from view to create models
@@ -13,8 +14,9 @@ class BreedingModel extends Model {
 		frameHeight = w;
 		frameWidth = h;
 		bird = new BreedingBird(130, 130, 30, 0, 0);
-		predators = new ArrayList<Predator>();
-		predators.add(new Raccoon(40, 40, 10, 5, 0));
+		//predators = new ArrayList<Predator>();
+		//predators.add(new Raccoon(40, 40, 10, 5, 0));
+		p = new Raccoon(40, 40, 10, 5, 0);
 	}
 	
 	//for testing 
@@ -40,25 +42,33 @@ class BreedingModel extends Model {
 	}
 	
 	void updateBird(int xB, int yB) {
-		for (Predator p : this.predators) {
-			p.updateBirdLoc(xB, yB);
-		}
+		/*
+		 * for (Predator p : this.predators) { p.updateBirdLoc(xB, yB); }
+		 */
+		p.updateBirdLoc(xB, yB);
 	}
 	
 	void update() {
 		bird.update();
-		for (Predator p : this.predators) {
+		//for (Predator p : this.predators) {
 			p.update();
 			this.updateBird(this.bird.getX(), this.bird.getY());
-		}
+		
 	}
 	
-	void updateCollision() {}
+	void updateCollision() {
+		if (bird.collidesWith(p))
+		if (bird.getBrokenWing() == true) {
+			
+			
+		}
+	}
 	boolean endGame() {return false;}
 	
 	Collection<Moveable> getMoveables(){
 		Collection<Moveable> m = new ArrayList<>();
-		m.addAll(predators);
+		//m.addAll(predators);
+		m.add(p);
 		m.add(bird);
 		m.add(nest);
 		return m;
@@ -71,6 +81,12 @@ class BreedingModel extends Model {
 	boolean isQuizTime() {return false;}
 	
 	void generatePredators() {
+		
+	}
+	
+	void despawnPredators() {
+		//predators in the view should run away
+		
 		
 	}
 	

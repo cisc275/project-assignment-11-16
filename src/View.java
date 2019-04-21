@@ -12,7 +12,7 @@ import java.awt.image.*;
 
 @SuppressWarnings("serial")
 class View extends JPanel {
-	public static final boolean NO_IMAGES = false;
+	public static final boolean NO_IMAGES = true;
 	public static final boolean SPRITE_INFO = true;
 	
 	JFrame frame;
