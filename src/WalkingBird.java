@@ -39,4 +39,5 @@ public class WalkingBird extends Moveable {
 	public String getImageName() {
 		return velocity.getR() > 0 ? "walkingbird" : "standingbird";
 	}
+	
 }

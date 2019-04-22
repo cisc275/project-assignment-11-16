@@ -19,10 +19,6 @@ public abstract class Moveable {
 		return velocity.getTheta();
 	}
 	
-	public Moveable() {
-		
-	}
-	
 	public Moveable(int inx, int iny, int inr, int indx, int indy) {
 		this.x = inx;
 		this.y = iny;

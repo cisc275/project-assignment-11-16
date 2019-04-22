@@ -8,6 +8,7 @@ class EatingModel extends Model{
 	EatingBird bird;
 	List<Food> food;
 	int scoreGoal = 500;
+	int score;
 	int timeLimit;
 	int timeTaken;
 	int foodSpawnTimer;
@@ -41,7 +42,7 @@ class EatingModel extends Model{
 		food = f;
 	}
 	
-	EatingModel(int w, int h, EatingBird b, List<Food> f, int foodNum, int time){
+	EatingModel(int w, int h, EatingBird b, List<Food> f, int time){
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
@@ -52,8 +53,9 @@ class EatingModel extends Model{
 	
 	public void update() {
 		timeTaken++;
-		if (food.size() < maxFood)
+		if (food.size() < maxFood) {
 			spawnRandomFood();
+		}
 		bird.update();
 		for (Moveable o : food) {
 			o.update();
@@ -90,7 +92,7 @@ class EatingModel extends Model{
 	}
 	
 	boolean endGame() {
-		return timeTaken >= timeLimit;
+		return (this.timeTaken >= this.timeLimit || this.score >= this.scoreGoal);
 	}
 	
 	Collection<Moveable> getMoveables() {
@@ -119,4 +121,38 @@ class EatingModel extends Model{
 	public int getBirdY() {
 		return bird.getY();
 	}
+	
+	//for testing
+	public int getFrameX() {
+		return this.frameWidth;
+	}
+	
+	public int getFrameY() {
+		return this.frameHeight;
+	}
+	
+	public int getTime() {
+		return this.timeLimit;
+	}
+	
+	public void setTime(int t) {
+		this.timeLimit = t;
+	}
+	
+	public int getCurrentTime() {
+		return this.timeTaken;
+	}
+	
+	public void setCurrentTime(int t) {
+		this.timeTaken = t;
+	}
+	
+	public void setScore(int sc) {
+		this.score = sc;
+	}
+	
+	public int getScore() {
+		return this.score;
+	}
+	
 }
