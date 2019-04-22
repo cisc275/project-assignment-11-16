@@ -94,9 +94,10 @@ public class Controller implements MouseMotionListener,MouseListener{
 				//if left click, move
 				bModel.setDestination(e.getX(), e.getY());
 			}
-			else if (e.getButton() == MouseEvent.BUTTON2) {
+			else if (e.getButton() == MouseEvent.BUTTON3) {
 				// if right click, show broken wing
-			bModel.bird.showBrokenWing = true;
+				bModel.showBrokenWing();
+				//bModel.bird.showBrokenWing = true;
 			}
 		}
 	}
@@ -108,7 +109,7 @@ public class Controller implements MouseMotionListener,MouseListener{
 	public void mouseReleased(MouseEvent e) {
 		if (model instanceof BreedingModel) {
 			BreedingModel bModel = (BreedingModel) model;
-			bModel.bird.showBrokenWing = false;
+			bModel.stopBrokenWing();
 			//should reset the bird
 		}
 		

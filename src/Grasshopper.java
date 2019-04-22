@@ -3,9 +3,9 @@ public class Grasshopper extends Food {
 	private int jumpCooldown;
 	private int jumpTimer;
 	
-	private static final int JUMP_TRIGGER_RADIUS = 100;
-	private static final int JUMP_COOLDOWN = 30;
-	private static final int JUMP_TIMER = 10;
+	//private static final int JUMP_TRIGGER_RADIUS = 100;
+	private static final int JUMP_COOLDOWN = 35;
+	private static final int JUMP_TIMER = 5;
 	private static final int JUMP_SPEED = 30;
 	
 	public Grasshopper(int inx, int iny) {

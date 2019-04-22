@@ -78,7 +78,9 @@ class BreedingModel extends Model {
 	 * checks when to create pop-up quiz
 	 * @return
 	 */
-	boolean isQuizTime() {return false;}
+	boolean isQuizTime() {
+		return false;
+	}
 	
 	void generatePredators() {
 		
@@ -92,6 +94,14 @@ class BreedingModel extends Model {
 	
 	void updatePredatorCollision() {
 		
+	}
+	
+	public void showBrokenWing() {
+		bird.showBrokenWing();
+	}
+
+	public void stopBrokenWing() {
+		bird.stopBrokenWing();
 	}
 	
 }
