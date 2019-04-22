@@ -36,8 +36,15 @@ public class WalkingBird extends Moveable {
 		destinationY = toy;
 	}
 	
+	public int getDestinationX() {
+		return this.destinationX;
+	}
+	
+	public int getDestinationY() {
+		return this.destinationY;
+	}
+	
 	public String getImageName() {
 		return velocity.getR() > 0 ? "walkingbird" : "standingbird";
 	}
-	
 }

@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -27,12 +28,13 @@ class EatingModelTest {
 		assertEquals(m.getMoveables(), m4.getMoveables());
 		assertEquals(m.getTime(), m4.getTime());
 		
-		//testing getters and setters
-		//to do: destination, birdx/y, set time, get current time, get score, get menu objects (?)
+		m2.setTime(1000000);
+		assertNotEquals(m.getTime(), m2.getTime());
+		
 	}
 	
 	@Test
-	void birdTest() {
+	void birdLocTest() {
 		EatingBird b2 = new EatingBird(10, 10);
 		EatingModel m1 = new EatingModel(frameWidth, frameHeight, b, foodList, time);
 		EatingModel m2 = new EatingModel(frameWidth, frameHeight, b2, foodList, time);
@@ -41,10 +43,17 @@ class EatingModelTest {
 		assertNotEquals(m1.getBirdX(), m2.getBirdX());
 		assertNotEquals(m1.getBirdY(), m2.getBirdY());
 		
-		//test bird dest setter
-		assertEquals(m.bird, m1.bird);
-		m1.setDestination(101000, 104023);
-		assertNotEquals(m.bird, m1.bird);
+	}
+	
+	@Test
+	void birdDestTest() {
+		EatingModel m1 = new EatingModel(frameWidth, frameHeight, b, foodList, time);
+		final int destX = 23;
+		final int destY = 33;
+		m1.setDestination(destX, destY);
+		
+		assertEquals(m1.bird.getDestinationX(), destX);
+		assertEquals(m1.bird.getDestinationY(), destY);
 	}
 	
 	@Test
@@ -53,7 +62,6 @@ class EatingModelTest {
 		m1.update();
 		assertNotEquals(m, m1);
 		assertNotEquals(m.getCurrentTime(), m1.getCurrentTime());
-		//assertNotEquals(m.getMoveables(), m1.getMoveables()); //WHY DOES THIS NOT FUCKING WORK
 		
 	}
 	
@@ -75,16 +83,27 @@ class EatingModelTest {
 	
 	@Test
 	void getMenuObjectsTest() {
+		EatingModel m1 = new EatingModel(frameWidth, frameHeight, b, foodList, time);
 		
-	}
-	
-	@Test
-	void setDestinationTest() {
+		final int newScore = 1023;
+		final int newTime = 92843;
 		
-	}
-	
-	@Test
-	void getBirdXYTest() {
+		m1.setScore(newScore);
+		m1.setCurrentTime(newTime);
+		
+		List<MenuObject> bex = new ArrayList<MenuObject>();
+		
+		bex.add(new Label(0, 0, 200, 40, m1.getScore() + "/" + m1.scoreGoal));
+		bex.add(new Label(400, 0, 200, 40, m1.getCurrentTime() + "/" + m1.timeLimit));
+		
+		List<MenuObject> a = new ArrayList<MenuObject>();
+		a.addAll(m1.getMenuObjects());
+
+		Iterator<MenuObject> i1 = a.iterator();
+		Iterator<MenuObject> i2 = bex.iterator();
+		while (i1.hasNext()) {
+			assertEquals(i1.next().getText(), i2.next().getText());
+		}
 		
 	}
 	
@@ -93,7 +112,7 @@ class EatingModelTest {
 		EatingModel eModel = new EatingModel(frameWidth, frameHeight, b, foodList);
 		EatingModel eModel2 = new EatingModel(frameWidth, frameHeight, b, foodList);
 		
-		eModel.spawnRandomFood(); //add more to this test
+		eModel.spawnRandomFood();
 		
 		assertNotEquals(eModel, eModel2);
 	}
@@ -102,12 +121,31 @@ class EatingModelTest {
 	void endGameTest() {
 		//test for end of game by time out
 		EatingModel eModel = new EatingModel(frameWidth, frameHeight, b, foodList, time);
+		
+		//time == limit
 		eModel.setCurrentTime(time);
+		assertTrue(eModel.endGame());
+		
+		//time > limit
+		eModel.setCurrentTime(time + 10);
 		assertTrue(eModel.endGame());
 		
 		//end of game by score goal reached
 		EatingModel eModel2 = new EatingModel(frameWidth, frameHeight, b, foodList, time);
-		eModel2.setScore(501);
+		int newScore1 = 501;
+		int newScore = 500;
+		
+		//for score == goal
+		eModel2.setScore(newScore);
 		assertTrue(eModel2.endGame());
+		assertEquals(eModel2.getScore(), newScore);
+		
+		//for score > goal
+		eModel2.setScore(newScore1);
+		assertTrue(eModel2.endGame());
+		
+		eModel2.setCurrentTime(time-10);
+		eModel2.setScore(newScore-10);
+		assertFalse(eModel2.endGame());
 	}
 }

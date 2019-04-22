@@ -102,7 +102,7 @@ class EatingModel extends Model{
 		return m;
 	}
 	
-	@Override
+	@Override //returns labels displaying current score, timer
 	Collection<MenuObject> getMenuObjects() {
 		List<MenuObject> jex = new ArrayList<MenuObject>();
 		jex.add(new Label(0, 0, 200, 40, this.score + "/" + this.scoreGoal));
