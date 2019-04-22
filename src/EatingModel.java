@@ -12,8 +12,8 @@ class EatingModel extends Model{
 	int timeTaken;
 	int foodSpawnTimer;
 	final int maxFood = 20;
-	final int worldWidth = 1000;
-	final int worldHeight = 800;
+	final int worldWidth = 2000;
+	final int worldHeight = 1200;
 	
 	/**
 	 * pass frame height/width from view to create models

@@ -12,19 +12,19 @@ import java.awt.image.*;
 
 @SuppressWarnings("serial")
 class View extends JPanel {
-	public static final boolean NO_IMAGES = true;
+	public static final boolean NO_IMAGES = false;
 	public static final boolean SPRITE_INFO = true;
 	
 	JFrame frame;
 	static int frameWidth = 2040;
-	static int frameHeight = 1080;
-	static Dimension windowSize  = new Dimension(frameWidth, frameHeight);  //for setting window
+	static int frameHeight = 1000;//1080;
+	static Dimension windowSize = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
-	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "migratingbird", "earthworm", "grasshopper", "hawk"};
-	static final String[] DIRECTION_NAMES = {"right", "up", "left", "down"};
+	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "grasshopper", "hawk"};
+	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	/**
-	 * I'll leave it up to you if you want to do 4 or 8 directions.
-	 * images.get("name")[direction][cycle num] 
+	 * Contains all of the actual images.
+	 * images.get("Moveable.getImageName()")[direction][cycle num] 
 	 */
 	Map<String, BufferedImage[][]> images;
 	Map<Moveable, Integer> picCycles;
@@ -61,19 +61,16 @@ class View extends JPanel {
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 			 	
 		frame.setSize(windowSize);
-		frame.setMinimumSize(windowSize);
+		//frame.setMinimumSize(windowSize);
 		frame.setMaximumSize(windowSize);
 		this.setFocusable(true);
 	}
 	
-	@SuppressWarnings("unused")
 	public void paint(Graphics g) {
-
 		for(Moveable m : moveables) {
 			int sx = m.getX() - cameraOffX;
 			int sy = m.getY() - cameraOffY;
 			BufferedImage img = getImage(m);
-			//System.out.println(img);
 			if (img == null || NO_IMAGES) {
 				g.fillOval(sx-m.getRadius(), sy-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
 			} else {
@@ -130,8 +127,13 @@ class View extends JPanel {
 		}
 		return null;
 	}
- 
-	private BufferedImage createImages(String type){//create image for the background
+	
+	/**
+	 * create image for the background
+	 * @param type
+	 * @return
+	 */
+	/*private BufferedImage createImages(String type) {
 		BufferedImage bufferedImage;
 		try {
 			bufferedImage = ImageIO.read(new File("/src/images/"+type+".png"));
@@ -141,13 +143,21 @@ class View extends JPanel {
 			//e.printStackTrace();
 		}
 		return null;
-	}
+	}*/
+	
+	/**
+	 * Pulls from IMAGE_NAMES.
+	 * IMPORTANT: You do not need to specify how many sprites are in each animation loop!
+	 * The code uses the image file's height and width to determine automatically. For example, if the image is 100x400, it will make 4 sprites of size 100x100
+	 * <ul><li>Each sprite on the sheet must be square.</li>
+	 * <li>Each sprite must be arranged on the sheet in a single row from left to right.</li></ul>
+	 */
 	private void createImages() {
 		images = new HashMap<String, BufferedImage[][]>();
 		for (String nom : IMAGE_NAMES) {
 			BufferedImage[][] currmatrix = new BufferedImage[DIRECTION_NAMES.length][];
 			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
-				BufferedImage sheet = createImage("/src/images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
+				BufferedImage sheet = createImage("src/images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
 				if (sheet != null) {
 					int subsize = sheet.getHeight();
 					int numSprites = sheet.getWidth() / subsize;
@@ -171,7 +181,14 @@ class View extends JPanel {
 		}
 	}
 	
+	/**
+	 * This does animation cycles and facing automatically, so don't worry about that.
+	 * @param m The moveable that needs its sprite retrieved.
+	 * @return A BufferedImage representing that moveable.
+	 */
 	BufferedImage getImage(Moveable m) {
+		//if (m instanceof WalkingBird)
+			//System.out.println((m.getFacing() + Math.PI*2) % (Math.PI*2));
 		try {
 			BufferedImage[] row = images.get(m.getImageName())[angleToFaceIndex(m.getFacing())];
 			Integer Dex = picCycles.get(m);
@@ -200,19 +217,19 @@ class View extends JPanel {
 	
 	/**
 	 * 
-	 * @param theta The angle in radians
-	 * @return An integer representing the index of the facing (0=right, 1=up, 2=left, 3=down)
+	 * @param theta The angle in radians.
+	 * @return An integer representing the index of the facing (0=right, 1=down, 2=left, 3=up)
 	 */
 	static int angleToFaceIndex(double theta) {
 		theta = (theta + Math.PI*2) % (Math.PI*2);
 		if (theta <= Math.PI/4)
 			return 0;
 		else if (theta < Math.PI*3/4)
-			return 3;
+			return 1;
 		else if (theta <= Math.PI*5/4)
 			return 2;
 		else if (theta < Math.PI*7/4)
-			return 1;
+			return 3;
 		else
 			return 0;
 	}

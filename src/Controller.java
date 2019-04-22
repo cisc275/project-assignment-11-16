@@ -90,15 +90,13 @@ public class Controller implements MouseMotionListener,MouseListener{
 			//System.out.println(e.getX() + ", " + e.getY());
 		} else if (model instanceof BreedingModel) {
 			BreedingModel bModel = (BreedingModel) model;
-			if (e.getButton() == MouseEvent.BUTTON3) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
 				//if left click, move
-				bModel.startBrokenWing();
-			System.out.println("click to break wing");
+				bModel.setDestination(e.getX(), e.getY());
 			}
-			else if (e.getButton() == MouseEvent.BUTTON1) {
+			else if (e.getButton() == MouseEvent.BUTTON3) {
 				// if right click, show broken wing
-			
-			bModel.setDestination(e.getX(), e.getY());
+				bModel.showBrokenWing();
 			}
 		}
 	}
@@ -111,7 +109,6 @@ public class Controller implements MouseMotionListener,MouseListener{
 		if (model instanceof BreedingModel) {
 			BreedingModel bModel = (BreedingModel) model;
 			bModel.stopBrokenWing();
-			System.out.println("mouse released so wings not broken");
 			//should reset the bird
 		}
 		

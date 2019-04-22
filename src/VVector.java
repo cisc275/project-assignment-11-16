@@ -23,6 +23,14 @@ public class VVector {
 		echoPolarToRect();
 	}
 	
+	/**
+	 * Reduces to 0 while still maintaining directions.
+	 */
+	public void zero() {
+		this.r = 0;
+		echoPolarToRect();
+	}
+	
 	private void echoRectToPolar() {
 		usedPolar = false;
 		r =  Math.sqrt(x*x + y*y);
