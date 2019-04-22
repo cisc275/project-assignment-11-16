@@ -24,7 +24,7 @@ class BreedingModel extends Model {
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
-		predators = p;
+		//predators = p;
 		nest = new Nest(0, 0, 0);
 	}	
 	
@@ -33,7 +33,7 @@ class BreedingModel extends Model {
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
-		predators = p;
+		//predators = p;
 		nest = n;
 	}	
 	
