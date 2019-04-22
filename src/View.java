@@ -69,51 +69,7 @@ class View extends JPanel {
 	@SuppressWarnings("unused")
 	public void paint(Graphics g) {
 
-		if(Migrate) {
-			BufferedImage background = createImageBG() ;
-			g.drawImage(background,0,0,this);
-			
-		}
 		for(Moveable m : moveables) {
-			if(Migrate) {
-				int sx = m.getX() - cameraOffX;
-				int sy = m.getY() - cameraOffY;
-				BufferedImage imgEnemy = createImageEnemy();
-				BufferedImage imgGust = createImageGust();
-				BufferedImage imgBird = createImageBird();
-				//System.out.println(img);
-				if(m instanceof Enemy) {
-				if (imgEnemy == null || NO_IMAGES) {
-					g.fillOval(sx-m.getRadius(), sy-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
-				} else {
-					g.drawImage(imgEnemy, sx-imgEnemy.getWidth()/2, sy-imgEnemy.getHeight()/2, this);
-				}
-				if (SPRITE_INFO) {
-					g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
-				}
-				}
-				else if(m instanceof MigratingBird) {
-					if (imgBird == null || NO_IMAGES) {
-						g.fillOval(sx-m.getRadius(), sy-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
-					} else {
-						g.drawImage(imgBird, sx-imgBird.getWidth()/2, sy-imgBird.getHeight()/2, this);
-					}
-					if (SPRITE_INFO) {
-						g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
-					}
-					}
-				else if(m instanceof Gust) {
-					if (imgGust == null || NO_IMAGES) {
-						g.fillOval(sx-m.getRadius(), sy-m.getRadius(), m.getRadius()*2, m.getRadius()*2);
-					} else {
-						g.drawImage(imgGust, sx-imgGust.getWidth()/2, sy-imgGust.getHeight()/2, this);
-					}
-					if (SPRITE_INFO) {
-						g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
-					}
-					}
-			}
-			else {
 			int sx = m.getX() - cameraOffX;
 			int sy = m.getY() - cameraOffY;
 			BufferedImage img = getImage(m);
@@ -127,7 +83,7 @@ class View extends JPanel {
 				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
 			}
 		}
-	}
+
 		for(MenuObject m : menuObjects) {
 			g.drawRect(m.getX(), m.getY(), m.getWidth(), m.getHeight());
 			g.drawString(m.getText(), m.getX(), m.getY()+m.getHeight()/2);
@@ -174,47 +130,14 @@ class View extends JPanel {
 		}
 		return null;
 	}
-	private BufferedImage createImageBG() {
+ 
+	private BufferedImage createImages(String type){//create image for the background
 		BufferedImage bufferedImage;
 		try {
-			bufferedImage = ImageIO.read(new File("src/images/migrationbackground.png"));
+			bufferedImage = ImageIO.read(new File("/src/images/"+type+".png"));
 			return bufferedImage;
 		} catch (IOException e) {
-			System.out.println("background could not be found");
-			//e.printStackTrace();
-		}
-		return null;
-	}
-	private BufferedImage createImageEnemy() {
-		BufferedImage bufferedImage;
-		try {
-			bufferedImage = ImageIO.read(new File("src/images/enemy.png"));
-			return bufferedImage;
-		} catch (IOException e) {
-			System.out.println("enemy could not be found");
-			//e.printStackTrace();
-		}
-		return null;
-	}
-	private BufferedImage createImageGust() {
-		BufferedImage bufferedImage;
-		try {
-			bufferedImage = ImageIO.read(new File("src/images/gust.png"));
-			return bufferedImage;
-		} catch (IOException e) {
-			System.out.println("gust could not be found");
-			//e.printStackTrace();
-		}
-		return null;
-	}
-	
-	private BufferedImage createImageBird() {
-		BufferedImage bufferedImage;
-		try {
-			bufferedImage = ImageIO.read(new File("src/images/bird.png"));
-			return bufferedImage;
-		} catch (IOException e) {
-			System.out.println("bird could not be found");
+			System.out.println(type+" could not be found");
 			//e.printStackTrace();
 		}
 		return null;
@@ -224,7 +147,7 @@ class View extends JPanel {
 		for (String nom : IMAGE_NAMES) {
 			BufferedImage[][] currmatrix = new BufferedImage[DIRECTION_NAMES.length][];
 			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
-				BufferedImage sheet = createImage("src/images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
+				BufferedImage sheet = createImage("/src/images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
 				if (sheet != null) {
 					int subsize = sheet.getHeight();
 					int numSprites = sheet.getWidth() / subsize;

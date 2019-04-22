@@ -64,10 +64,7 @@ public class Controller implements MouseMotionListener,MouseListener{
 				view.resetCamera();
 			}
 			view.update(model.getMoveables(), model.getMenuObjects());
-			
-			if(model instanceof MigratingModel) {
-				view.Migrate = true;
-			}
+
 		}
 	}
 
