@@ -16,7 +16,8 @@ class BreedingModel extends Model {
 		bird = new BreedingBird(130, 130, 30, 0, 0);
 		//predators = new ArrayList<Predator>();
 		//predators.add(new Raccoon(40, 40, 10, 5, 0));
-		p = new Raccoon(40, 40, 10, 5, 0);
+		p = new Raccoon(600, 600, 35, 1, 0);
+		nest = new Nest(400,400,50);
 	}
 	
 	//for testing 
@@ -45,7 +46,13 @@ class BreedingModel extends Model {
 		/*
 		 * for (Predator p : this.predators) { p.updateBirdLoc(xB, yB); }
 		 */
-		p.updateBirdLoc(xB, yB);
+		if (this.bird.getBrokenWing() == true) {
+			//p.velocity.setPolar(p.velocity.getR(), -(p.velocity.getTheta()));
+			p.updateBirdLoc(xB, yB);;
+			System.out.println("wing is broken");
+		}
+		else p.updateBirdLoc(nest.x, nest.y);
+		//predator goes towards nest
 	}
 	
 	void update() {
@@ -53,17 +60,24 @@ class BreedingModel extends Model {
 		//for (Predator p : this.predators) {
 			p.update();
 			this.updateBird(this.bird.getX(), this.bird.getY());
+			updateCollision();
 		
 	}
 	
 	void updateCollision() {
-		if (bird.collidesWith(p))
-		if (bird.getBrokenWing() == true) {
-			
-			
+		if (bird.collidesWith(p)) {
+			System.out.println("bird collided with p");
 		}
+		if (p.collidesWith(nest)) {
+			nest.numEggs -= 1;
 	}
-	boolean endGame() {return false;}
+	}
+	boolean endGame() {
+		if (nest.numEggs == 0) {
+			return true;
+		}
+		else return false;
+	}
 	
 	Collection<Moveable> getMoveables(){
 		Collection<Moveable> m = new ArrayList<>();
@@ -94,6 +108,13 @@ class BreedingModel extends Model {
 	
 	void updatePredatorCollision() {
 		
+	}
+	void startBrokenWing() {
+		this.bird.showBrokenWing = true;
+	}
+	
+	void stopBrokenWing() {
+		this.bird.showBrokenWing = false;
 	}
 	
 	public void showBrokenWing() {
