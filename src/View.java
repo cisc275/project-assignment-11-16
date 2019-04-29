@@ -54,6 +54,9 @@ class View extends JPanel {
 		return frameHeight;
 	}
 	
+	/**
+	 * sets up frame and button styles
+	 */
 	private void buildFrame() {
 		frame = new JFrame();
 		frame.getContentPane().add(this);
@@ -61,7 +64,6 @@ class View extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Killdeer Simulator");
 		frame.setSize(frameWidth, frameHeight);
-		
 		
 		migrateButton = new JButton("MIGRATE"); 
 		stayButton = new JButton("STAY"); 
@@ -86,6 +88,9 @@ class View extends JPanel {
 		}
 	}
 	
+	/**
+	 * called from outside (Controller) to add/show buttons at start
+	 */
 	public void buildMenu() {
 		subpanel = new JPanel();
 		subpanel.add(migrateButton);
