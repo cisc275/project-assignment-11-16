@@ -110,19 +110,12 @@ class BreedingModel extends Model {
 		
 	}
 	void startBrokenWing() {
-		this.bird.showBrokenWing = true;
+		this.bird.brokenWing = true;
 	}
 	
 	void stopBrokenWing() {
-		this.bird.showBrokenWing = false;
-	}
-	
-	public void showBrokenWing() {
-		bird.showBrokenWing();
+		this.bird.brokenWing = false;
 	}
 
-	public void stopBrokenWing() {
-		bird.stopBrokenWing();
-	}
 	
 }

@@ -96,7 +96,7 @@ public class Controller implements MouseMotionListener,MouseListener{
 			}
 			else if (e.getButton() == MouseEvent.BUTTON3) {
 				// if right click, show broken wing
-				bModel.showBrokenWing();
+				bModel.startBrokenWing();
 			}
 		}
 	}
