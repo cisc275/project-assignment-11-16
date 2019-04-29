@@ -100,13 +100,7 @@ class EatingModel extends Model{
 		return m;
 	}
 	
-	@Override
-	Collection<MenuObject> getMenuObjects() {
-		List<MenuObject> jex = new ArrayList<MenuObject>();
-		jex.add(new Label(0, 0, 200, 40, this.score + "/" + this.scoreGoal));
-		jex.add(new Label(400, 0, 200, 40, this.timeTaken + "/" + this.timeLimit));
-		return jex;
-	}
+
 	
 	void setDestination(int x, int y) {
 		this.bird.setDestination(x, y);

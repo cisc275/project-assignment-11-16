@@ -1,4 +1,6 @@
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Collection;
 //import java.util.Collection;
 
 
@@ -7,16 +9,19 @@ public class Controller implements MouseMotionListener,MouseListener{
 	private Model model;
 	private View view;
 	
+	
 	public Controller(){
 		view = new View();
 		view.addControllerToMouse(this);
-		
-		//model = bModel;		
+			
 		startMainMenu();
+		
 	}
-	
+
+	//change to build differently depending on boolean migrate in View
 	public void startMainMenu() {
-		model = new MainMenu(view.getFrameWidth(), view.getFrameHeight(), this);
+		model = new Menu(view.getFrameWidth(), view.getFrameHeight());
+		view.buildMenu();
 	}
 	
 	public void startEating() {
@@ -30,7 +35,8 @@ public class Controller implements MouseMotionListener,MouseListener{
 	public void startBreeding() {
 		model = new BreedingModel(view.getFrameWidth(), view.getFrameHeight());
 	}
-	
+
+
 	/**
 	 * for testing
 	 * @return
@@ -55,15 +61,19 @@ public class Controller implements MouseMotionListener,MouseListener{
 	 */
 	public void start() {
 		while (true) {
-			//increment the x and y coordinates, alter direction if necessary
-			model.update();
+			
+			if(model instanceof Menu && view.endMenu == true) {
+				startEating();
+			}
+
 			if (model instanceof EatingModel) {
 				EatingModel eModel = (EatingModel) model;
 				view.moveCamera(eModel.getBirdX(), eModel.getBirdY());
 			} else {
 				view.resetCamera();
 			}
-			view.update(model.getMoveables(), model.getMenuObjects());
+			model.update();
+			view.update(model.getMoveables());
 
 		}
 	}
@@ -71,13 +81,6 @@ public class Controller implements MouseMotionListener,MouseListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//checkModel();
-		//System.out.println("click " + e.getX() + ", " + e.getY());
-		if (model instanceof Menu) {
-			Menu meModel = (Menu) model;
-			meModel.click(e.getX(), e.getY());
-			//System.out.println(e.getX() + ", " + e.getY());
-		}
 	}
 
 

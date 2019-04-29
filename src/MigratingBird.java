@@ -22,7 +22,7 @@ public class MigratingBird extends Moveable{
 	}
 	
 	void setDestination(int xPos, int yPos) {
-		destinationX = xPos;// mute to make the bird in an fixed X position //no
+		//destinationX = xPos;// mute to make the bird in an fixed X position //no
 		destinationY = yPos;
 	}
 	

@@ -1,22 +1,13 @@
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class Menu extends Model {
-	Collection<MenuObject> menuObjects;
+public class Menu extends Model {
 	
-	public void click(int x, int y) {
-		for (MenuObject oj : menuObjects) {
-			oj.checkClick(x, y);
-		}
-	}
-	
-	public Collection<Moveable> getMoveables() {
-		return new ArrayList<Moveable>();
-	}
-	
-	@Override
-	public Collection<MenuObject> getMenuObjects() {
-		return menuObjects;
+	Menu(int w, int h) {
+
+		frameHeight = w;
+		frameWidth = h;
+		score = 0;
 	}
 	
 	@Override
@@ -27,5 +18,10 @@ public abstract class Menu extends Model {
 	@Override
 	boolean endGame() {
 		return false;
+	}
+
+	@Override
+	Collection<Moveable> getMoveables() {
+		return new ArrayList<Moveable>();
 	}
 }

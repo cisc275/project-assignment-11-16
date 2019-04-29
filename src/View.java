@@ -16,8 +16,8 @@ class View extends JPanel {
 	public static final boolean SPRITE_INFO = true;
 	
 	JFrame frame;
-	static int frameWidth = 2040;
-	static int frameHeight = 1000;//1080;
+	static int frameWidth = 1080;
+	static int frameHeight = 720;//1080;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
 	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "grasshopper", "hawk"};
@@ -29,11 +29,15 @@ class View extends JPanel {
 	Map<String, BufferedImage[][]> images;
 	Map<Moveable, Integer> picCycles;
 	Collection <Moveable> moveables;
-	Collection <MenuObject> menuObjects;
 	int cameraOffX = 0;
 	int cameraOffY = 0;
-	boolean Migrate = false;
 	
+	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-20);
+	JPanel subpanel;
+	JButton migrateButton;
+	JButton stayButton;
+	boolean migrate = false;
+	boolean endMenu  = false;
 	
 	View(){
 		if (!NO_IMAGES) {
@@ -58,6 +62,15 @@ class View extends JPanel {
 		frame.setTitle("Killdeer Simulator");
 		frame.setSize(frameWidth, frameHeight);
 		
+		
+		migrateButton = new JButton("MIGRATE"); 
+		stayButton = new JButton("STAY"); 
+		migrateButton.addActionListener(someactionevent -> {removeMenu(); migrate = true; endMenu = true;});
+		stayButton.addActionListener(someactionevent -> {removeMenu(); endMenu = true;});
+		migrateButton.setPreferredSize(buttonSize);
+		stayButton.setPreferredSize(buttonSize); //must be pref size
+
+		frame.getContentPane().add(this);
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 			 	
 		frame.setSize(windowSize);
@@ -66,7 +79,27 @@ class View extends JPanel {
 		this.setFocusable(true);
 	}
 	
+	public void removeMenu() {
+		if (subpanel != null) {
+			this.remove(subpanel);
+			subpanel = null;
+		}
+	}
+	
+	public void buildMenu() {
+		subpanel = new JPanel();
+		subpanel.add(migrateButton);
+		subpanel.add(stayButton);
+		this.add(subpanel);
+		frame.setVisible(true);
+	}
+
 	public void paint(Graphics g) {
+		
+		if(subpanel != null) {
+			subpanel.paint(g);
+		}
+		
 		for(Moveable m : moveables) {
 			int sx = m.getX() - cameraOffX;
 			int sy = m.getY() - cameraOffY;
@@ -81,15 +114,10 @@ class View extends JPanel {
 			}
 		}
 
-		for(MenuObject m : menuObjects) {
-			g.drawRect(m.getX(), m.getY(), m.getWidth(), m.getHeight());
-			g.drawString(m.getText(), m.getX(), m.getY()+m.getHeight()/2);
-		}
 	}
 	
-	void update(Collection<Moveable> moveables, Collection<MenuObject> menuObjects) {
+	void update(Collection<Moveable> moveables) {
 		this.moveables = moveables;
-		this.menuObjects = menuObjects;
 		frame.repaint();
 		try {
 			Thread.sleep(50);
