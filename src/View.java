@@ -16,9 +16,10 @@ class View extends JPanel {
 	public static final boolean SPRITE_INFO = true;
 	
 	JFrame frame;
-	static int frameWidth = 2040;
-	static int frameHeight = 1080;
+	static int frameWidth = 1080;
+	static int frameHeight = 720;
 	static Dimension windowSize  = new Dimension(frameWidth, frameHeight);  //for setting window
+	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight);
 	BufferedImage bird;
 	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "migratingbird", "earthworm", "grasshopper", "hawk"};
 	static final String[] DIRECTION_NAMES = {"right", "up", "left", "down"};
@@ -29,11 +30,17 @@ class View extends JPanel {
 	Map<String, BufferedImage[][]> images;
 	Map<Moveable, Integer> picCycles;
 	Collection <Moveable> moveables;
-	Collection <MenuObject> menuObjects;
 	int cameraOffX = 0;
 	int cameraOffY = 0;
 	boolean Migrate = false;
 	
+	
+	JPanel subpanel;
+	JButton b1;
+	JButton b2;
+	boolean migrate = false;
+	boolean endMenu  = false;
+
 	
 	View(){
 		if (!NO_IMAGES) {
@@ -52,12 +59,21 @@ class View extends JPanel {
 	
 	private void buildFrame() {
 		frame = new JFrame();
-		frame.getContentPane().add(this);
-		//frame.setBackground(Color.gray);
+		
+
+		//frame.setBackground(Color.RED);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Killdeer Simulator");
 		frame.setSize(frameWidth, frameHeight);
 		
+		b1 = new JButton("PUSH ME"); 
+		b2 = new JButton("PUSH ME2"); 
+		b1.addActionListener(someactionevent -> {removeMenu(); migrate = true; endMenu = true;});
+		b2.addActionListener(someactionevent -> {removeMenu(); endMenu = true;});
+		b1.setPreferredSize(buttonSize);
+		b2.setPreferredSize(buttonSize); //must be pref size
+		
+		frame.getContentPane().add(this);
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 			 	
 		frame.setSize(windowSize);
@@ -66,8 +82,30 @@ class View extends JPanel {
 		this.setFocusable(true);
 	}
 	
+	public void removeMenu() {
+		if (subpanel != null) {
+			this.remove(subpanel);
+			subpanel = null;
+		}
+	}
+	
+	public void buildMenu() {
+		removeMenu();
+		subpanel = new JPanel();
+		subpanel.add(b1);
+		subpanel.add(b2);
+		this.add(subpanel);
+
+		//panel.setOpaque(true);
+		//panel.setBackground(Color.GREEN);
+	}
+	
 	@SuppressWarnings("unused")
 	public void paint(Graphics g) {
+		
+		if (subpanel != null) {
+			subpanel.paint(g); //needed to show panels within view
+		}
 
 		for(Moveable m : moveables) {
 			int sx = m.getX() - cameraOffX;
@@ -84,16 +122,13 @@ class View extends JPanel {
 			}
 		}
 
-		for(MenuObject m : menuObjects) {
-			g.drawRect(m.getX(), m.getY(), m.getWidth(), m.getHeight());
-			g.drawString(m.getText(), m.getX(), m.getY()+m.getHeight()/2);
-		}
 	}
 	
-	void update(Collection<Moveable> moveables, Collection<MenuObject> menuObjects) {
-		this.moveables = moveables;
-		this.menuObjects = menuObjects;
+	void update(Collection<Moveable> moveables) {
+
 		frame.repaint();
+		this.moveables = moveables;
+
 		try {
 			Thread.sleep(50);
 		} catch (InterruptedException e) {

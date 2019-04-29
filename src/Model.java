@@ -23,7 +23,5 @@ abstract class Model {
 	
 	abstract Collection<Moveable> getMoveables();
 	
-	Collection<MenuObject> getMenuObjects() {
-		return new ArrayList<MenuObject>();
-	}
+
 }

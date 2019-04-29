@@ -45,23 +45,25 @@ class BreedingModel extends Model {
 		/*
 		 * for (Predator p : this.predators) { p.updateBirdLoc(xB, yB); }
 		 */
-		p.updateBirdLoc(xB, yB);
+		//p.updateBirdLoc(xB, yB);
 	}
 	
 	void update() {
 		bird.update();
 		//for (Predator p : this.predators) {
-			p.update();
-			this.updateBird(this.bird.getX(), this.bird.getY());
+			//p.update();
+			//this.updateBird(this.bird.getX(), this.bird.getY());
 		
 	}
 	
 	void updateCollision() {
+		/*
 		if (bird.collidesWith(p))
 		if (bird.getBrokenWing() == true) {
 			
 			
 		}
+		*/
 	}
 	boolean endGame() {return false;}
 	
