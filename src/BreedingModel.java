@@ -80,7 +80,7 @@ class BreedingModel extends Model {
 	}
 	
 	Collection<Moveable> getMoveables(){
-		Collection<Moveable> m = new ArrayList<>();
+		Collection<Moveable> m = new ArrayList<Moveable>();
 		//m.addAll(predators);
 		m.add(p);
 		m.add(bird);

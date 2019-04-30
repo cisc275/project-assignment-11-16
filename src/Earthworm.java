@@ -1,8 +1,14 @@
-
+/**
+ * A simple Food. Moves very slowly.
+ * @author pedz
+ *
+ */
 public class Earthworm extends Food {
+	public final double BASE_SPEED = 0.2;
 	
 	public Earthworm(int inx, int iny) {
 		super(inx, iny, 20, 0, 0);
+		velocity.setPolar(BASE_SPEED, VVector.randomTheta());
 		scoreValue = 20;
 	}
 	
@@ -20,7 +26,7 @@ public class Earthworm extends Food {
 	}
 	
 	@Override
-	void update() {
+	void update(EatingBird birb) {
 		move();
 	}
 

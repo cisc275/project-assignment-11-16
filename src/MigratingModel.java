@@ -68,7 +68,7 @@ class MigratingModel extends Model{
 		for (Moveable o : gusts) {
 			o.update();
 		}
-		updateCollision(); // ????
+		updateCollision(); 
 	}
 	void updateCollision() {
 		updateEnemyCollision();
@@ -81,7 +81,7 @@ class MigratingModel extends Model{
 	boolean endGame() {return false;}
 	
 	Collection<Moveable> getMoveables(){
-		Collection<Moveable> m = new ArrayList<>();
+		Collection<Moveable> m = new ArrayList<Moveable>();
 		m.addAll(enemies);
 		m.add(bird);
 		m.addAll(gusts);
@@ -111,6 +111,7 @@ class MigratingModel extends Model{
 
 	/**
 	 * If enemy collides with bird or exits frame, remove enemy, deduct hp
+	 * @author Anna
 	 */
 	void updateEnemyCollision() {
 		Iterator <Enemy> enemiesIterator = enemies.iterator();
@@ -128,6 +129,7 @@ class MigratingModel extends Model{
 	
 	/**
 	 * If gusts collide with bird or exits frame, removes gust, and sets up powerUp logic
+	 * @author Anna
 	 */
 	void updateGustCollision() {
 		Iterator <Gust> gustIterator = gusts.iterator();
@@ -149,7 +151,7 @@ class MigratingModel extends Model{
 	
 	/**
 	 * Speeds up or down all objects besides bird according to input
-	 * @param velocity
+	 * @author Anna
 	 */
 	void accelerateMoveables(int velocity) {
 		for(Gust gust : gusts) {

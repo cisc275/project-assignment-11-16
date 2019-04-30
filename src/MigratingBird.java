@@ -1,5 +1,9 @@
-
-public class MigratingBird extends Moveable{
+/**
+ * 
+ * @author Prescott
+ *
+ */
+public class MigratingBird extends Moveable {
 
 	final static double followDistanceCoefficient = .4;
 	final static int distanceFromFrame = 350;

@@ -1,4 +1,8 @@
-
+/**
+ * If bird hits gust, should speed up migration
+ * @author Wenki
+ *
+ */
 public class Gust extends Moveable{
 
 	Gust(int xP, int yP) {

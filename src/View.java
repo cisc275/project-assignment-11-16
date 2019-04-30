@@ -20,15 +20,20 @@ class View extends JPanel {
 	static int frameHeight = 720;//1080;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
-	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "grasshopper", "hawk"};
+	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "grasshopper", "hawk", "raccoon"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	/**
 	 * Contains all of the actual images.
 	 * images.get("Moveable.getImageName()")[direction][cycle num] 
 	 */
 	Map<String, BufferedImage[][]> images;
+	/**
+	 * Keeps track of the animation cycles of every Moveable.
+	 * It uses weak references, so don't worry about memory leaks.
+	 */
 	Map<Moveable, Integer> picCycles;
 	Collection <Moveable> moveables;
+
 	int cameraOffX = 0;
 	int cameraOffY = 0;
 	
@@ -39,7 +44,7 @@ class View extends JPanel {
 	boolean migrate = false;
 	boolean endMenu  = false;
 	
-	View(){
+	View() {
 		if (!NO_IMAGES) {
 			this.createImages();
 		}
@@ -56,6 +61,7 @@ class View extends JPanel {
 	
 	/**
 	 * sets up frame and button styles
+	 * @author Anna
 	 */
 	private void buildFrame() {
 		frame = new JFrame();
@@ -124,11 +130,6 @@ class View extends JPanel {
 	void update(Collection<Moveable> moveables) {
 		this.moveables = moveables;
 		frame.repaint();
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	void resetCamera() {
@@ -181,9 +182,10 @@ class View extends JPanel {
 	/**
 	 * Pulls from IMAGE_NAMES.
 	 * IMPORTANT: You do not need to specify how many sprites are in each animation loop!
-	 * The code uses the image file's height and width to determine automatically. For example, if the image is 100x400, it will make 4 sprites of size 100x100
+	 * The code uses the image file's height and width to determine automatically. For example, if the image is 100x400, it will make 4 sprites of size 100x100.
 	 * <ul><li>Each sprite on the sheet must be square.</li>
 	 * <li>Each sprite must be arranged on the sheet in a single row from left to right.</li></ul>
+	 * @author Prescott
 	 */
 	private void createImages() {
 		images = new HashMap<String, BufferedImage[][]>();
@@ -218,6 +220,7 @@ class View extends JPanel {
 	 * This does animation cycles and facing automatically, so don't worry about that.
 	 * @param m The moveable that needs its sprite retrieved.
 	 * @return A BufferedImage representing that moveable.
+	 * @author Prescott
 	 */
 	BufferedImage getImage(Moveable m) {
 		//if (m instanceof WalkingBird)

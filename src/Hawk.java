@@ -1,4 +1,6 @@
-
+/**
+ * @author Wenki
+ */
 public class Hawk extends Enemy {
 
 	Hawk(int xP, int yP) {

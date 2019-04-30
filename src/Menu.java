@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collection;
 
+
 public class Menu extends Model {
 	
 	Menu(int w, int h) {
@@ -9,7 +10,7 @@ public class Menu extends Model {
 		frameWidth = h;
 		score = 0;
 	}
-	
+
 	@Override
 	void update() {
 		

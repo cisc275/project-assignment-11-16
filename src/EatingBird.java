@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @author Prescott
+ *
+ */
 public class EatingBird extends WalkingBird {
 	public final int BASE_RADIUS = 20;
 	

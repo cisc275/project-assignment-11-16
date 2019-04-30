@@ -17,11 +17,15 @@ abstract class Model {
 	abstract void update();
 	
 	/**
-	 * checks if game related to the model is ended based on time
+	 * checks if game related to the model is ended
 	 * @return
 	 */
 	abstract boolean endGame();
 	
+	/**
+	 * 
+	 * @return A Collection of every Moveable intended to be drawn by the View.
+	 */
 	abstract Collection<Moveable> getMoveables();
 
 }

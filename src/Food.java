@@ -1,4 +1,8 @@
-
+/**
+ * Things that can be eaten during the Eating game.
+ * @author pedz
+ *
+ */
 public abstract class Food extends Moveable{
 	
 	int scoreValue;
@@ -10,7 +14,9 @@ public abstract class Food extends Moveable{
 	int getScoreValue() {
 		return scoreValue;
 	}
-
+	
+	abstract void update(EatingBird birb);
+	
 	@Override
 	void update() {
 		move();

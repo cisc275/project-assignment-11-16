@@ -4,7 +4,7 @@ import java.util.Collection;
 //import java.util.Collection;
 
 
-public class Controller implements MouseMotionListener,MouseListener{
+public class Controller implements MouseMotionListener, MouseListener {
 	// if i update this it updates that
 	private Model model;
 	private View view;
@@ -17,7 +17,7 @@ public class Controller implements MouseMotionListener,MouseListener{
 		//startMainMenu();
 		startMigrating();
 		//startBreeding();
-		
+
 	}
 
 	//change to build differently depending on boolean migrate in View
@@ -45,9 +45,8 @@ public class Controller implements MouseMotionListener,MouseListener{
 	 */
 	public String checkModel() {
 		String string = "? not e, b, or m model ?";
-		if (model instanceof Menu) {
-			string = "currently a menu";
-		} else if (model instanceof EatingModel) {
+
+		if (model instanceof EatingModel) {
 			string = "currently EatingModel";
 		} else if(model instanceof BreedingModel) {
 			string = "currently BreedingModel";
@@ -74,20 +73,22 @@ public class Controller implements MouseMotionListener,MouseListener{
 			} else {
 				view.resetCamera();
 			}
-			model.update();
+			
 			view.update(model.getMoveables());
-
+			model.update();
+			
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-
 	
-	@Override
 	public void mouseClicked(MouseEvent e) {
+
 	}
-
-
-
-	@Override
+	
 	public void mousePressed(MouseEvent e) {
 		if (model instanceof EatingModel) {
 			EatingModel eModel = (EatingModel) model;
@@ -105,39 +106,23 @@ public class Controller implements MouseMotionListener,MouseListener{
 			}
 		}
 	}
-		
-
-
-
-	@Override
+	
 	public void mouseReleased(MouseEvent e) {
 		if (model instanceof BreedingModel) {
 			BreedingModel bModel = (BreedingModel) model;
 			bModel.stopBrokenWing();
 			//should reset the bird
 		}
-		
 	}
-
-
-
-	@Override
+	
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
-
-
-
-	@Override
+	
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
-
-
-
-	@Override
+	
 	public void mouseDragged(MouseEvent e) {
 		if (model instanceof EatingModel) {
 			EatingModel eModel = (EatingModel) model;
@@ -148,7 +133,6 @@ public class Controller implements MouseMotionListener,MouseListener{
 		}
 	}
 	
-	@Override
 	public void mouseMoved(MouseEvent e) {
 		if (model instanceof MigratingModel) {
 			MigratingModel mModel = (MigratingModel) model;
