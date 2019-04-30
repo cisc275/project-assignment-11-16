@@ -9,13 +9,13 @@ class MigratingModel extends Model{
 	
 	private static int enemyScore = -10; 
 	private static int gustScore = 20;
-	private static int maxEnemies = 3;
-	private static int maxGusts = 2;
+	private final static int maxEnemies = 3;
+	private final static int maxGusts = 2;
+	private final static int powerDuration = 50;
+	private final static int velocityChange = 10;
 	
 	boolean powerOn = false;
 	private int powerTimer = 0;
-	private static int powerDuration = 50;
-	private static int velocityChange = 10;
 	
 	
 	/**
@@ -42,7 +42,10 @@ class MigratingModel extends Model{
 		gusts = g;
 	}
 		
-	//also update score based on time completion
+	/**
+	 * Moveable generation here, moving moveables here
+	 * TO DO: update score based on time completion?
+	 */
 	void update() {
 		bird.update();
 		
@@ -58,7 +61,7 @@ class MigratingModel extends Model{
 			accelerateMoveables(velocityChange);
 			powerOn = false;
 		}
-		System.out.println(powerTimer);
+		//System.out.println(powerTimer);
 		for (Moveable o : enemies) {
 			o.update();
 		}
@@ -72,6 +75,9 @@ class MigratingModel extends Model{
 		updateGustCollision();
 	}
 	
+	/**
+	 * TO-DO: if overall timer ends? or if traveled certain distance, end game
+	 */
 	boolean endGame() {return false;}
 	
 	Collection<Moveable> getMoveables(){
@@ -104,12 +110,9 @@ class MigratingModel extends Model{
 	
 
 	/**
-	 * if bird collides with Moveable, update lists and bird
+	 * If enemy collides with bird or exits frame, remove enemy, deduct hp
 	 */
 	void updateEnemyCollision() {
-		//if bird collides with enemy for all enemy 
-		//remove enemy from list
-		//score.setscore(decrement);
 		Iterator <Enemy> enemiesIterator = enemies.iterator();
 		while(enemiesIterator.hasNext()) {
 			Enemy e = enemiesIterator.next();
@@ -123,7 +126,9 @@ class MigratingModel extends Model{
 	}
 	
 	
-	//add something to up bird velocity for a certain period
+	/**
+	 * If gusts collide with bird or exits frame, removes gust, and sets up powerUp logic
+	 */
 	void updateGustCollision() {
 		Iterator <Gust> gustIterator = gusts.iterator();
 		while(gustIterator.hasNext()) {
@@ -142,6 +147,10 @@ class MigratingModel extends Model{
 		}
 	}
 	
+	/**
+	 * Speeds up or down all objects besides bird according to input
+	 * @param velocity
+	 */
 	void accelerateMoveables(int velocity) {
 		for(Gust gust : gusts) {
 			gust.setVelocity(gust.getXVelocity()+velocity, gust.getYVelocity());
