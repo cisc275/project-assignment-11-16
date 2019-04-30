@@ -1,4 +1,6 @@
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Collection;
 //import java.util.Collection;
 
 
@@ -7,18 +9,22 @@ public class Controller implements MouseMotionListener, MouseListener {
 	private Model model;
 	private View view;
 	
+	
 	public Controller(){
 		view = new View();
 		view.addControllerToMouse(this);
-		
-		//model = bModel;		
+			
 		//startMainMenu();
-		startEating();
+		startMigrating();
+		//startBreeding();
+
 	}
-	
-	/*public void startMainMenu() {
-		model = new MainMenu(view.getFrameWidth(), view.getFrameHeight(), this);
-	}*/
+
+	//change to build differently depending on boolean migrate in View
+	public void startMainMenu() {
+		model = new Menu(view.getFrameWidth(), view.getFrameHeight());
+		view.buildMenu();
+	}
 	
 	public void startEating() {
 		model = new EatingModel(view.getFrameWidth(), view.getFrameHeight());
@@ -31,16 +37,15 @@ public class Controller implements MouseMotionListener, MouseListener {
 	public void startBreeding() {
 		model = new BreedingModel(view.getFrameWidth(), view.getFrameHeight());
 	}
-	
+
+
 	/**
 	 * for testing
 	 * @return
 	 */
 	public String checkModel() {
 		String string = "? not e, b, or m model ?";
-		/*if (model instanceof Menu) {
-			string = "currently a menu";
-		} else */
+
 		if (model instanceof EatingModel) {
 			string = "currently EatingModel";
 		} else if(model instanceof BreedingModel) {
@@ -57,16 +62,21 @@ public class Controller implements MouseMotionListener, MouseListener {
 	 */
 	public void start() {
 		while (true) {
-			//increment the x and y coordinates, alter direction if necessary
-			model.update();
+			
+			if(model instanceof Menu && view.endMenu == true) {
+				startEating();
+			}
+
 			if (model instanceof EatingModel) {
 				EatingModel eModel = (EatingModel) model;
 				view.moveCamera(eModel.getBirdX(), eModel.getBirdY());
 			} else {
 				view.resetCamera();
 			}
+			
 			view.update(model.getMoveables());
-			//view.update(model.getMoveables(), model.getMenuObjects());
+			model.update();
+			
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
@@ -76,13 +86,7 @@ public class Controller implements MouseMotionListener, MouseListener {
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		//checkModel();
-		//System.out.println("click " + e.getX() + ", " + e.getY());
-		/*if (model instanceof Menu) {
-			Menu meModel = (Menu) model;
-			meModel.click(e.getX(), e.getY());
-			//System.out.println(e.getX() + ", " + e.getY());
-		}*/
+
 	}
 	
 	public void mousePressed(MouseEvent e) {

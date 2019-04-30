@@ -1,8 +1,12 @@
-
+/**
+ * If bird hits gust, should speed up migration
+ * @author Wenki
+ *
+ */
 public class Gust extends Moveable{
 
 	Gust(int xP, int yP) {
-		super(xP, yP, 30, 5, 0);
+		super(xP, yP, 30, -5, 0);
 	}
 	
 	Gust(int xP, int yP, int r, int xV, int yV){
@@ -12,8 +16,7 @@ public class Gust extends Moveable{
 	@Override
 	void update() {
 		// TODO Auto-generated method stub
-		x -= velocity.getX();
-		y -= velocity.getY();
+		move();
 	}
 	
 	public String getImageName() {

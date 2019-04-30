@@ -16,10 +16,10 @@ public abstract class Moveable {
 	int getY() {return y;}
 	int getR() {return radius;}
 	int getRadius() {return radius;}
-	//int getXV() {return xVelocity;}
-	//int getYV() {return yVelocity;}
-	//int getXVelocity() {return xVelocity;}
-	//int getYVelocity() {return yVelocity;}
+	public void setVelocity(int x, int y){velocity.setXY(x, y);}
+	public int getXVelocity(){return velocity.getX();}
+	public int getYVelocity(){return velocity.getY();}
+	
 	public double getFacing() {
 		return velocity.getTheta();
 	}

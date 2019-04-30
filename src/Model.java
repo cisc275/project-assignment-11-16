@@ -5,6 +5,7 @@ abstract class Model {
 	int score;
 	int frameHeight;
 	int frameWidth;
+	
 	//may need timer/countdown for models
 	
 	int getScore() {return score;}
@@ -26,13 +27,5 @@ abstract class Model {
 	 * @return A Collection of every Moveable intended to be drawn by the View.
 	 */
 	abstract Collection<Moveable> getMoveables();
-	
-	/**
-	 * 
-	 * @return
-	 * @deprecated
-	 */
-	Collection<MenuObject> getMenuObjects() {
-		return new ArrayList<MenuObject>();
-	}
+
 }

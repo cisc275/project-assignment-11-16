@@ -49,6 +49,7 @@ public class VVector {
 		echoPolarToRect();
 	}
 	
+	
 	/**
 	 * Reduces to X, Y, and R to 0 while still keeping the same theta.
 	 */
@@ -67,6 +68,7 @@ public class VVector {
 			theta = Math.atan2(y, x);
 	}
 	
+
 	/**
 	 * Uses polar coordinates to update rectangular coordinates.
 	 */
