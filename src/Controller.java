@@ -14,7 +14,9 @@ public class Controller implements MouseMotionListener,MouseListener{
 		view = new View();
 		view.addControllerToMouse(this);
 			
-		startMainMenu();
+		//startMainMenu();
+		startMigrating();
+		//startBreeding();
 		
 	}
 

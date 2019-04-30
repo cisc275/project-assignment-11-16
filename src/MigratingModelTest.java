@@ -152,7 +152,7 @@ class MigratingModelTest {
 		mModel2.generateEnemy();
 		assertNotEquals(mModel, mModel2);
 		
-		mModel3.generateGusts();
+		mModel3.generateGust();
 		assertNotEquals(mModel,mModel3);
 	}
 	

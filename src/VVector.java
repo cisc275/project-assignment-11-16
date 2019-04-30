@@ -23,8 +23,9 @@ public class VVector {
 		echoPolarToRect();
 	}
 	
+	
 	/**
-	 * Reduces to 0 while still maintaining directions.
+	 * Reduces to 0 while still maintaining directions. 
 	 */
 	public void zero() {
 		this.r = 0;
@@ -38,7 +39,7 @@ public class VVector {
 			theta = Math.atan2(y, x);
 	}
 	
-	private void echoPolarToRect() {
+	public void echoPolarToRect() {
 		usedPolar = true;
 		x = r * Math.cos(theta);
 		y = r * Math.sin(theta);
