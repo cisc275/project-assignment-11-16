@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @author Prescott
+ * @deprecated
+ */
 public class Label extends MenuObject {
 	
 	public Label(int inx, int iny, int inwidth, int inheight, String intext) {

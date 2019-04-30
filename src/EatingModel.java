@@ -3,7 +3,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-class EatingModel extends Model{
+/**
+ * The first model of the game, in which the player runs around and scores points by eating food (insects).
+ * @author Prescott
+ *
+ */
+class EatingModel extends Model {
 	
 	EatingBird bird;
 	List<Food> food;
@@ -54,10 +59,10 @@ class EatingModel extends Model{
 		timeTaken++;
 		if (food.size() < maxFood)
 			spawnRandomFood();
-		bird.update();
-		for (Moveable o : food) {
-			o.update();
+		for (Food f : food) {
+			f.update(bird);
 		}
+		bird.update();
 		updateCollision();
 	}
 	
@@ -100,7 +105,9 @@ class EatingModel extends Model{
 		return m;
 	}
 	
-	@Override
+	/**
+	 * @deprecated
+	 */
 	Collection<MenuObject> getMenuObjects() {
 		List<MenuObject> jex = new ArrayList<MenuObject>();
 		jex.add(new Label(0, 0, 200, 40, this.score + "/" + this.scoreGoal));

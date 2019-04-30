@@ -1,5 +1,10 @@
 import java.lang.Math;
 
+/**
+ * The basis of every object in the game.
+ * @author Prescott
+ *
+ */
 public abstract class Moveable {
 	
 	protected int x;

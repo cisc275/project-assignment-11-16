@@ -1,4 +1,8 @@
-
+/**
+ * A vector that uses both polar and rectangular coordinates.
+ * @author pedz
+ *
+ */
 public class VVector {
 	private double x;
 	private double y;
@@ -6,6 +10,10 @@ public class VVector {
 	private double theta;
 	@SuppressWarnings("unused")
 	private boolean usedPolar;	
+	
+	public VVector() {
+		setXY(0, 0);
+	}
 	
 	public VVector(int x, int y) {
 		setXY(x, y);
@@ -73,5 +81,13 @@ public class VVector {
 			return iPart+1;
 		else
 			return iPart;
+	}
+	
+	/**
+	 * Get a random polar theta.
+	 * @return A random value uniformly distributed between 0 and 2pi.
+	 */
+	public static double randomTheta() {
+		return Math.random()*2*Math.PI;
 	}
 }

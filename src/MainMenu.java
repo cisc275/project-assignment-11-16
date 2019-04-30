@@ -1,5 +1,9 @@
 import java.util.ArrayList;
-
+/**
+ * 
+ * @author Prescott
+ * @deprecated
+ */
 public class MainMenu extends Menu {
 	public MainMenu(int w, int h, final Controller cont) {
 		menuObjects = new ArrayList<MenuObject>();
