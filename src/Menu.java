@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Collection;
-
+/**
+ * 
+ * @author Prescott
+ * @deprecated
+ */
 public abstract class Menu extends Model {
 	Collection<MenuObject> menuObjects;
 	
@@ -14,7 +18,6 @@ public abstract class Menu extends Model {
 		return new ArrayList<Moveable>();
 	}
 	
-	@Override
 	public Collection<MenuObject> getMenuObjects() {
 		return menuObjects;
 	}

@@ -2,7 +2,8 @@
 
 /**
  * A button that is NOT a component.
- *
+ * @author Prescott
+ * @deprecated
  */
 public class Button extends MenuObject {
 	Runnable func;

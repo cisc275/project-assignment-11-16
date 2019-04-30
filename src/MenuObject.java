@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @author Prescott
+ * @deprecated
+ */
 public abstract class MenuObject {
 	int x;
 	int y;

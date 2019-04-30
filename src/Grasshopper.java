@@ -1,10 +1,14 @@
-
+/**
+ * A Food that hops around periodically.
+ * @author Prescott
+ * 
+ */
 public class Grasshopper extends Food {
 	private int jumpCooldown;
 	private int jumpTimer;
 	
-	//private static final int JUMP_TRIGGER_RADIUS = 100;
-	private static final int JUMP_COOLDOWN = 35;
+	private static final int JUMP_TRIGGER_RADIUS = 120;
+	private static final int JUMP_COOLDOWN = 40;
 	private static final int JUMP_TIMER = 5;
 	private static final int JUMP_SPEED = 30;
 	
@@ -29,17 +33,17 @@ public class Grasshopper extends Food {
 	}
 	
 	@Override
-	void update() {
+	void update(EatingBird birb) {
 		if (jumpTimer > 0) {
 			jumpTimer--;
 		} else {
 			velocity.setXY(0, 0);
 			if (jumpCooldown > 0) {
 				jumpCooldown--;
-			} else { //TODO I actually want to have this trigger when the player gets close, but that would require changing a lot of things.
+			} else if (distanceTo(birb) <= JUMP_TRIGGER_RADIUS) {
 				jumpTimer = JUMP_TIMER;
 				jumpCooldown = JUMP_COOLDOWN;
-				velocity.setPolar(JUMP_SPEED, Math.random()*Math.PI*2);
+				velocity.setPolar(JUMP_SPEED, angleTo(birb) + Math.PI*(.5+Math.random()));
 			}
 		}
 		move();

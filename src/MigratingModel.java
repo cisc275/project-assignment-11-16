@@ -55,7 +55,7 @@ class MigratingModel extends Model{
 	boolean endGame() {return false;}
 	
 	Collection<Moveable> getMoveables(){
-		Collection<Moveable> m = new ArrayList<>();
+		Collection<Moveable> m = new ArrayList<Moveable>();
 		m.addAll(enemies);
 		m.add(bird);
 		m.addAll(gusts);
