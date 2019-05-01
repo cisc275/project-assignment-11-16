@@ -1,4 +1,5 @@
 /**
+ * If bird hits hawk, deduct bird hp by 10 pts
  * @author Wenki
  */
 public class Hawk extends Enemy {

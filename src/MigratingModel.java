@@ -92,14 +92,38 @@ class MigratingModel extends Model{
 		this.bird.setDestination(x, y);
 	}
 		
-	//check to make sure enemies don't overlap later
+	/**
+	 * Use random number as switch to generate sub enemies - Hawk or Plastic Bags.
+	 * If switch is on (equals to one), generate Hawk;
+	 * if switch if off (equals to zero), generate Plastic bag.
+	 * Check the y location with other enemies before generate to avoid overlap.
+	 * @author Wenki
+	 */
 	void generateEnemy() {
-		Enemy e = new Hawk(frameWidth, (int) (Math.random()*frameHeight));
+		Random r =  new Random();
+        int switchE =  r.nextInt(2);
+        int yloc = (int) (Math.random()*frameHeight); 
+        Enemy newEnemy = null;
+        for(Enemy e: enemies) { //check the exist enemies
+        	if(e.getX() == frameWidth && (yloc == e.getY() ||(yloc < e.getY() && yloc >= e.getY()-e.getR())
+        									||(yloc>e.getY() &&yloc <=e.getY()+e.getR())))
+        	{//if both at start point, and Y-location is overlapping with the area existing enemy
+        		yloc += 3*e.getRadius(); //change the y-location 
+        	}
+        }
+        if(switchE == 1){
+        	newEnemy = new Hawk(frameWidth, yloc);
+        }
+        if(switchE == 0) { 
+        	newEnemy = new Bag(frameWidth,yloc);
+        	}
 		if(powerTimer != 0) {
-			e.setVelocity(e.getXVelocity()-velocityChange, e.getYVelocity());
+			newEnemy.setVelocity(newEnemy.getXVelocity()-velocityChange, newEnemy.getYVelocity());
 		}
-		enemies.add(e);
+		enemies.add(newEnemy);
 	}
+	
+	
 	void generateGust() {
 		Gust g = new Gust(frameWidth, (int) (Math.random()*frameHeight));
 		if(powerTimer != 0) {
@@ -119,7 +143,12 @@ class MigratingModel extends Model{
 			Enemy e = enemiesIterator.next();
 			if (bird.collidesWith(e)) {
 				enemiesIterator.remove();
-				this.setScore(this.getScore() + enemyScore);
+				if(e.getImageName()=="Hawk") { /**if collide with hawk, deduct hp by 10 pts*/
+					this.setScore(this.getScore() + enemyScore); 
+				}
+				else { /**if collide with plastic bag, deduct hp by 10 pts*/
+					this.setScore(this.getScore() + (int)0.5*enemyScore);
+				}
 			} else if (e.exitsFrame(frameWidth, frameHeight)) {
 				enemiesIterator.remove();
 			}
