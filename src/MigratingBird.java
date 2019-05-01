@@ -26,12 +26,13 @@ public class MigratingBird extends Moveable {
 		move();
 	}
 	/**
-	 * Mute the destination change in X location so that the bird fly vertically
-	 * This is a FEATURE for the migrating mini game
+	 * change the destination of the bird.
+	 * 
 	 * @author Wenki
 	 */
 	void setDestination(int xPos, int yPos) {
-		//destinationX = xPos;// mute to make the bird in an fixed X position
+		//destinationX = xPos;//Mute the destination change in X location so that the bird fly vertically
+		 					// This is a FEATURE for the migrating mini-game
 		destinationY = yPos;
 	}
 	
