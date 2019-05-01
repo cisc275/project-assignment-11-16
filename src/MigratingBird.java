@@ -22,12 +22,16 @@ public class MigratingBird extends Moveable {
 
 	@Override
 	void update() {
-		velocity.setXY( 0, (int) Math.ceil((destinationY - this.y) * this.followDistanceCoefficient));
+		velocity.setXY( 0, (int) Math.ceil((destinationY - this.y) * followDistanceCoefficient));
 		move();
 	}
-	
+	/**
+	 * Mute the destination change in X location so that the bird fly vertically
+	 * This is a FEATURE for the migrating mini game
+	 * @author Wenki
+	 */
 	void setDestination(int xPos, int yPos) {
-		//destinationX = xPos;// mute to make the bird in an fixed X position //no
+		//destinationX = xPos;// mute to make the bird in an fixed X position
 		destinationY = yPos;
 	}
 	
