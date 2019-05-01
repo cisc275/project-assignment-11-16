@@ -88,6 +88,18 @@ class MigratingModel extends Model{
 		return m;
 	}
 	
+	/**
+	 * get all the moveable object except bird
+	 * use for avoid overlapping
+	 * @author Wenki
+	 */
+	Collection<Moveable> getOtherMoveables(){
+		Collection<Moveable> m = new ArrayList<Moveable>();
+		m.addAll(enemies);
+		m.addAll(gusts);
+		return m;
+	}
+	
 	void setDestination(int x, int y) {
 		this.bird.setDestination(x, y);
 	}
@@ -96,7 +108,7 @@ class MigratingModel extends Model{
 	 * Use random number as switch to generate sub enemies - Hawk or Plastic Bags.
 	 * If switch is on (equals to one), generate Hawk;
 	 * if switch if off (equals to zero), generate Plastic bag.
-	 * Check the y location with other enemies before generate to avoid overlap.
+	 * Check the y location with other enemies before generate to avoid overlap with other object.
 	 * @author Wenki
 	 */
 	void generateEnemy() {
@@ -104,11 +116,12 @@ class MigratingModel extends Model{
         int switchE =  r.nextInt(2);
         int yloc = (int) (Math.random()*frameHeight); 
         Enemy newEnemy = null;
-        for(Enemy e: enemies) { //check the exist enemies
-        	if(e.getX() == frameWidth && (yloc == e.getY() ||(yloc < e.getY() && yloc >= e.getY()-e.getR())
-        									||(yloc>e.getY() &&yloc <=e.getY()+e.getR())))
+  
+        for(Moveable m: getOtherMoveables()) { //check the exist enemies
+        	if(m.getX() == frameWidth && (yloc == m.getY() ||(yloc < m.getY() && yloc >= m.getY()-m.getR())
+        									||(yloc>m.getY() &&yloc <=m.getY()+m.getR())))
         	{//if both at start point, and Y-location is overlapping with the area existing enemy
-        		yloc += 3*e.getRadius(); //change the y-location 
+        		yloc += 3*m.getRadius(); //change the y-location 
         	}
         }
         if(switchE == 1){
@@ -116,6 +129,7 @@ class MigratingModel extends Model{
         }
         if(switchE == 0) { 
         	newEnemy = new Bag(frameWidth,yloc);
+        	removeInBagRange(yloc);
         	}
 		if(powerTimer != 0) {
 			newEnemy.setVelocity(newEnemy.getXVelocity()-velocityChange, newEnemy.getYVelocity());
@@ -132,6 +146,21 @@ class MigratingModel extends Model{
 		gusts.add(g);
 	}
 	
+	/**
+	 * Since there the bag is bouncing, if there is object in the bounce range during the generating
+	 * remove the object.
+	 * @author Wenki
+	 * @param yloc
+	 */
+	void removeInBagRange(int yloc) {
+		Iterator <Moveable> movableIterator = getOtherMoveables().iterator();
+		while(movableIterator.hasNext()) {
+			Moveable m = movableIterator.next();
+    		if(m.getX() == frameWidth && (m.getY()>= yloc || m.getY()<= yloc+120)){
+    			movableIterator.remove();
+    		}
+    		}
+	}
 
 	/**
 	 * If enemy collides with bird or exits frame, remove enemy, deduct hp
