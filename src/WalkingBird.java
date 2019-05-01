@@ -1,9 +1,13 @@
-
+/**
+ * A superclass for both EatingBird and Breeding bird, due to their shared movement.
+ * @author pedz
+ *
+ */
 public class WalkingBird extends Moveable {
 	public final int BASE_SPEED = 5;
 	int destinationX;
 	int destinationY;
-	int speed;
+	double speed;
 	
 	WalkingBird(int xP, int yP){
 		super(xP, yP, 60, 0, 0);
@@ -20,20 +24,25 @@ public class WalkingBird extends Moveable {
 	}
 
 	public void update() {
-		if (distanceTo(destinationX, destinationY) <= speed) {
-			velocity.setXY(destinationX - x, destinationY - y);
-		} else {
-			velocity.setPolar(speed, angleTo(destinationX, destinationY));
-			//double theta = angleTo(destinationX, destinationY);
-			//xVelocity = (int) Math.round(Math.cos(theta) * speed);
-			//yVelocity = (int) Math.round(Math.sin(theta) * speed);
-		}
+		faceDestination(speed);
 		move();
 	}
 	
 	public void setDestination(int tox, int toy) {
 		destinationX = tox;
 		destinationY = toy;
+	}
+	
+	public void faceDestination(double speed) {
+		if (distanceTo(destinationX, destinationY) <= speed) {
+			velocity.setXY(destinationX - x, destinationY - y);
+		} else {
+			velocity.setPolar(speed, angleTo(destinationX, destinationY));
+		}
+	}
+	
+	public void faceDestination() {
+		faceDestination(speed);
 	}
 	
 	public String getImageName() {

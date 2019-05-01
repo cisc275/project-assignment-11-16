@@ -34,7 +34,7 @@ class MigratingModelTest {
 	@Test
 	void getMoveables() {
 		MigratingModel mModel = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
-		Collection<Moveable> c1 = new ArrayList<>();
+		Collection<Moveable> c1 = new ArrayList<Moveable>();
 		Collection<Moveable> c2 = mModel.getMoveables();
 		assertEquals(c1.size(), c2.size());
 		assertEquals(c1, c2);
@@ -152,7 +152,7 @@ class MigratingModelTest {
 		mModel2.generateEnemy();
 		assertNotEquals(mModel, mModel2);
 		
-		mModel3.generateGusts();
+		mModel3.generateGust();
 		assertNotEquals(mModel,mModel3);
 	}
 	
