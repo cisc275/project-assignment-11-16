@@ -37,7 +37,7 @@ class View extends JPanel {
 	int cameraOffX = 0;
 	int cameraOffY = 0;
 	
-	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-20);
+	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-40);
 	JPanel subpanel;
 	JButton migrateButton;
 	JButton stayButton;
@@ -71,8 +71,11 @@ class View extends JPanel {
 		frame.setTitle("Killdeer Simulator");
 		frame.setSize(frameWidth, frameHeight);
 		
-		migrateButton = new JButton("MIGRATE"); 
-		stayButton = new JButton("STAY"); 
+
+		ImageIcon migrateIcon = new ImageIcon("src/images/bird.png");
+		ImageIcon  stayIcon = new ImageIcon("src/images/bird.png");
+		migrateButton = new JButton("MIGRATE", migrateIcon); 
+		stayButton = new JButton("STAY", stayIcon); 
 		migrateButton.addActionListener(someactionevent -> {removeMenu(); migrate = true; endMenu = true;});
 		stayButton.addActionListener(someactionevent -> {removeMenu(); endMenu = true;});
 		migrateButton.setPreferredSize(buttonSize);

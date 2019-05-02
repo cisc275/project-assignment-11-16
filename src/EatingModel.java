@@ -116,4 +116,30 @@ class EatingModel extends Model {
 	public int getBirdY() {
 		return bird.getY();
 	}
+
+	@Override
+	void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick) {
+		this.setDestination(actualX, actualY);
+	}
+
+	@Override
+	void mouseReleased() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void mouseDragged(int mouseX, int mouseY, int actualX, int actualY) {
+		this.setDestination(actualX, actualY);
+		
+	}
+
+	@Override
+	void mouseMoved(int mouseX, int mouseY) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	
 }
