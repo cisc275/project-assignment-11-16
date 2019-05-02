@@ -219,7 +219,31 @@ class MigratingModel extends Model{
 			enemy.setVelocity(enemy.getXVelocity()+velocity, enemy.getYVelocity());
 		}
 	}
-	
+
+	@Override
+	void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void mouseReleased() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void mouseDragged(int mouseX, int mouseY, int actualX, int actualY) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void mouseMoved(int mouseX, int mouseY) {
+		this.setDestination(mouseX, mouseY);	
+	}
+
+
 	
 	
 	

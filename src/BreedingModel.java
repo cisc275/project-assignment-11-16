@@ -1,3 +1,5 @@
+
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -116,6 +118,33 @@ class BreedingModel extends Model {
 	void stopBrokenWing() {
 		this.bird.brokenWing = false;
 	}
+
+	@Override
+	void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick) {
+		if (leftClick == true) {
+			this.setDestination(mouseX, mouseY);
+		}else if(rightClick == true) {
+			this.startBrokenWing();
+		}
+	}
+
+	@Override
+	void mouseReleased() {
+		this.stopBrokenWing();
+		
+	}
+
+	@Override
+	void mouseDragged(int mouseX, int mouseY, int actualX, int actualY) {
+		this.setDestination(mouseX, mouseY);
+	}
+
+	@Override
+	void mouseMoved(int mouseX, int mouseY) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	
 }

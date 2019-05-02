@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Collection;
 
 abstract class Model {
@@ -27,5 +26,17 @@ abstract class Model {
 	 * @return A Collection of every Moveable intended to be drawn by the View.
 	 */
 	abstract Collection<Moveable> getMoveables();
+	
+	/**
+	 * @param actualX @param actualY for the moving camera
+	 * @author Anna
+	 */
+	abstract void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick);
+	
+	abstract void mouseReleased();
+	
+	abstract void mouseDragged(int mouseX, int mouseY, int actualX, int actualY);
+	
+	abstract void mouseMoved(int mouseX, int mouseY);
 
 }

@@ -15,8 +15,9 @@ public class Controller implements MouseMotionListener, MouseListener {
 		view.addControllerToMouse(this);
 			
 		//startMainMenu();
-		startMigrating();
-		//startBreeding();
+		//startEating();
+		//startMigrating();
+		startBreeding();
 
 	}
 
@@ -59,6 +60,7 @@ public class Controller implements MouseMotionListener, MouseListener {
 	
 	/**
 	 * handles ticking: update model, update view 
+	 * note to get rid of instance of later
 	 */
 	public void start() {
 		while (true) {
@@ -89,30 +91,15 @@ public class Controller implements MouseMotionListener, MouseListener {
 
 	}
 	
+	//mouse press and released in each of the sub models 
 	public void mousePressed(MouseEvent e) {
-		if (model instanceof EatingModel) {
-			EatingModel eModel = (EatingModel) model;
-			eModel.setDestination(view.actualX(e.getX()), view.actualY(e.getY()));
-			//System.out.println(e.getX() + ", " + e.getY());
-		} else if (model instanceof BreedingModel) {
-			BreedingModel bModel = (BreedingModel) model;
-			if (e.getButton() == MouseEvent.BUTTON1) {
-				//if left click, move
-				bModel.setDestination(e.getX(), e.getY());
-			}
-			else if (e.getButton() == MouseEvent.BUTTON3) {
-				// if right click, show broken wing
-				bModel.startBrokenWing();
-			}
-		}
+		boolean rightClick = (e.getButton() == MouseEvent.BUTTON3);
+		boolean leftClick = (e.getButton() == MouseEvent.BUTTON1);
+		model.mousePressed(e.getX(), e.getY(), view.actualX(e.getX()), view.actualY(e.getY()), leftClick, rightClick);
 	}
 	
 	public void mouseReleased(MouseEvent e) {
-		if (model instanceof BreedingModel) {
-			BreedingModel bModel = (BreedingModel) model;
-			bModel.stopBrokenWing();
-			//should reset the bird
-		}
+		model.mouseReleased();
 	}
 	
 	public void mouseEntered(MouseEvent e) {
@@ -124,19 +111,10 @@ public class Controller implements MouseMotionListener, MouseListener {
 	}
 	
 	public void mouseDragged(MouseEvent e) {
-		if (model instanceof EatingModel) {
-			EatingModel eModel = (EatingModel) model;
-			eModel.setDestination(view.actualX(e.getX()), view.actualY(e.getY()));
-		} else if (model instanceof BreedingModel) {
-			BreedingModel bModel = (BreedingModel) model;
-			bModel.setDestination(e.getX(), e.getY());
-		}
+		model.mouseDragged(e.getX(), e.getY(), view.actualX(e.getX()), view.actualY(e.getY()));
 	}
 	
 	public void mouseMoved(MouseEvent e) {
-		if (model instanceof MigratingModel) {
-			MigratingModel mModel = (MigratingModel) model;
-			mModel.setDestination(e.getX(), e.getY());
-		}
+			model.mouseMoved(e.getX(), e.getY());
 	}
 }
