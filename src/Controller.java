@@ -31,6 +31,10 @@ public class Controller implements MouseMotionListener, MouseListener {
 		model = new EatingModel(view.getFrameWidth(), view.getFrameHeight());
 	}
 	
+	public void startEatingTutorial() {
+		model = new EatingTutorial(view.getFrameWidth(), view.getFrameHeight());
+	}
+	
 	public void startMigrating() {
 		model = new MigratingModel(view.getFrameWidth(), view.getFrameHeight());
 	}
