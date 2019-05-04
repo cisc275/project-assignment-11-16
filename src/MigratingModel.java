@@ -6,7 +6,6 @@ class MigratingModel extends Model{
 	MigratingBird bird;
 	List<Enemy> enemies;
 	List<Gust> gusts;
-	MapBird littleBird;
 	
 	private static int enemyScore = -10; 
 	private static int gustScore = 20;
@@ -28,7 +27,6 @@ class MigratingModel extends Model{
 		frameHeight = h;
 		frameWidth = w;
 		bird = new MigratingBird(frameWidth/2, frameHeight/2); //bird is still
-		littleBird = new MapBird(frameWidth-100,frameHeight-100);
 		enemies = new ArrayList<Enemy>();
 		enemies.add(new Hawk(frameWidth, 400));
 		gusts = new ArrayList<Gust>();
@@ -50,7 +48,6 @@ class MigratingModel extends Model{
 	 */
 	void update() {
 		bird.update();
-		littleBird.update();
 		while(enemies.size() < maxEnemies) {
 			generateEnemy();
 		}
@@ -86,7 +83,6 @@ class MigratingModel extends Model{
 		Collection<Moveable> m = new ArrayList<Moveable>();
 		m.addAll(enemies);
 		m.add(bird);
-		m.add(littleBird);
 		m.addAll(gusts);
 		return m;
 	}
@@ -107,9 +103,7 @@ class MigratingModel extends Model{
 		this.bird.setDestination(x, y);
 	}
 		
-	void setLittleBirdDestination() {
-		this.littleBird.setDestination(frameWidth, frameHeight);
-	}
+
 	/**
 	 * Use random number as switch to generate sub enemies - Hawk or Plastic Bags.
 	 * If switch is on (equals to one), generate Hawk;
