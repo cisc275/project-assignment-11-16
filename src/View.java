@@ -86,6 +86,7 @@ class View extends JPanel {
 		frame.getContentPane().add(this);
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		Insets insets = frame.getInsets();
+		//set the frame size to fit the panel
 		frame.setSize(frameWidth + insets.left + insets.right, frameHeight + insets.top + insets.bottom);
 		System.out.println( insets.left+ "+"+ insets.right+ "+" +insets.top+ "+" +insets.bottom);
 		//this.setSize(frameWidth,frameHeight-insets.top); 
@@ -133,7 +134,7 @@ class View extends JPanel {
 			}
 		}
 		
-		 g.drawRect (frameWidth-200,frameHeight-200, 200, 200);  
+//		 g.drawRect (frameWidth-200,frameHeight-200, 200, 200);  
 
 	}
 	
