@@ -15,8 +15,8 @@ public class Controller implements MouseMotionListener, MouseListener {
 		view.addControllerToMouse(this);
 			
 		//startMainMenu();
-		//startEating();
-		startMigrating();
+		startEating();
+		//startMigrating();
 		//startBreeding();
 
 	}
@@ -36,7 +36,7 @@ public class Controller implements MouseMotionListener, MouseListener {
 	}
 	
 	public void startMigrating() {
-		model = new MigratingModel(view.getFrameWidth(), view.getFrameHeight());
+		model = new MigratingModel(view.getFrameWidth(), view.getFrameHeight(),view.migrate);
 	}
 	
 	public void startBreeding() {
