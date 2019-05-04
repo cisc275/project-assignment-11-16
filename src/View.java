@@ -69,8 +69,10 @@ class View extends JPanel {
 		//frame.setBackground(Color.gray);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Killdeer Simulator");
-		frame.setSize(frameWidth, frameHeight);
+	
 		
+		//frame.setSize(frameWidth,frameHeight);
+		//frame.getContentPane().setPreferredSize(windowSize);
 
 		ImageIcon migrateIcon = new ImageIcon("src/images/bird.png");
 		ImageIcon  stayIcon = new ImageIcon("src/images/bird.png");
@@ -83,10 +85,13 @@ class View extends JPanel {
 
 		frame.getContentPane().add(this);
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
-			 	
-		frame.setSize(windowSize);
+		Insets insets = frame.getInsets();
+		frame.setSize(frameWidth + insets.left + insets.right, frameHeight + insets.top + insets.bottom);
+		System.out.println( insets.left+ "+"+ insets.right+ "+" +insets.top+ "+" +insets.bottom);
+		//this.setSize(frameWidth,frameHeight-insets.top); 
+		//frame.setSize(windowSize);
 		//frame.setMinimumSize(windowSize);
-		frame.setMaximumSize(windowSize);
+		//frame.setMaximumSize(windowSize);
 		this.setFocusable(true);
 	}
 	
@@ -127,6 +132,8 @@ class View extends JPanel {
 				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
 			}
 		}
+		
+		 g.drawRect (frameWidth-200,frameHeight-200, 200, 200);  
 
 	}
 	

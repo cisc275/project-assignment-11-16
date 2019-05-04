@@ -16,8 +16,8 @@ public class Controller implements MouseMotionListener, MouseListener {
 			
 		//startMainMenu();
 		//startEating();
-		//startMigrating();
-		startBreeding();
+		startMigrating();
+		//startBreeding();
 
 	}
 

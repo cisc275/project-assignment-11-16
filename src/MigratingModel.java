@@ -48,7 +48,6 @@ class MigratingModel extends Model{
 	 */
 	void update() {
 		bird.update();
-		
 		while(enemies.size() < maxEnemies) {
 			generateEnemy();
 		}
@@ -104,6 +103,7 @@ class MigratingModel extends Model{
 		this.bird.setDestination(x, y);
 	}
 		
+
 	/**
 	 * Use random number as switch to generate sub enemies - Hawk or Plastic Bags.
 	 * If switch is on (equals to one), generate Hawk;
