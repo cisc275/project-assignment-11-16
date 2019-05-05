@@ -13,8 +13,8 @@ public class MigratingHUD implements HUD, ImageObserver {
 	static int frameWidth = 1080;
 	static int frameHeight = 720;//1080;
 	
-	BufferedImage map = View.createImage("images/migrateMinimap.png");;
-	BufferedImage mapBird = View.createImage("images/mapBird.png");
+	BufferedImage map = View.createImage("src/images/migrateMinimap.png");;
+	BufferedImage mapBird = View.createImage("src/images/mapBird.png");
 	int destinationX = frameWidth - map.getWidth()/3;
 	int destinationY = frameHeight - map.getHeight()/3;
 	int initialX = frameWidth - map.getWidth()*2/3;
