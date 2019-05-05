@@ -22,6 +22,8 @@ class View extends JPanel {
 	BufferedImage bird;
 	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "grasshopper", "hawk", "raccoon", "pointerarea"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
+	HUD hud;
+	int[] hudargs;
 	/**
 	 * Contains all of the actual images.
 	 * images.get("Moveable.getImageName()")[direction][cycle num] 
@@ -103,6 +105,10 @@ class View extends JPanel {
 		}
 	}
 	
+	public void setHUD(HUD inhud) {
+		hud = inhud;
+	}
+	
 	/**
 	 * called from outside (Controller) to add/show buttons at start
 	 */
@@ -133,13 +139,13 @@ class View extends JPanel {
 				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
 			}
 		}
-		
-//		 g.drawRect (frameWidth-200,frameHeight-200, 200, 200);  
-
+		if (hud != null)
+			hud.paint(g, hudargs);
 	}
 	
-	void update(Collection<Moveable> moveables) {
+	void update(Collection<Moveable> moveables, int[] hudargs) {
 		this.moveables = moveables;
+		this.hudargs = hudargs;
 		frame.repaint();
 	}
 	
@@ -161,7 +167,7 @@ class View extends JPanel {
 		return clicky + cameraOffY;
 	}
 	
-	private BufferedImage createImage(String sauce) {
+	public static BufferedImage createImage(String sauce) {
 		BufferedImage bufferedImage;
 		try {
 			bufferedImage = ImageIO.read(new File(sauce));

@@ -53,5 +53,11 @@ public class Menu extends Model {
 		
 	}
 
+	@Override
+	int[] getHUDargs() {
+		int[] toret = {};
+		return toret;
+	}
+
 
 }

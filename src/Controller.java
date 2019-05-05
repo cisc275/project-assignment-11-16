@@ -13,37 +13,42 @@ public class Controller implements MouseMotionListener, MouseListener {
 	public Controller(){
 		view = new View();
 		view.addControllerToMouse(this);
-			
+		
 		//startMainMenu();
 		startEating();
 		//startMigrating();
 		//startBreeding();
-
+		
 	}
 
 	//change to build differently depending on boolean migrate in View
 	public void startMainMenu() {
 		model = new Menu(view.getFrameWidth(), view.getFrameHeight());
+		view.setHUD(null);
 		view.buildMenu();
 	}
 	
 	public void startEating() {
 		model = new EatingModel(view.getFrameWidth(), view.getFrameHeight());
+		view.setHUD(new EatingHUD(view.getFrameWidth(), view.getFrameHeight()));
 	}
 	
 	public void startEatingTutorial() {
 		model = new EatingTutorial(view.getFrameWidth(), view.getFrameHeight());
+		view.setHUD(null);
 	}
 	
 	public void startMigrating() {
 		model = new MigratingModel(view.getFrameWidth(), view.getFrameHeight(),view.migrate);
+		view.setHUD(new MigratingHUD(view.getFrameWidth(), view.getFrameHeight()));
 	}
 	
 	public void startBreeding() {
 		model = new BreedingModel(view.getFrameWidth(), view.getFrameHeight());
+		view.setHUD(new BreedingHUD(view.getFrameWidth(), view.getFrameHeight()));
 	}
-
-
+	
+	
 	/**
 	 * for testing
 	 * @return
@@ -80,7 +85,7 @@ public class Controller implements MouseMotionListener, MouseListener {
 				view.resetCamera();
 			}
 			
-			view.update(model.getMoveables());
+			view.update(model.getMoveables(), model.getHUDargs());
 			model.update();
 			
 			try {

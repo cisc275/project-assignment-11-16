@@ -18,6 +18,7 @@ class MigratingModel extends Model{
 	private int powerTimer = 0;
 	
 	private int distance;
+	private boolean isMigrating;
 	private int migrateDistance = 500;
 	private int stayDistance = 300;
 	
@@ -35,10 +36,10 @@ class MigratingModel extends Model{
 		enemies.add(new Hawk(frameWidth, 400));
 		gusts = new ArrayList<Gust>();
 		gusts.add(new Gust(frameWidth-100,150));
+		isMigrating = isMigrate;
 		if(isMigrate) {
 			distance =  migrateDistance;
-		}
-		else {
+		} else {
 			distance = stayDistance;
 		}
 	}
@@ -256,6 +257,16 @@ class MigratingModel extends Model{
 	@Override
 	void mouseMoved(int mouseX, int mouseY) {
 		this.setDestination(mouseX, mouseY);	
+	}
+
+	@Override
+	int[] getHUDargs() {
+		int[] toret = {
+				isMigrating ? 1 : 0,
+				distance,
+				isMigrating ? migrateDistance : stayDistance
+		};
+		return toret;
 	}
 
 

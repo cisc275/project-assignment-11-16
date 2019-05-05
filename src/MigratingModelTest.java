@@ -19,7 +19,7 @@ class MigratingModelTest {
 	void constructor() {
 		enemies.add(new Hawk(frameWidth-50, 150));
 		MigratingModel m1 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts);
-		MigratingModel m2 = new MigratingModel(frameWidth, frameHeight,true);
+		MigratingModel m2 = new MigratingModel(frameWidth, frameHeight, true);
 		
 		//should be true. Possible that failed due to they are different object w/ same properties
 		assertEquals(m2,m1);
