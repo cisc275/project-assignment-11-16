@@ -22,6 +22,7 @@ class MigratingModel extends Model{
 	private int migrateDistance = 500;
 	private int stayDistance = 300;
 	
+	Hawk h = new Hawk(frameWidth, 400);
 	/**
 	 * pass frame height/width from view to create models
 	 * @param w
@@ -36,6 +37,11 @@ class MigratingModel extends Model{
 		gusts = new ArrayList<Gust>();
 		gusts.add(new Gust(frameWidth-100,150));
 		isMigrating = isMigrate;
+		if(isMigrate) {
+			distance =  migrateDistance;
+		} else {
+			distance = stayDistance;
+		}
 	}
 	
 	//for testing ease
@@ -73,6 +79,8 @@ class MigratingModel extends Model{
 			o.update();
 		}
 		updateCollision(); 
+		distance += h.getXVelocity();
+		System.out.println(distance);
 	}
 	void updateCollision() {
 		updateEnemyCollision();
@@ -82,7 +90,9 @@ class MigratingModel extends Model{
 	/**
 	 * TO-DO: if overall timer ends? or if traveled certain distance, end game
 	 */
-	boolean endGame() {return false;}
+	boolean endGame() {
+		return distance <= 0;
+	}
 	
 	Collection<Moveable> getMoveables(){
 		Collection<Moveable> m = new ArrayList<Moveable>();
@@ -204,6 +214,7 @@ class MigratingModel extends Model{
 				if(powerOn == false) {
 					powerOn = true;
 					accelerateMoveables(-velocityChange);
+					distance -= velocityChange*powerTimer;
 				}
 				this.setScore(this.getScore() + gustScore);	
 			}else if(g.exitsFrame(frameWidth, frameHeight)) {
