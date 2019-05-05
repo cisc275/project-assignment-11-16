@@ -27,6 +27,8 @@ abstract class Model {
 	 */
 	abstract Collection<Moveable> getMoveables();
 	
+	abstract int[] getHUDargs();
+	
 	/**
 	 * @param actualX @param actualY for the moving camera
 	 * @author Anna
@@ -38,5 +40,5 @@ abstract class Model {
 	abstract void mouseDragged(int mouseX, int mouseY, int actualX, int actualY);
 	
 	abstract void mouseMoved(int mouseX, int mouseY);
-
+	
 }

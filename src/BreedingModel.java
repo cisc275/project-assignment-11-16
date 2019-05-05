@@ -145,6 +145,13 @@ class BreedingModel extends Model {
 		
 	}
 
-
+	@Override
+	int[] getHUDargs() {
+		int[] toret = {
+				0,
+				0
+		};
+		return toret;
+	}
 	
 }

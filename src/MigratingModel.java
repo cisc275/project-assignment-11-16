@@ -17,13 +17,17 @@ class MigratingModel extends Model{
 	boolean powerOn = false;
 	private int powerTimer = 0;
 	
+	private int distance;
+	private boolean isMigrating;
+	private int migrateDistance = 500;
+	private int stayDistance = 300;
 	
 	/**
 	 * pass frame height/width from view to create models
 	 * @param w
 	 * @param h
 	 */
-	MigratingModel(int w, int h){
+	MigratingModel(int w, int h,boolean isMigrate){
 		frameHeight = h;
 		frameWidth = w;
 		bird = new MigratingBird(frameWidth/2, frameHeight/2); //bird is still
@@ -31,6 +35,7 @@ class MigratingModel extends Model{
 		enemies.add(new Hawk(frameWidth, 400));
 		gusts = new ArrayList<Gust>();
 		gusts.add(new Gust(frameWidth-100,150));
+		isMigrating = isMigrate;
 	}
 	
 	//for testing ease
@@ -241,6 +246,16 @@ class MigratingModel extends Model{
 	@Override
 	void mouseMoved(int mouseX, int mouseY) {
 		this.setDestination(mouseX, mouseY);	
+	}
+
+	@Override
+	int[] getHUDargs() {
+		int[] toret = {
+				isMigrating ? 1 : 0,
+				distance,
+				isMigrating ? migrateDistance : stayDistance
+		};
+		return toret;
 	}
 
 
