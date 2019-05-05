@@ -140,6 +140,12 @@ class EatingModel extends Model {
 		
 	}
 
+	@Override
+	int[] getHUDargs() {
+		int[] toret = {score, scoreGoal, timeTaken, timeLimit};
+		return toret;
+	}
+
 
 	
 }
