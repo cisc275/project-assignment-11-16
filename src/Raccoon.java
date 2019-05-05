@@ -8,7 +8,7 @@ public class Raccoon extends Predator {
 	
 	Raccoon(int xP, int yP, int r, int xV, int yV) {
 		super(xP, yP, r, xV, yV);
-		speed = 10;
+		speed = 5;
 	}
 
 	public String getImageName() {

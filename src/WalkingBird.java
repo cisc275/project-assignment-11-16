@@ -22,6 +22,13 @@ public class WalkingBird extends Moveable {
 		destinationY = yP;
 		speed = BASE_SPEED;
 	}
+	
+	WalkingBird(int xP, int yP, int r, int xV, int yV, double s){
+		super(xP, yP, r, xV, yV);
+		destinationX = xP;
+		destinationY = yP;
+		speed = s;
+	}
 
 	public void update() {
 		faceDestination(speed);

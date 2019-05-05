@@ -14,6 +14,10 @@ public class BreedingBird extends WalkingBird {
 		super(xP, yP, r, xV, yV);
 	}
 	
+	BreedingBird(int xP, int yP, int r, int xV, int yV, double s){
+		super(xP, yP, r, xV, yV, s);
+	}
+	
 	public void update() {
 		if (brokenWing) {
 			velocity.zero();

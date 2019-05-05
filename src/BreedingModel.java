@@ -10,16 +10,20 @@ class BreedingModel extends Model {
 	//List<Predator> predators;
 	Predator p;
 	Nest nest;
+	boolean quizTime = false;
+	int distractCountdown = 50;
+	int randX = (int) (Math.random()*frameHeight); //random isn't working like id like
+	int randY = (int) (Math.random()*frameWidth);
 	
 	//pass frame height/width from view to create models
 	BreedingModel(int w, int h){
 		frameHeight = w;
 		frameWidth = h;
-		bird = new BreedingBird(130, 130, 30, 0, 0);
+		bird = new BreedingBird(400, 400, 30, 0, 0, 8);
 		//predators = new ArrayList<Predator>();
 		//predators.add(new Raccoon(40, 40, 10, 5, 0));
-		p = new Raccoon(600, 600, 35, 1, 0);
-		nest = new Nest(400,400,50);
+		p = new Raccoon(300, 800, 35, 0, 0);
+		nest = new Nest(frameHeight/2,frameWidth/2,50);
 	}
 	
 	//for testing 
@@ -50,8 +54,9 @@ class BreedingModel extends Model {
 		 */
 		if (this.bird.getBrokenWing() == true) {
 			//p.velocity.setPolar(p.velocity.getR(), -(p.velocity.getTheta()));
-			p.updateBirdLoc(xB, yB);;
-			System.out.println("wing is broken");
+			p.updateBirdLoc(xB, yB);
+			distractCountdown--;
+			System.out.println(distractCountdown);
 		}
 		else p.updateBirdLoc(nest.x, nest.y);
 		//predator goes towards nest
@@ -63,6 +68,7 @@ class BreedingModel extends Model {
 			p.update();
 			this.updateBird(this.bird.getX(), this.bird.getY());
 			updateCollision();
+			despawnPredators();
 		
 	}
 	
@@ -72,6 +78,7 @@ class BreedingModel extends Model {
 		}
 		if (p.collidesWith(nest)) {
 			nest.numEggs -= 1;
+			byeByePredator();
 	}
 	}
 	boolean endGame() {
@@ -95,16 +102,32 @@ class BreedingModel extends Model {
 	 * @return
 	 */
 	boolean isQuizTime() {
-		return false;
+		return quizTime;
 	}
 	
 	void generatePredators() {
 		
 	}
 	
+	/* should make the predator run off the screen to the left, but uhhh
+	 * @author Zach */
+	void byeByePredator() {
+		//int randX = (int) (Math.random()*frameHeight);
+		int randYY = (int) (Math.random()*frameWidth);
+		p.updateBirdLoc(-100, randYY);
+	}
+	
 	void despawnPredators() {
 		//predators in the view should run away
-		
+		if (distractCountdown < 0) {
+			byeByePredator();
+		}
+		if (p.exitsFrame(frameWidth, frameHeight)) {
+			p = new Raccoon (randX, randY, 35, 0, 0);
+			quizTime = true;
+			distractCountdown = 200;
+		}
+	
 		
 	}
 	
