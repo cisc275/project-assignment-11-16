@@ -20,8 +20,8 @@ class MigratingModel extends Model{
 	private int distance = 0; //how far bird has travelled
 	private int maxDistance;  //how much it needs to travel varies on migrate or not. 
 	private boolean isMigrating;
-	private int migrateDistance = 10000;
-	private int stayDistance = 5000;
+	private int migrateDistance = 5000;
+	private int stayDistance = 2000;
 	
 	private int birdVelocity = 10; 
 	

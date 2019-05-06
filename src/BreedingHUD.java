@@ -15,7 +15,7 @@ public class BreedingHUD implements HUD {
 	@Override
 	public HUD nextHUD(int fw, int fh) {
 		// TODO Auto-generated method stub
-		return null;
+		return new MenuHUD(fw,fh);
 	}
 
 }

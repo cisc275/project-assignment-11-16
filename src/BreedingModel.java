@@ -78,6 +78,7 @@ class BreedingModel extends Model {
 		}
 		if (p.collidesWith(nest)) {
 			nest.numEggs -= 1;
+			System.out.println("bird collided with n");
 			byeByePredator();
 	}
 	}
@@ -179,7 +180,7 @@ class BreedingModel extends Model {
 	
 	@Override
 	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
-			return null;
+			return new Menu(frameWidth, frameHeight);
 	}
 	
 }
