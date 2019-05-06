@@ -4,6 +4,7 @@ abstract class Model {
 	int score;
 	int frameHeight;
 	int frameWidth;
+	boolean endGame = false;
 	
 	//may need timer/countdown for models
 	
@@ -40,5 +41,7 @@ abstract class Model {
 	abstract void mouseDragged(int mouseX, int mouseY, int actualX, int actualY);
 	
 	abstract void mouseMoved(int mouseX, int mouseY);
+	abstract Model nextModel(int frameWidth, int frameHeight, boolean isMigrating);
+
 	
 }

@@ -26,7 +26,7 @@ class EatingModel extends Model {
 	 * @param h
 	 */
 	EatingModel(int w, int h) {
-		timeLimit = 600;
+		timeLimit = 200; //600;
 		timeTaken = 0;
 		frameHeight = w;
 		frameWidth = h;
@@ -146,6 +146,11 @@ class EatingModel extends Model {
 		return toret;
 	}
 
+	@Override
+	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
+			return new MigratingModel(frameWidth, frameHeight, isMigrating);
+	}
 
-	
+
+		
 }

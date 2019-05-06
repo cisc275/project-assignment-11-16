@@ -20,11 +20,6 @@ public class Menu extends Model {
 	}
 
 	@Override
-	boolean endGame() {
-		return false;
-	}
-
-	@Override
 	Collection<Moveable> getMoveables() {
 		return emptyList;
 	}
@@ -52,11 +47,20 @@ public class Menu extends Model {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public boolean endGame() {
+		return false;
+	}
 
 	@Override
 	int[] getHUDargs() {
 		int[] toret = {};
 		return toret;
+	}
+	
+	@Override
+	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
+			return new EatingModel(frameWidth, frameHeight);
 	}
 
 
