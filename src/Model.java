@@ -4,7 +4,6 @@ abstract class Model {
 	int score;
 	int frameHeight;
 	int frameWidth;
-	boolean endGame = false;
 	
 	//may need timer/countdown for models
 	
