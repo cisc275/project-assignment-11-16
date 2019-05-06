@@ -69,5 +69,9 @@ public class MigratingHUD implements HUD, ImageObserver {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	public HUD nextHUD(int fw, int fh) {
+		return new BreedingHUD(fw, fh);
+	}
 
 }

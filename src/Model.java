@@ -40,5 +40,7 @@ abstract class Model {
 	abstract void mouseDragged(int mouseX, int mouseY, int actualX, int actualY);
 	
 	abstract void mouseMoved(int mouseX, int mouseY);
+	abstract Model nextModel(int frameWidth, int frameHeight, boolean isMigrating);
+
 	
 }

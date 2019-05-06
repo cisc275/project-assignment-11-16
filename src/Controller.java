@@ -14,9 +14,9 @@ public class Controller implements MouseMotionListener, MouseListener {
 		view = new View();
 		view.addControllerToMouse(this);
 		
-		//startMainMenu();
+		startMainMenu();
 		//startEating();
-		startMigrating();
+		//startMigrating();
 		//startBreeding();
 		
 	}
@@ -24,10 +24,10 @@ public class Controller implements MouseMotionListener, MouseListener {
 	//change to build differently depending on boolean migrate in View
 	public void startMainMenu() {
 		model = new Menu(view.getFrameWidth(), view.getFrameHeight());
-		view.setHUD(null);
+		view.hud = new MenuHUD(view.getFrameWidth(), view.getFrameHeight());
 		view.buildMenu();
 	}
-	
+/*	
 	public void startEating() {
 		model = new EatingModel(view.getFrameWidth(), view.getFrameHeight());
 		view.setHUD(new EatingHUD(view.getFrameWidth(), view.getFrameHeight()));
@@ -47,7 +47,7 @@ public class Controller implements MouseMotionListener, MouseListener {
 		model = new BreedingModel(view.getFrameWidth(), view.getFrameHeight());
 		view.setHUD(new BreedingHUD(view.getFrameWidth(), view.getFrameHeight()));
 	}
-	
+	*/
 	
 	/**
 	 * for testing
@@ -73,9 +73,11 @@ public class Controller implements MouseMotionListener, MouseListener {
 	 */
 	public void start() {
 		while (true) {
-			
-			if(model instanceof Menu && view.endMenu == true) {
-				startEating();
+
+			if(model.endGame() == true || view.endMenu == true && model.endGame() == false) {
+				view.endMenu = false;
+				model = model.nextModel(view.getFrameWidth(), view.getFrameHeight(), view.migrate);
+				view.hud = view.hud.nextHUD(view.getFrameWidth(), view.getFrameHeight());
 			}
 
 			if (model instanceof EatingModel) {

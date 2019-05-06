@@ -275,6 +275,10 @@ class MigratingModel extends Model{
 		return toret;
 	}
 
+	@Override
+	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
+			return new BreedingModel(frameWidth, frameHeight);
+	}
 
 	
 	
