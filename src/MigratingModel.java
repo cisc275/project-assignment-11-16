@@ -17,10 +17,10 @@ class MigratingModel extends Model{
 	boolean powerOn = false;
 	private int powerTimer = 0;
 	
-	private int distance;
+	private int distance = 0;
 	private boolean isMigrating;
-	private int migrateDistance = 500;
-	private int stayDistance = 300;
+	private int migrateDistance = 3000;
+	private int stayDistance = 2000;
 	
 	Hawk h = new Hawk(frameWidth, 400);
 	/**
@@ -37,11 +37,11 @@ class MigratingModel extends Model{
 		gusts = new ArrayList<Gust>();
 		gusts.add(new Gust(frameWidth-100,150));
 		isMigrating = isMigrate;
-		if(isMigrate) {
-			distance =  migrateDistance;
-		} else {
-			distance = stayDistance;
-		}
+//		if(isMigrate) {
+//			distance =  migrateDistance;
+//		} else {
+//			distance = stayDistance;
+//		}
 	}
 	
 	//for testing ease
@@ -79,8 +79,8 @@ class MigratingModel extends Model{
 			o.update();
 		}
 		updateCollision(); 
-		distance += h.getXVelocity();
-		System.out.println(distance);
+		distance -= h.getXVelocity();
+		//System.out.println(distance);
 	}
 	void updateCollision() {
 		updateEnemyCollision();
