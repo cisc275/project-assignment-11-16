@@ -4,17 +4,17 @@
  *
  */
 public class Bag extends Enemy{
-
+	static int RADIUS = 30;
 
 	int velocityDuration = 30;
 	int velocityTimer = velocityDuration;
 	int accelDuration = (int)velocityDuration/10;
 
 	Bag(int xP, int yP) {
-		super(xP, yP, 30, -5, 1);
+		super(xP, yP, RADIUS, -5, 1);
 	}
 	Bag(int xP, int yP, int velocity) {
-		super(xP, yP, 30, velocity, 2);
+		super(xP, yP, RADIUS, velocity, 2);
 	}
 	Bag(int xP, int yP, int r, int xV, int yV) {
 		super(xP, yP, r, xV, yV);
@@ -29,7 +29,7 @@ public class Bag extends Enemy{
 		if(velocityTimer == 0) {
 			velocity.setXY(velocity.getX(), -velocity.getY());
 			velocityTimer = velocityDuration;	
-		}else if(velocityTimer <= accelDuration || velocityTimer > (velocityDuration-accelDuration)) {
+		} else if(velocityTimer <= accelDuration || velocityTimer > (velocityDuration-accelDuration)) {
 			velocity.setXY(velocity.getX(), velocity.getY()+1);
 			velocityTimer--;
 		}
