@@ -17,10 +17,13 @@ class MigratingModel extends Model{
 	boolean powerOn = false;
 	private int powerTimer = 0;
 	
-	private int distance = 0;
+	private int distance = 0; //how far bird has travelled
+	private int maxDistance;  //how much it needs to travel varies on migrate or not. 
 	private boolean isMigrating;
-	private int migrateDistance = 3000;
-	private int stayDistance = 2000;
+	private int migrateDistance = 10000;
+	private int stayDistance = 5000;
+	
+	private int birdVelocity = 10; 
 	
 	Hawk h = new Hawk(frameWidth, 400);
 	/**
@@ -37,11 +40,11 @@ class MigratingModel extends Model{
 		gusts = new ArrayList<Gust>();
 		gusts.add(new Gust(frameWidth-100,150));
 		isMigrating = isMigrate;
-//		if(isMigrate) {
-//			distance =  migrateDistance;
-//		} else {
-//			distance = stayDistance;
-//		}
+		if(isMigrate) {
+			maxDistance =  migrateDistance;
+		} else {
+			maxDistance = stayDistance;
+		}
 	}
 	
 	//for testing ease
@@ -71,7 +74,7 @@ class MigratingModel extends Model{
 			accelerateMoveables(velocityChange);
 			powerOn = false;
 		}
-		//System.out.println(powerTimer);
+
 		for (Moveable o : enemies) {
 			o.update();
 		}
@@ -79,8 +82,12 @@ class MigratingModel extends Model{
 			o.update();
 		}
 		updateCollision(); 
-		distance -= h.getXVelocity();
-		//System.out.println(distance);
+		if(powerOn == false) {
+			distance += birdVelocity;
+		}else {
+			distance += birdVelocity+velocityChange; 
+		}
+		System.out.println(this.endGame());
 	}
 	void updateCollision() {
 		updateEnemyCollision();
@@ -91,7 +98,7 @@ class MigratingModel extends Model{
 	 * TO-DO: if overall timer ends? or if traveled certain distance, end game
 	 */
 	boolean endGame() {
-		return distance <= 0;
+		return (distance >= maxDistance);
 	}
 	
 	Collection<Moveable> getMoveables(){
@@ -214,7 +221,6 @@ class MigratingModel extends Model{
 				if(powerOn == false) {
 					powerOn = true;
 					accelerateMoveables(-velocityChange);
-					distance -= velocityChange*powerTimer;
 				}
 				this.setScore(this.getScore() + gustScore);	
 			}else if(g.exitsFrame(frameWidth, frameHeight)) {
