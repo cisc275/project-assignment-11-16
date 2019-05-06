@@ -1,5 +1,10 @@
 import java.awt.Graphics;
 
+/**
+ * 
+ * @author Prescott
+ *
+ */
 public class EatingHUD implements HUD {
 	int frameHeight;
 	int frameWidth;

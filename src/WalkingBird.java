@@ -1,10 +1,10 @@
 /**
  * A superclass for both EatingBird and Breeding bird, due to their shared movement.
- * @author pedz
+ * @author Prescott
  *
  */
 public class WalkingBird extends Moveable {
-	public final int BASE_SPEED = 5;
+	public final int BASE_SPEED = 6;
 	int destinationX;
 	int destinationY;
 	double speed;

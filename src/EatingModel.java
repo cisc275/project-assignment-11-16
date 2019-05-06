@@ -82,14 +82,13 @@ class EatingModel extends Model {
 	}
 	
 	void spawnRandomFood() {
-		double rand = Math.random();
+		int rand = (int) (Math.random()*3);
 		Food toAdd;
-		if (rand < .5) {
-			toAdd = new Earthworm((int) (Math.random()*worldWidth), (int) (Math.random()*worldHeight));
-		} else if (rand < 1) {
-			toAdd = new Grasshopper((int) (Math.random()*worldWidth), (int) (Math.random()*worldHeight));
-		} else {
-			return;
+		switch (rand) {
+			case 0: toAdd = new Earthworm((int) (Math.random()*worldWidth), (int) (Math.random()*worldHeight)); break;
+			case 1: toAdd = new Grasshopper((int) (Math.random()*worldWidth), (int) (Math.random()*worldHeight)); break;
+			case 2: toAdd = new Beetle((int) (Math.random()*worldWidth), (int) (Math.random()*worldHeight)); break;
+			default : return;
 		}
 		food.add(toAdd);
 	}

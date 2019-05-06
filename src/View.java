@@ -139,6 +139,7 @@ class View extends JPanel {
 				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
 			}
 		}
+		//System.out.println(hud);
 		if (hud != null)
 			hud.paint(g, hudargs);
 	}
