@@ -30,18 +30,21 @@ public class MigratingHUD implements HUD, ImageObserver {
 	}
 	/**
 	 * args: <br>
-	 * 	0. is migrating (1 = migrating, 0 = not migrating);<br>
-	 *  1. current distance<br>
-	 *  2. max distance
+	 * 	index 0. is migrating (1 = migrating, 0 = not migrating);<br>
+	 *  index 1. current distance<br>
+	 *  index 2. max distance<br>
+	 *This method draw the minimap at the right corner of the frame.
+	 *
+	 *Author: Wenki
 	 */
 	public void paint(Graphics g, int[] args) {
 		currentDistance = args[1];
 		maxDistance = args[2];
 		if(args[0]==0) {
-			map = View.createImage("src/images/migrateMinimap.png");
+			map = View.createImage("src/images/nonMigrateMinimap.png");
 		}
 		if(args[0] ==1) {
-			map = View.createImage("src/images/nonMigrateMinimap.png");
+			map = View.createImage("src/images/migrateMinimap.png");
 		}
 		g.drawImage(map, frameWidth-map.getWidth(), frameHeight-map.getHeight(), this);	
 		g.drawImage(mapBird, x,y , this);
