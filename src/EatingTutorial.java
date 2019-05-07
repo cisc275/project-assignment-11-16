@@ -29,7 +29,7 @@ public class EatingTutorial extends EatingModel {
 	}
 	
 	boolean endGame() {
-		return food.get(0) != tutTarget;
+		return food.isEmpty() || food.get(0) != tutTarget;
 	}
 	
 	@Override

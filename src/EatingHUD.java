@@ -3,7 +3,16 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
+<<<<<<< HEAD
 public class EatingHUD implements HUD, ImageObserver {
+=======
+/**
+ * 
+ * @author Prescott
+ *
+ */
+public class EatingHUD implements HUD {
+>>>>>>> 93f7cfd637c8951213f3f1ce045ab285e13f0686
 	int frameHeight;
 	int frameWidth;
 	public EatingHUD(int w, int h) {

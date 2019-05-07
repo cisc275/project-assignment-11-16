@@ -1,14 +1,12 @@
 /** Migrating HUD
  * use for create moving minimap for the migrating game.
  * 
- * Author Wenki
+ * @author Wenki
  */
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.Timer;
 public class MigratingHUD implements HUD, ImageObserver {
 	static int frameWidth = 1080;
 	static int frameHeight = 720;//1080;
@@ -39,7 +37,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 	 *  index 2. max distance<br>
 	 *This method draw the minimap at the right corner of the frame.
 	 *
-	 *Author: Wenki
+	 * @author Wenki
 	 */
 	public void paint(Graphics g, int[] args) {
 		currentDistance = args[1];
@@ -60,7 +58,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 	 * 
 	 * For Y position, used a line function that update Y location with the X location.
 	 * 
-	 * Author Wenki
+	 * @author Wenki
 	 */
 	public void refreshXY() {
 		if(x != destinationX) {

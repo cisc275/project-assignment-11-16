@@ -1,11 +1,8 @@
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
 
 public class Menu extends Model {
-	
-	ArrayList<Moveable> emptyList = new ArrayList<Moveable>();
 	
 	Menu(int w, int h) {
 
@@ -21,7 +18,7 @@ public class Menu extends Model {
 
 	@Override
 	Collection<Moveable> getMoveables() {
-		return emptyList;
+		return new ArrayList<Moveable>();
 	}
 
 	@Override

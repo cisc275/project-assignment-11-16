@@ -1,6 +1,4 @@
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Collection;
 //import java.util.Collection;
 
 
@@ -8,13 +6,13 @@ public class Controller implements MouseMotionListener, MouseListener {
 	// if i update this it updates that
 	private Model model;
 	private View view;
-	
+	private GameSequence sequence;
 	
 	public Controller(){
 		view = new View();
 		view.addControllerToMouse(this);
 		
-		startMainMenu();
+		//sequence = new GameSequence(view.getFrameWidth(), view.getFrameHeight());
 		//startEating();
 		//startMigrating();
 		//startBreeding();
@@ -73,14 +71,21 @@ public class Controller implements MouseMotionListener, MouseListener {
 	 * note to get rid of instance of later
 	 */
 	public void start() {
-		while (true) {
-
-			if(model.endGame() == true || view.endMenu == true && model.endGame() == false) {
-				view.endMenu = false;
-				model = model.nextModel(view.getFrameWidth(), view.getFrameHeight(), view.migrate);
-				view.hud = view.hud.nextHUD(view.getFrameWidth(), view.getFrameHeight());
+		startMainMenu();
+		
+		while (!view.endMenu) {
+			view.update(model.getMoveables(), model.getHUDargs());
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-
+		}
+		view.endMenu = false;
+		sequence = new GameSequence(view.getFrameWidth(), view.getFrameHeight(), view.migrate);
+		loadNextGame();
+		boolean ended = false;
+		while (!ended) {
 			if (model instanceof EatingModel) {
 				EatingModel eModel = (EatingModel) model;
 				view.moveCamera(eModel.getBirdX(), eModel.getBirdY());
@@ -96,7 +101,29 @@ public class Controller implements MouseMotionListener, MouseListener {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			if(model.endGame()) {
+				if (sequence.atEnd()) {
+					winGame();
+					ended = true;
+				} else {
+					loadNextGame();
+				}
+			}
 		}
+		winGame();
+	}
+	
+	public void loadNextGame() {
+		sequence.advance();
+		model = sequence.getModel();
+		view.hud = sequence.getHUD();
+		//model = model.nextModel(view.getFrameWidth(), view.getFrameHeight(), view.migrate);
+		//view.hud = view.hud.nextHUD(view.getFrameWidth(), view.getFrameHeight());
+	}
+	
+	private void winGame() {
+		System.out.println("you won.");
 	}
 	
 	public void mouseClicked(MouseEvent e) {
