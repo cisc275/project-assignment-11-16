@@ -119,7 +119,8 @@ class View extends JPanel {
 
 	public void paint(Graphics g) {
 		if (hud != null)
-			 hud.paint2(g);
+			 hud.paintBack(g);
+		
 		if(subpanel != null) {
 			subpanel.paint(g);
 		}

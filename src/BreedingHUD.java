@@ -3,6 +3,11 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
+/**
+ * generate the background image by the paintBack method.
+ * 
+ * @Author Wenki
+ */
 public class BreedingHUD implements HUD, ImageObserver {
 	int frameHeight;
 	int frameWidth;
@@ -22,7 +27,7 @@ public class BreedingHUD implements HUD, ImageObserver {
 	}
 
 	@Override
-	public void paint2(Graphics g) {
+	public void paintBack(Graphics g) {
 		BufferedImage background = View.createImage("src/images/background_breeding.gif");
 		g.drawImage(background,0,0,this);
 		

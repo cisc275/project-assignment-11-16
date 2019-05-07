@@ -1,6 +1,6 @@
 /** Migrating HUD
- * use for create moving minimap for the migrating game.
- * 
+ * Use paint method to create moving minimap for the migrating game since it is the most above layer.
+ * Generate background image for the game with paintBack method.
  * @author Wenki
  */
 import java.awt.Graphics;
@@ -26,7 +26,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 		frameWidth = w;
 		frameHeight = h;
 	}
-	public void paint2(Graphics g) {
+	public void paintBack(Graphics g) {
 		BufferedImage background = View.createImage("src/images/background_migrating.gif");
 		g.drawImage(background,0,0,this);
 	}

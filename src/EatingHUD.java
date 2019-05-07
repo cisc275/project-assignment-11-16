@@ -33,7 +33,13 @@ public class EatingHUD implements HUD, ImageObserver {
 	}
 
 	@Override
-	public void paint2(Graphics g) {
+	
+	/**
+	 * generate the background image.
+	 * 
+	 * @Author Wenki
+	 */
+	public void paintBack(Graphics g) {
 		// TODO Auto-generated method stub
 		BufferedImage background = View.createImage("src/images/background_eating.gif");
 		g.drawImage(background,0,0,this);
