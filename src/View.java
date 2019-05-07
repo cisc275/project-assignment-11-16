@@ -67,15 +67,13 @@ class View extends JPanel {
 	 */
 	private void buildFrame() {
 		frame = new JFrame();
-		frame.getContentPane().add(this);
-		//frame.setBackground(Color.gray);
+		frame.add(this);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Killdeer Simulator");
 	
 		
-		//frame.setSize(frameWidth,frameHeight);
-		//frame.getContentPane().setPreferredSize(windowSize);
-
+		
 		ImageIcon migrateIcon = new ImageIcon("src/images/bird.png");
 		ImageIcon  stayIcon = new ImageIcon("src/images/bird.png");
 		migrateButton = new JButton("MIGRATE", migrateIcon); 
@@ -84,17 +82,16 @@ class View extends JPanel {
 		stayButton.addActionListener(someactionevent -> {removeMenu(); endMenu = true;});
 		migrateButton.setPreferredSize(buttonSize);
 		stayButton.setPreferredSize(buttonSize); //must be pref size
-
-		frame.getContentPane().add(this);
+		Insets insets1 = this.getInsets();
+		stayButton.setBounds(150 + insets1.left, 15 + insets1.top,
+				buttonSize.width + 50, buttonSize.height + 20);
+		
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		Insets insets = frame.getInsets();
 		//set the frame size to fit the panel
 		frame.setSize(frameWidth + insets.left + insets.right, frameHeight + insets.top + insets.bottom);
 		System.out.println( insets.left+ "+"+ insets.right+ "+" +insets.top+ "+" +insets.bottom);
-		//this.setSize(frameWidth,frameHeight-insets.top); 
-		//frame.setSize(windowSize);
-		//frame.setMinimumSize(windowSize);
-		//frame.setMaximumSize(windowSize);
+		
 		this.setFocusable(true);
 	}
 	
@@ -121,6 +118,8 @@ class View extends JPanel {
 	}
 
 	public void paint(Graphics g) {
+		if (hud != null)
+			 hud.paintBack(g);
 		
 		if(subpanel != null) {
 			subpanel.paint(g);
@@ -188,7 +187,7 @@ class View extends JPanel {
 	/*private BufferedImage createImages(String type) {
 		BufferedImage bufferedImage;
 		try {
-			bufferedImage = ImageIO.read(new File("/src/images/"+type+".png"));
+			bufferedImage = ImageIO.read(new File("/src/images/"+type+".gif"));
 			return bufferedImage;
 		} catch (IOException e) {
 			System.out.println(type+" could not be found");

@@ -21,4 +21,5 @@ public interface HUD {
 	 * @deprecated
 	 */
 	public HUD nextHUD(int fw, int fh);
+	public void paintBack(Graphics g);
 }

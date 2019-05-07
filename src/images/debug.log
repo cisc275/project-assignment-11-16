@@ -1,0 +1,22 @@
+[9532:8128:0506/153027:INFO:AppRunner.cpp(611)] Begin run process geeplayer, -runfrom openimage "C:\Users\wenkiliang\eclipse-workspace-Java\project-assignment-11-16\src\images\sprites.psd", mainplugin is mainPlugin
+[9532:8128:0506/153027:INFO:AppRunner.cpp(617)] ProductName is GeePlayer1
+[9532:8128:0506/153027:INFO:ChannelManager.cpp(1219)] create connection thread
+[9532:8128:0506/153027:INFO:AppRunner.cpp(661)] apppluginbase version is 5.1.3.13
+[9532:8128:0506/153027:INFO:UIlib.cpp(192)] quilib: version is 5.1.3.9
+[9532:8128:0506/153027:INFO:serviceManager.cpp(508)] mainprocessisrunning key is set as 1
+[9532:8128:0506/153027:INFO:serviceManager.cpp(629)] create local service plugin PluginServerStatePlugin
+[9532:8128:0506/153027:INFO:serviceManager.cpp(687)] plugin PluginServerStatePlugin DoPluginInit
+[9532:8128:0506/153027:INFO:serviceManager.cpp(1272)] repository parse over
+[9532:8128:0506/153033:INFO:AppRunner.cpp(720)] loop exit geeplayer call main plugin DestoryPluginEntry
+[9532:8128:0506/153033:INFO:PluginDevelopAssistant.cpp(115)] real plugin mainPlugin call DestroyPlugin
+[9532:8128:0506/153033:INFO:IPlugin.cpp(31)] destruct plugin mainPlugin
+[9532:8128:0506/153033:INFO:serviceManager.cpp(1353)] mainPlugin plugin had destroy by DestructPlugin
+[9532:8128:0506/153033:INFO:serviceManager.cpp(1906)] DestructManager begin
+[9532:8128:0506/153033:INFO:IPlugin.cpp(31)] destruct plugin PluginServerStatePlugin
+[9532:8128:0506/153033:INFO:PluginDevelopAssistant.cpp(295)] real plugin PluginServerStatePlugin call DestroyPlugin
+[9532:8128:0506/153033:INFO:serviceManager.cpp(1353)] PluginServerStatePlugin plugin had destroy by DestructPlugin
+[9532:8128:0506/153033:INFO:serviceManager.cpp(1759)] DeleteLeftPlugins begin
+[9532:8128:0506/153033:INFO:serviceManager.cpp(1822)] DeleteLeftPlugins end
+[9532:8128:0506/153033:INFO:serviceManager.cpp(508)] mainprocessisrunning key is set as 0
+[9532:8128:0506/153033:INFO:AppRunner.cpp(735)] close mutex of process geeplayer
+[9532:8128:0506/153033:INFO:AppRunner.cpp(743)] run process geeplayer end

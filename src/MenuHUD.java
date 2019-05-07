@@ -1,6 +1,15 @@
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
-public class MenuHUD implements HUD {
+/**
+ * generate the background image by the paintBack method.
+ * 
+ * @Author Wenki
+ * 
+ */
+public class MenuHUD implements HUD, ImageObserver {
 	int frameHeight;
 	int frameWidth;
 	
@@ -17,6 +26,17 @@ public class MenuHUD implements HUD {
 	@Override
 	public HUD nextHUD(int fw, int fh) {
 		return new EatingHUD(fw,fh);
+	}
+	@Override
+	public void paintBack(Graphics g) {
+		// TODO Auto-generated method stub
+		BufferedImage background = View.createImage("src/images/background_start_menu.gif");
+		g.drawImage(background,0,0,this);
+	}
+	@Override
+	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
