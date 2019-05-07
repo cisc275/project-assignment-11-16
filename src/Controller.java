@@ -38,11 +38,12 @@ public class Controller implements MouseMotionListener, MouseListener {
 		view.setHUD(null);
 	}
 	
+	*/
 	public void startMigrating() {
 		model = new MigratingModel(view.getFrameWidth(), view.getFrameHeight(),view.migrate);
 		view.setHUD(new MigratingHUD(view.getFrameWidth(), view.getFrameHeight()));
 	}
-	
+	/*
 	public void startBreeding() {
 		model = new BreedingModel(view.getFrameWidth(), view.getFrameHeight());
 		view.setHUD(new BreedingHUD(view.getFrameWidth(), view.getFrameHeight()));
