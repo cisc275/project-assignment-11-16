@@ -212,7 +212,7 @@ class View extends JPanel {
 			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
 				BufferedImage sheet = createImage("./images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
 				if (sheet != null) {
-					int subsize = sheet.getHeight();
+					int subsize = sheet.getHeight(); //consider splitting this into another method
 					int numSprites = sheet.getWidth() / subsize;
 					currmatrix[i] = new BufferedImage[numSprites];
 					for (int j = 0; j < numSprites; j++) {
