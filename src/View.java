@@ -21,7 +21,7 @@ class View extends JPanel {
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
 	static final String[] IMAGE_NAMES_2 = {};
-	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "grasshopper", "hawk", "raccoon", "pointerarea"};
+	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "hawk", "raccoon", "pointerarea", "gust"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
 	int[] hudargs;
