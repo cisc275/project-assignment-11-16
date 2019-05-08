@@ -20,8 +20,8 @@ class View extends JPanel {
 	static int frameHeight = 720;//1080;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
-	static final String[] IMAGE_NAMES_2 = {};
-	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "hawk", "raccoon", "pointerarea", "gust"};
+	static final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
+	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "hawk", "raccoon", "pointerarea", "gust", "bag", "nest"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
 	int[] hudargs;
@@ -207,7 +207,7 @@ class View extends JPanel {
 	 */
 	private void createImages() {
 		images = new HashMap<String, BufferedImage[][]>();
-		for (String nom : IMAGE_NAMES) {
+		for (String nom : IMAGE_NAMES_ANIMATED) {
 			BufferedImage[][] currmatrix = new BufferedImage[DIRECTION_NAMES.length][];
 			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
 				BufferedImage sheet = createImage("./images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
@@ -231,6 +231,9 @@ class View extends JPanel {
 				}
 			}
 			images.put(nom, currmatrix);
+		}
+		for (String nom : IMAGE_NAMES_STATIC) { //idk how to do this, but make a nondirectional spritesheet (kelly)
+			//BufferedImage myImg = createImage("./images/" + nom + ".png");
 		}
 	}
 	
