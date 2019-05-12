@@ -12,7 +12,7 @@ public class Controller implements MouseMotionListener, MouseListener {
 		view = new View();
 		view.addControllerToMouse(this);
 		
-		//sequence = new GameSequence(view.getFrameWidth(), view.getFrameHeight());
+		sequence = new GameSequence(view.getFrameWidth(), view.getFrameHeight(),view.migrate);
 		//startEating();
 		//startMigrating();
 		//startBreeding();
@@ -37,10 +37,11 @@ public class Controller implements MouseMotionListener, MouseListener {
 	}
 	
 	*/
-	public void startMigrating() {
+	/*public void startMigrating() {
 		model = new MigratingModel(view.getFrameWidth(), view.getFrameHeight(),view.migrate);
 		view.setHUD(new MigratingHUD(view.getFrameWidth(), view.getFrameHeight()));
 	}
+	*/
 	/*
 	public void startBreeding() {
 		model = new BreedingModel(view.getFrameWidth(), view.getFrameHeight());

@@ -17,7 +17,8 @@ public class BreedingHUD implements HUD, ImageObserver {
 	}
 	
 	public void paint(Graphics g, int[] args) {
-		
+		BufferedImage bushes = View.createImage("src/images/background_breeding_bushes.gif");
+		g.drawImage(bushes,0,0,this);
 	}
 
 	@Override

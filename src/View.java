@@ -90,7 +90,7 @@ class View extends JPanel {
 		Insets insets = frame.getInsets();
 		//set the frame size to fit the panel
 		frame.setSize(frameWidth + insets.left + insets.right, frameHeight + insets.top + insets.bottom);
-		System.out.println( insets.left+ "+"+ insets.right+ "+" +insets.top+ "+" +insets.bottom);
+//		System.out.println( insets.left+ "+"+ insets.right+ "+" +insets.top+ "+" +insets.bottom);
 		
 		this.setFocusable(true);
 	}

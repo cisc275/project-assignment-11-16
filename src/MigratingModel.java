@@ -18,12 +18,14 @@ class MigratingModel extends Model{
 	protected boolean powerOn = false;
 	protected int powerTimer = 0;
 	
+
 	protected int distance = 0; //how far bird has travelled
 	protected int maxDistance;  //how much it needs to travel varies on migrate or not. 
 	protected boolean isMigrating;
 	protected int migrateDistance = 5000;
 	protected int stayDistance = 2000;
 	
+	protected int avoidOverlap = 3;
 	protected int birdVelocity = 10; 
 	
 	Hawk h = new Hawk(frameWidth, 400);
@@ -48,12 +50,14 @@ class MigratingModel extends Model{
 	}
 	
 	//for testing ease
-	MigratingModel(int w, int h, MigratingBird b, List<Enemy> e, List<Gust> g){
+	MigratingModel(int w, int h, MigratingBird b, List<Enemy> e, List<Gust> g,boolean isMigrate){
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
 		enemies = e;
 		gusts = g;
+		isMigrating = isMigrate;
+		backgroundObjects = new ArrayList<Moveable>();
 	}
 		
 	/**
@@ -103,7 +107,7 @@ class MigratingModel extends Model{
 		m.addAll(enemies);
 		m.add(bird);
 		m.addAll(gusts);
-		m.addAll(backgroundObjects);
+		//m.addAll(backgroundObjects);
 		return m;
 	}
 	
@@ -142,7 +146,7 @@ class MigratingModel extends Model{
         	if(m.getX() == frameWidth && (yloc == m.getY() ||(yloc < m.getY() && yloc >= m.getY()-m.getR())
         									||(yloc>m.getY() &&yloc <=m.getY()+m.getR())))
         	{//if both at start point, and Y-location is overlapping with the area existing enemy
-        		yloc += 3*m.getRadius(); //change the y-location 
+        		yloc += avoidOverlap*m.getRadius(); //change the y-location 
         	}
         }
         if(switchE == 1){
@@ -158,7 +162,9 @@ class MigratingModel extends Model{
 		enemies.add(newEnemy);
 	}
 	
-	
+	/**
+	 * generate gust
+	 */
 	void generateGust() {
 		Gust g = new Gust(frameWidth, (int) (Math.random()*frameHeight));
 		if(powerTimer != 0) {
@@ -264,6 +270,9 @@ class MigratingModel extends Model{
 		this.setDestination(mouseX, mouseY);	
 	}
 
+	/**
+	 * return the HuD argument list for the Hud to generate image.
+	 */
 	@Override
 	int[] getHUDargs() {
 		int[] toret = {
@@ -274,12 +283,6 @@ class MigratingModel extends Model{
 		return toret;
 	}
 
-	@Override
-	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
-			return new BreedingModel(frameWidth, frameHeight);
-	}
 
-	
-	
 	
 }

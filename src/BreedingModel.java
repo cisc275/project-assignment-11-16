@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class BreedingModel extends Model {
+public class BreedingModel extends Model {
 	
 	BreedingBird bird;
 	//List<Predator> predators;
@@ -177,9 +177,6 @@ class BreedingModel extends Model {
 		return toret;
 	}
 	
-	@Override
-	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
-			return new Menu(frameWidth, frameHeight);
-	}
+	
 	
 }
