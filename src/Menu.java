@@ -54,11 +54,6 @@ public class Menu extends Model {
 		int[] toret = {};
 		return toret;
 	}
-	
-	@Override
-	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
-			return new EatingModel(frameWidth, frameHeight);
-	}
 
 
 }

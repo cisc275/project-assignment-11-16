@@ -50,12 +50,14 @@ class MigratingModel extends Model{
 	}
 	
 	//for testing ease
-	MigratingModel(int w, int h, MigratingBird b, List<Enemy> e, List<Gust> g){
+	MigratingModel(int w, int h, MigratingBird b, List<Enemy> e, List<Gust> g,boolean isMigrate){
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
 		enemies = e;
 		gusts = g;
+		isMigrating = isMigrate;
+		backgroundObjects = new ArrayList<Moveable>();
 	}
 		
 	/**
@@ -105,7 +107,7 @@ class MigratingModel extends Model{
 		m.addAll(enemies);
 		m.add(bird);
 		m.addAll(gusts);
-		m.addAll(backgroundObjects);
+		//m.addAll(backgroundObjects);
 		return m;
 	}
 	
@@ -281,12 +283,6 @@ class MigratingModel extends Model{
 		return toret;
 	}
 
-	@Override
-	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
-			return new BreedingModel(frameWidth, frameHeight);
-	}
 
-	
-	
 	
 }
