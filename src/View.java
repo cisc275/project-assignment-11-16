@@ -74,8 +74,8 @@ class View extends JPanel {
 	
 		
 		
-		ImageIcon migrateIcon = new ImageIcon("src/images/bird.png");
-		ImageIcon  stayIcon = new ImageIcon("src/images/bird.png");
+		ImageIcon migrateIcon = new ImageIcon("images/bird.png");
+		ImageIcon  stayIcon = new ImageIcon("images/bird.png");
 		migrateButton = new JButton("MIGRATE", migrateIcon); 
 		stayButton = new JButton("STAY", stayIcon); 
 		migrateButton.addActionListener(someactionevent -> {removeMenu(); migrate = true; endMenu = true;});
@@ -90,7 +90,7 @@ class View extends JPanel {
 		Insets insets = frame.getInsets();
 		//set the frame size to fit the panel
 		frame.setSize(frameWidth + insets.left + insets.right, frameHeight + insets.top + insets.bottom);
-		System.out.println( insets.left+ "+"+ insets.right+ "+" +insets.top+ "+" +insets.bottom);
+//		System.out.println( insets.left+ "+"+ insets.right+ "+" +insets.top+ "+" +insets.bottom);
 		
 		this.setFocusable(true);
 	}
@@ -209,7 +209,7 @@ class View extends JPanel {
 		for (String nom : IMAGE_NAMES) {
 			BufferedImage[][] currmatrix = new BufferedImage[DIRECTION_NAMES.length][];
 			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
-				BufferedImage sheet = createImage("src/images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
+				BufferedImage sheet = createImage("images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
 				if (sheet != null) {
 					int subsize = sheet.getHeight();
 					int numSprites = sheet.getWidth() / subsize;

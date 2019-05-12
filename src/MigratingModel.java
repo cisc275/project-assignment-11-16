@@ -22,6 +22,7 @@ class MigratingModel extends Model{
 	private boolean isMigrating;
 	private int migrateDistance = 5000;
 	private int stayDistance = 2000;
+	private int avoidOverlap = 3;
 	
 	private int birdVelocity = 10; 
 	
@@ -143,7 +144,7 @@ class MigratingModel extends Model{
         	if(m.getX() == frameWidth && (yloc == m.getY() ||(yloc < m.getY() && yloc >= m.getY()-m.getR())
         									||(yloc>m.getY() &&yloc <=m.getY()+m.getR())))
         	{//if both at start point, and Y-location is overlapping with the area existing enemy
-        		yloc += 3*m.getRadius(); //change the y-location 
+        		yloc += avoidOverlap*m.getRadius(); //change the y-location 
         	}
         }
         if(switchE == 1){
@@ -159,7 +160,9 @@ class MigratingModel extends Model{
 		enemies.add(newEnemy);
 	}
 	
-	
+	/**
+	 * generate gust
+	 */
 	void generateGust() {
 		Gust g = new Gust(frameWidth, (int) (Math.random()*frameHeight));
 		if(powerTimer != 0) {
@@ -265,6 +268,9 @@ class MigratingModel extends Model{
 		this.setDestination(mouseX, mouseY);	
 	}
 
+	/**
+	 * return the HuD argument list for the Hud to generate image.
+	 */
 	@Override
 	int[] getHUDargs() {
 		int[] toret = {

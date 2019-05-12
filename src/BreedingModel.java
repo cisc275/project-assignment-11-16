@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class BreedingModel extends Model {
+public class BreedingModel extends Model {
 	
 	BreedingBird bird;
 	//List<Predator> predators;
