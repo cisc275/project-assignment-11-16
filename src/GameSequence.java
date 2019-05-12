@@ -16,10 +16,12 @@ public class GameSequence {
 	public GameSequence(int w, int h, boolean mig) {
 		elements = new LinkedList<Supplier<GameSequenceElement>>();
 		//elements.add(new GameSequenceElement(new Menu(w, h), new MenuHUD(w, h)));
-		elements.add(() -> new GameSequenceElement(new EatingTutorial(w, h), new EatingHUD(w, h)));
-		elements.add(() -> new GameSequenceElement(new EatingModel(w, h), new EatingHUD(w, h)));
-		elements.add(() -> new GameSequenceElement(new MigratingModel(w, h, mig), new MigratingHUD(w, h)));
-		elements.add(() -> new GameSequenceElement(new BreedingModel(w, h), new BreedingHUD(w, h)));
+		//elements.add(() -> new GameSequenceElement(new EatingTutorial(w, h), new EatingHUD(w, h)));
+		//elements.add(() -> new GameSequenceElement(new EatingModel(w, h), new EatingHUD(w, h)));
+		//elements.add(() -> new GameSequenceElement(new MigratingModel(w, h, mig), new MigratingHUD(w, h)));
+		elements.add(() -> new GameSequenceElement(new MigratingTutorial(w, h, mig), new MigratingHUD(w, h)));
+		
+		//elements.add(() -> new GameSequenceElement(new BreedingModel(w, h), new BreedingHUD(w, h)));
 		itty = elements.iterator();
 	}
 	

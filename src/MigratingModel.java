@@ -6,24 +6,25 @@ class MigratingModel extends Model{
 	MigratingBird bird;
 	List<Enemy> enemies;
 	List<Gust> gusts;
+	List<Moveable> backgroundObjects; 
 	
 	private static int enemyScore = -10; 
 	private static int gustScore = 20;
 	private final static int maxEnemies = 3;
 	private final static int maxGusts = 2;
-	private final static int powerDuration = 50;
-	private final static int velocityChange = 10;
+	protected final static int powerDuration = 50;
+	protected final static int velocityChange = 10;
 	
-	boolean powerOn = false;
-	private int powerTimer = 0;
+	protected boolean powerOn = false;
+	protected int powerTimer = 0;
 	
-	private int distance = 0; //how far bird has travelled
-	private int maxDistance;  //how much it needs to travel varies on migrate or not. 
-	private boolean isMigrating;
-	private int migrateDistance = 5000;
-	private int stayDistance = 2000;
+	protected int distance = 0; //how far bird has travelled
+	protected int maxDistance;  //how much it needs to travel varies on migrate or not. 
+	protected boolean isMigrating;
+	protected int migrateDistance = 5000;
+	protected int stayDistance = 2000;
 	
-	private int birdVelocity = 10; 
+	protected int birdVelocity = 10; 
 	
 	Hawk h = new Hawk(frameWidth, 400);
 	/**
@@ -36,9 +37,8 @@ class MigratingModel extends Model{
 		frameWidth = w;
 		bird = new MigratingBird(frameWidth/2, frameHeight/2); //bird is still
 		enemies = new ArrayList<Enemy>();
-		enemies.add(new Hawk(frameWidth, 400));
 		gusts = new ArrayList<Gust>();
-		gusts.add(new Gust(frameWidth-100,150));
+		backgroundObjects = new ArrayList<Moveable>();
 		isMigrating = isMigrate;
 		if(isMigrate) {
 			maxDistance =  migrateDistance;
@@ -81,17 +81,14 @@ class MigratingModel extends Model{
 		for (Moveable o : gusts) {
 			o.update();
 		}
-		updateCollision(); 
+		updateEnemyCollision();
+		updateGustCollision();
 		if(powerOn == false) {
 			distance += birdVelocity;
 		}else {
 			distance += birdVelocity+velocityChange; 
 		}
 		System.out.println(this.endGame());
-	}
-	void updateCollision() {
-		updateEnemyCollision();
-		updateGustCollision();
 	}
 	
 	/**
@@ -106,6 +103,7 @@ class MigratingModel extends Model{
 		m.addAll(enemies);
 		m.add(bird);
 		m.addAll(gusts);
+		m.addAll(backgroundObjects);
 		return m;
 	}
 	
@@ -118,6 +116,7 @@ class MigratingModel extends Model{
 		Collection<Moveable> m = new ArrayList<Moveable>();
 		m.addAll(enemies);
 		m.addAll(gusts);
+		m.addAll(backgroundObjects);
 		return m;
 	}
 	
