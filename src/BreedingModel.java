@@ -1,4 +1,5 @@
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,9 +13,11 @@ class BreedingModel extends Model {
 	Nest nest;
 	boolean quizTime = false;
 	int distractCountdown = 50;
-	int tutorialSpeed = 1;
+	int tutorialSpeed = 0;
 	int normalSpeed = 5;
+	int runawaySpeed = 8;
 	int switchDir;
+	int correctAnswer;
 	
 	//pass frame height/width from view to create models
 	BreedingModel(int w, int h){
@@ -56,7 +59,7 @@ class BreedingModel extends Model {
 		if (this.bird.getBrokenWing() == true) {
 			//p.velocity.setPolar(p.velocity.getR(), -(p.velocity.getTheta()));
 			p.updateBirdLoc(xB, yB);
-			p.speed = normalSpeed;
+			//p.speed = normalSpeed;
 			distractCountdown--;
 			System.out.println(distractCountdown);
 		}
@@ -125,26 +128,27 @@ class BreedingModel extends Model {
 	/* should make the predator run off the screen to the left, but uhhh
 	 * @author Zach */
 	void byeByePredator() {
+		p.setSpeed(runawaySpeed);
 		if(p.getX() >= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
 			//if in bottom right quadrant, go to that corner
 			p.updateBirdLoc(frameWidth+p.radius*2, frameHeight+p.radius*2);
-			System.out.print("You should be going bottom right");
+			System.out.println("You should be going bottom right");
 		}
 		if(p.getX() <= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
 			//if in bottom left quadrant, go to that corner
 			p.updateBirdLoc(-p.radius*2, frameHeight+p.radius*2);
-			System.out.print("You should be going bottom left");
+			System.out.println("You should be going bottom left");
 			//System.out.print(p.getY() + ">" + frameHeight/2);
 		}
 		if(p.getX() >= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
 			//if in top right quadrant, go to that corner
 			p.updateBirdLoc(frameWidth+p.radius*2, -p.radius*2);
-			System.out.print("You should be going top right");
+			System.out.println("You should be going top right");
 		}
 		if(p.getX() <= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
 			//if in top left quadrant, go to that corner
 			p.updateBirdLoc(-p.radius*2, -p.radius*2);
-			System.out.print("You should be going top left");
+			System.out.println("You should be going top left");
 		}
 	}
 	
@@ -154,8 +158,8 @@ class BreedingModel extends Model {
 			byeByePredator();
 		}
 		if (p.exitsFrame(frameWidth, frameHeight)) {
-			quizTime = true;
 			generatePredators();
+			quizTime = true;
 		}
 	
 		
@@ -210,6 +214,12 @@ class BreedingModel extends Model {
 	@Override
 	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
 			return new Menu(frameWidth, frameHeight);
+	}
+
+	@Override
+	void actionPerformed(ActionEvent e, int answer) {
+		// TODO Auto-generated method stub
+		quizTime = false;
 	}
 	
 }

@@ -14,6 +14,10 @@ public abstract class Predator extends Moveable {
 		super(xP, yP, r, xV, yV);
 		speed = s;
 	}
+	
+	void setSpeed(int s) {
+		speed = s;
+	}
 
 	@Override
 	void update() {

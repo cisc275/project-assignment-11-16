@@ -1,3 +1,4 @@
+import java.awt.event.ActionEvent;
 import java.util.Collection;
 
 abstract class Model {
@@ -50,6 +51,8 @@ abstract class Model {
 	 * @deprecated
 	 */
 	abstract Model nextModel(int frameWidth, int frameHeight, boolean isMigrating);
+	
+	abstract void actionPerformed(ActionEvent e, int answer);
 
 	
 }

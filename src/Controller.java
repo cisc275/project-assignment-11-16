@@ -2,7 +2,7 @@ import java.awt.event.*;
 //import java.util.Collection;
 
 
-public class Controller implements MouseMotionListener, MouseListener {
+public class Controller implements MouseMotionListener, MouseListener, ActionListener {
 	// if i update this it updates that
 	private Model model;
 	private View view;
@@ -11,6 +11,7 @@ public class Controller implements MouseMotionListener, MouseListener {
 	public Controller(){
 		view = new View();
 		view.addControllerToMouse(this);
+		view.addControllerToButton(this);
 		
 		//sequence = new GameSequence(view.getFrameWidth(), view.getFrameHeight());
 		//startEating();
@@ -97,8 +98,11 @@ public class Controller implements MouseMotionListener, MouseListener {
 				view.quizTime = bMode1.quizTime;
 				while (view.quizTime) {
 					view.buildQuiz();
+					//System.out.println("While loop");
+					bMode1.quizTime = view.quizTime;
 				}
-				bMode1.quizTime = view.quizTime;
+				//System.out.println("Outside the loop");
+				
 			}
 			
 			view.update(model.getMoveables(), model.getHUDargs());
@@ -163,5 +167,21 @@ public class Controller implements MouseMotionListener, MouseListener {
 	
 	public void mouseMoved(MouseEvent e) {
 			model.mouseMoved(e.getX(), e.getY());
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		view.quizTime = false;
+		int answer = -1;
+		if (e.getSource() == view.qA1Button) {
+			answer = 0;
+		}
+		if (e.getSource() == view.qA1Button) {
+			answer = 1;
+		}
+		if (e.getSource() == view.qA1Button) {
+			answer = 2;
+		}
+		model.actionPerformed(e, answer);
 	}
 }
