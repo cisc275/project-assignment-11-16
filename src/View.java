@@ -118,13 +118,14 @@ class View extends JPanel {
 	}
 
 	public void paint(Graphics g) {
-		if (hud != null)
-			 hud.paintBack(g);
+		
 		
 		if(subpanel != null) {
 			subpanel.paint(g);
 		}
-		
+		if (hud != null) {
+			 hud.paintBack(g,hudargs);
+		}
 		for(Moveable m : moveables) {
 			int sx = m.getX() - cameraOffX;
 			int sy = m.getY() - cameraOffY;
@@ -138,6 +139,7 @@ class View extends JPanel {
 				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
 			}
 		}
+		
 		//System.out.println(hud);
 		if (hud != null)
 			hud.paint(g, hudargs);
