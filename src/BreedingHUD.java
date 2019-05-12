@@ -15,7 +15,18 @@ public class BreedingHUD implements HUD, ImageObserver {
 		frameWidth = w;
 		frameHeight = h;
 	}
-	
+	@Override
+	public void paintBack(Graphics g,int[] args) {
+		BufferedImage background = null;
+		if(args[0]==0) {
+			background = View.createImage("src/images/background_breeding_parkinglot.png");
+		}
+		if(args[0] ==1) {
+			background = View.createImage("src/images/background_breeding.gif");
+		}
+		g.drawImage(background,0,0,this);
+		
+	}
 	public void paint(Graphics g, int[] args) {
 		BufferedImage bushes = View.createImage("src/images/background_breeding_bushes.gif");
 		g.drawImage(bushes,0,0,this);
@@ -27,12 +38,7 @@ public class BreedingHUD implements HUD, ImageObserver {
 		return new MenuHUD(fw,fh);
 	}
 
-	@Override
-	public void paintBack(Graphics g) {
-		BufferedImage background = View.createImage("src/images/background_breeding.gif");
-		g.drawImage(background,0,0,this);
-		
-	}
+	
 
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {

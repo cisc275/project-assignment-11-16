@@ -39,7 +39,7 @@ public class EatingHUD implements HUD, ImageObserver {
 	 * 
 	 * @Author Wenki
 	 */
-	public void paintBack(Graphics g) {
+	public void paintBack(Graphics g,int[]args) {
 		// TODO Auto-generated method stub
 		BufferedImage background = View.createImage("src/images/background_eating.gif");
 		g.drawImage(background,0,0,this);

@@ -21,5 +21,12 @@ public interface HUD {
 	 * @deprecated
 	 */
 	public HUD nextHUD(int fw, int fh);
-	public void paintBack(Graphics g);
+	
+	/**
+	 * Paint the background image for each view
+	 * @param g
+	 * @param args
+	 * @author wenkiliang
+	 */
+	public void paintBack(Graphics g, int[] args);
 }

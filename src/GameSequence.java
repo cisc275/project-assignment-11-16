@@ -21,7 +21,7 @@ public class GameSequence {
 		//elements.add(() -> new GameSequenceElement(new MigratingModel(w, h, mig), new MigratingHUD(w, h)));
 		//elements.add(() -> new GameSequenceElement(new MigratingTutorial(w, h, mig), new MigratingHUD(w, h)));
 		
-		elements.add(() -> new GameSequenceElement(new BreedingModel(w, h), new BreedingHUD(w, h)));
+		elements.add(() -> new GameSequenceElement(new BreedingModel(w, h,mig), new BreedingHUD(w, h)));
 		itty = elements.iterator();
 	}
 	
