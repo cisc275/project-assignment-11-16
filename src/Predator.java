@@ -9,6 +9,11 @@ public abstract class Predator extends Moveable {
 	Predator(int xP, int yP, int r, int xV, int yV) {
 		super(xP, yP, r, xV, yV);
 	}
+	
+	Predator(int xP, int yP, int r, int xV, int yV, int s) {
+		super(xP, yP, r, xV, yV);
+		speed = s;
+	}
 
 	@Override
 	void update() {

@@ -17,7 +17,7 @@ public class BreedingHUD implements HUD, ImageObserver {
 	}
 	
 	public void paint(Graphics g, int[] args) {
-		
+		//Zach: okay my idea is to make an exclamation mark over the raccoon's head that fills up
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class BreedingHUD implements HUD, ImageObserver {
 
 	@Override
 	public void paintBack(Graphics g) {
-		BufferedImage background = View.createImage("src/images/background_breeding.gif");
+		BufferedImage background = View.createImage("./images/background_breeding.gif");
 		g.drawImage(background,0,0,this);
 		
 	}

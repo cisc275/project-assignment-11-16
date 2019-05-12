@@ -40,12 +40,16 @@ class View extends JPanel {
 	int cameraOffY = 0;
 	
 	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-40);
+	static Dimension answerSize = new Dimension(frameWidth,frameHeight/3); //gotta figure out a good size
 	JPanel subpanel;
 	JButton migrateButton;
 	JButton stayButton;
+	JButton qA1Button;
+	JButton qA2Button;
+	JButton qA3Button;
 	boolean migrate = false;
 	boolean endMenu  = false;
-	
+	boolean quizTime = false;
 	View() {
 		if (!NO_IMAGES) {
 			this.createImages();
@@ -63,7 +67,7 @@ class View extends JPanel {
 	
 	/**
 	 * sets up frame and button styles
-	 * @author Anna
+	 * @author Anna and Zach
 	 */
 	private void buildFrame() {
 		frame = new JFrame();
@@ -74,8 +78,8 @@ class View extends JPanel {
 	
 		
 		
-		ImageIcon migrateIcon = new ImageIcon("src/images/bird.png");
-		ImageIcon  stayIcon = new ImageIcon("src/images/bird.png");
+		ImageIcon migrateIcon = new ImageIcon("./images/bird.png");
+		ImageIcon  stayIcon = new ImageIcon("./images/bird.png");
 		migrateButton = new JButton("MIGRATE", migrateIcon); 
 		stayButton = new JButton("STAY", stayIcon); 
 		migrateButton.addActionListener(someactionevent -> {removeMenu(); migrate = true; endMenu = true;});
@@ -85,7 +89,15 @@ class View extends JPanel {
 		Insets insets1 = this.getInsets();
 		stayButton.setBounds(150 + insets1.left, 15 + insets1.top,
 				buttonSize.width + 50, buttonSize.height + 20);
-		
+		qA1Button = new JButton("Answer A");
+		qA2Button = new JButton("Answer B");
+		qA3Button = new JButton("Answer C");
+		qA1Button.addActionListener(someactionevent -> {removeMenu(); quizTime = false;});
+		qA2Button.addActionListener(someactionevent -> {removeMenu(); quizTime = false;});
+		qA3Button.addActionListener(someactionevent -> {removeMenu(); quizTime = false;});
+		//qA1Button.setPreferredSize(answerSize);
+		//qA2Button.setPreferredSize(answerSize);
+		//qA3Button.setPreferredSize(answerSize);
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		Insets insets = frame.getInsets();
 		//set the frame size to fit the panel
@@ -115,6 +127,19 @@ class View extends JPanel {
 		subpanel.add(stayButton);
 		this.add(subpanel);
 		frame.setVisible(true);
+	}
+	/**
+	 * called from outside (Controller) to add/show quiz at breeding game
+	 *
+	 */
+	public void buildQuiz() {
+		subpanel = new JPanel();
+		subpanel.add(qA1Button);
+		subpanel.add(qA2Button);
+		subpanel.add(qA3Button);
+		this.add(subpanel);
+		frame.setVisible(true);
+		
 	}
 
 	public void paint(Graphics g) {
@@ -209,7 +234,7 @@ class View extends JPanel {
 		for (String nom : IMAGE_NAMES) {
 			BufferedImage[][] currmatrix = new BufferedImage[DIRECTION_NAMES.length][];
 			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
-				BufferedImage sheet = createImage("src/images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
+				BufferedImage sheet = createImage("./images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
 				if (sheet != null) {
 					int subsize = sheet.getHeight();
 					int numSprites = sheet.getWidth() / subsize;

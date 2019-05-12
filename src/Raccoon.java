@@ -10,6 +10,10 @@ public class Raccoon extends Predator {
 		super(xP, yP, r, xV, yV);
 		speed = 5;
 	}
+	
+	Raccoon(int xP, int yP, int r, int xV, int yV, int s) {
+		super(xP, yP, r, xV, yV, s);
+	}
 
 	public String getImageName() {
 		return "raccoon";

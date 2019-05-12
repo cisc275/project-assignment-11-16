@@ -92,6 +92,14 @@ public class Controller implements MouseMotionListener, MouseListener {
 			} else {
 				view.resetCamera();
 			}
+			if (model instanceof BreedingModel) {
+				BreedingModel bMode1 = (BreedingModel) model;
+				view.quizTime = bMode1.quizTime;
+				while (view.quizTime) {
+					view.buildQuiz();
+				}
+				bMode1.quizTime = view.quizTime;
+			}
 			
 			view.update(model.getMoveables(), model.getHUDargs());
 			model.update();
