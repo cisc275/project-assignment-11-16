@@ -16,10 +16,14 @@ public class BreedingHUD implements HUD, ImageObserver {
 	int frameWidth;
 	//int shifter;
 	int y;
-	BufferedImage background = null;
-	BufferedImage bushes;
-	BufferedImage distract;
-	BufferedImage distractB;
+
+	BufferedImage distract = View.createImage("./images/distract.png");
+	BufferedImage distractB = View.createImage("./images/distractB.png");
+	BufferedImage background;
+	BufferedImage bushes = View.createImage("./images/background_breeding_bushes.png");
+	BufferedImage parking = View.createImage("./images/background_breeding_parkinglot.png");
+	BufferedImage forest = View.createImage("./images/background_breeding.png");
+
 	
 	public BreedingHUD(int w, int h) {
 		distract = View.createImage("./images/distract.png");
@@ -47,12 +51,12 @@ public class BreedingHUD implements HUD, ImageObserver {
 	
 	@Override
 	public void paintBack(Graphics g,int[] args) {
-		bushes = View.createImage("./images/background_breeding_bushes.png");
+
 		if(args[4]==0) {
-			background = View.createImage("./images/background_breeding_parkinglot.png");
+			background = parking;
 		}
 		if(args[4] ==1) {
-			background = View.createImage("./images/background_breeding.png");
+			background = forest;
 		}
 		g.drawImage(background,0,0,this);
 		//g.drawImage(bushes,0,0,this); currently not transparent :(
