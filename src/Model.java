@@ -42,6 +42,7 @@ abstract class Model {
 	
 	abstract void mouseMoved(int mouseX, int mouseY);
 
+	abstract void actionPerformed(ActionEvent e, int answer) ;
 
 	
 }
