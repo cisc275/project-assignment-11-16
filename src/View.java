@@ -20,8 +20,8 @@ class View extends JPanel {
 	static int frameHeight = 720;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
-	static //final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
-	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "hawk", "raccoon", "pointerarea", "gust", "bag", "nest"};
+	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
+	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
 	int[] hudargs;
@@ -186,7 +186,7 @@ class View extends JPanel {
 	/*private BufferedImage createImages(String type) {
 		BufferedImage bufferedImage;
 		try {
-			bufferedImage = ImageIO.read(new File("/src/images/"+type+".png"));
+			bufferedImage = ImageIO.read(new File("./images/"+type+".png"));
 			return bufferedImage;
 		} catch (IOException e) {
 			System.out.println(type+" could not be found");
@@ -230,9 +230,9 @@ class View extends JPanel {
 			}
 			images.put(nom, currmatrix);
 		}
-		for (String nom : IMAGE_NAMES_STATIC) { //idk how to do this, but make a nondirectional spritesheet (kelly)
+		//for (String nom : IMAGE_NAMES_STATIC) { //idk how to do this, but make a nondirectional spritesheet (kelly)
 			//BufferedImage myImg = createImage("./images/" + nom + ".png");
-		}
+		//}
 	}
 	
 	/**

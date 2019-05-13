@@ -15,7 +15,7 @@ public class Hawk extends Enemy {
 	}
 	
 	public String getImageName() {
-		return "Hawk";
+		return "hawk";
 	}
 
 }
