@@ -1,4 +1,3 @@
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -55,12 +54,8 @@ public class Menu extends Model {
 		int[] toret = {};
 		return toret;
 	}
-
-	@Override
-	void actionPerformed(ActionEvent e, int answer) {
-		// TODO Auto-generated method stub
+	
+	void buttonClicked(int answer) {
 		
 	}
-
-
 }

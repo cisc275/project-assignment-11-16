@@ -1,9 +1,7 @@
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 public class BreedingModel extends Model {
 	
@@ -18,7 +16,9 @@ public class BreedingModel extends Model {
 	int switchDir;
 	int correctAnswer;
 	boolean isMigrating;
-	//pass frame height/width from view to create models
+	/**
+	 * pass frame height/width from view to create models
+	 */
 	BreedingModel(int w, int h, boolean mig){
 		frameHeight = h;
 		frameWidth = w;
@@ -28,7 +28,13 @@ public class BreedingModel extends Model {
 		isMigrating = mig;
 	}
 	
-	//for testing 
+	/**
+	 * for testing 
+	 * @param w
+	 * @param h
+	 * @param b
+	 * @param p
+	 */
 	BreedingModel(int w, int h, BreedingBird b, List<Predator> p){
 		frameHeight = w;
 		frameWidth = h;
@@ -36,7 +42,14 @@ public class BreedingModel extends Model {
 		nest = new Nest(0, 0, 0);
 	}	
 	
-	//for testing 
+	/**
+	 * for testing 
+	 * @param w
+	 * @param h
+	 * @param b
+	 * @param p
+	 * @param n
+	 */
 	BreedingModel(int w, int h, BreedingBird b, List<Predator> p, Nest n){
 		frameHeight = w;
 		frameWidth = h;
@@ -61,11 +74,10 @@ public class BreedingModel extends Model {
 	
 	void update() {
 		bird.update();
-			p.update();
-			this.updateBird(this.bird.getX(), this.bird.getY());
-			updateCollision();
-			despawnPredators();
-		
+		p.update();
+		this.updateBird(this.bird.getX(), this.bird.getY());
+		updateCollision();
+		despawnPredators();
 	}
 	
 	void updateCollision() {
@@ -76,8 +88,9 @@ public class BreedingModel extends Model {
 			byeByePredator(); //this should make the predator leave after colliding once, but does not
 			nest.numEggs -= 1;
 			System.out.println("bird collided with n");
+		}
 	}
-	}
+	
 	boolean endGame() {
 		if (nest.numEggs == 0) {
 			return true;
@@ -102,21 +115,18 @@ public class BreedingModel extends Model {
 	}
 	
 	void generatePredators() {
-		Random r =  new Random();
-        switchDir =  r.nextInt(2);
-        if(switchDir == 1){
-        	//start raccoon at left of screen
-        	p = new Raccoon (0, frameHeight/2, 35, 0, 0, normalSpeed);
-        }
-        if(switchDir == 0) { 
-        	//start raccoon at right of screen
-        	p = new Raccoon (frameWidth, frameHeight/2,35,0,0, normalSpeed);
-        	}
+		switch ((int) Math.random()*2) {
+			//start raccoon at left of screen
+			case 0: p = new Raccoon(0, frameHeight/2, 35, 0, 0, normalSpeed); break;
+			//start raccoon at right of screen
+			case 1: p = new Raccoon(frameWidth, frameHeight/2,35,0,0, normalSpeed); break;
+		}
 		distractCountdown = 60;
 	}
 	
-	/* checks which quadrant raccoon is in and runs off screen
-	 * @author Zach */
+	/** checks which quadrant raccoon is in and runs off screen
+	 * @author Zach
+	 */
 	void byeByePredator() {
 		p.setSpeed(runawaySpeed);
 		if(p.getX() >= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
@@ -156,8 +166,8 @@ public class BreedingModel extends Model {
 			score += 100;
 		}
 		else score -= 50;
-		
 	}
+	
 	void startBrokenWing() {
 		this.bird.brokenWing = true;
 	}
@@ -170,7 +180,7 @@ public class BreedingModel extends Model {
 	void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick) {
 		if (leftClick == true) {
 			this.setDestination(mouseX, mouseY);
-		}else if(rightClick == true) {
+		} else if (rightClick == true) {
 			this.startBrokenWing();
 		}
 	}
@@ -188,7 +198,6 @@ public class BreedingModel extends Model {
 
 	@Override
 	void mouseMoved(int mouseX, int mouseY) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -204,14 +213,9 @@ public class BreedingModel extends Model {
 		return toret;
 	}
 	
-
-
 	@Override
-	void actionPerformed(ActionEvent e, int answer) {
-		// TODO Auto-generated method stub
+	void buttonClicked(int answer) {
 		isCorrect(answer);
 		this.quizTime = false;
 	}
-
-	
 }

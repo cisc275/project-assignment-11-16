@@ -12,25 +12,20 @@ import java.awt.image.ImageObserver;
 public class MenuHUD implements HUD, ImageObserver {
 	int frameHeight;
 	int frameWidth;
+	BufferedImage background;
 	
 	public MenuHUD(int w, int h) {
 		frameWidth = w;
 		frameHeight = h;
+		background = View.createImage(View.IMAGE_PATH+"background_start_menu.png");
 	}
 	@Override
 	public void paint(Graphics g, int[] args) {
 		// TODO Auto-generated method stub
 
 	}
-
-//	@Override
-//	public HUD nextHUD(int fw, int fh) {
-//		return new EatingHUD(fw,fh);
-//	}
 	@Override
 	public void paintBack(Graphics g,int[] args) {
-		// TODO Auto-generated method stub
-		BufferedImage background = View.createImage("./images/background_start_menu.png");
 		g.drawImage(background,0,0,this);
 	}
 	@Override

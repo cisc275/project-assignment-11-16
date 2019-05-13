@@ -1,4 +1,3 @@
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -124,14 +123,12 @@ class EatingModel extends Model {
 
 	@Override
 	void mouseReleased() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	void mouseDragged(int mouseX, int mouseY, int actualX, int actualY) {
 		this.setDestination(actualX, actualY);
-		
 	}
 
 	@Override
@@ -145,11 +142,9 @@ class EatingModel extends Model {
 		int[] toret = {score, scoreGoal, timeTaken, timeLimit};
 		return toret;
 	}
-
 	
-
 	@Override
-	void actionPerformed(ActionEvent e, int answer) {
+	void buttonClicked(int answer) {
 		// TODO Auto-generated method stub
 		
 	}

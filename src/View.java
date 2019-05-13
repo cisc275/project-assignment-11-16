@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,8 @@ import java.awt.image.*;
 
 @SuppressWarnings("serial")
 class View extends JPanel {
+	public static final String IMAGE_PATH = "src/images/";
+	
 	public static final boolean NO_IMAGES = false;
 	public static final boolean SPRITE_INFO = true;
 	
@@ -35,7 +38,7 @@ class View extends JPanel {
 	 * It uses weak references, so don't worry about memory leaks.
 	 */
 	Map<Moveable, Integer> picCycles;
-	Collection <Moveable> moveables;
+	Collection <Moveable> moveables = new ArrayList<Moveable>();
 
 	int cameraOffX = 0;
 	int cameraOffY = 0;
@@ -177,7 +180,7 @@ class View extends JPanel {
 	}
 	
 	void update(Collection<Moveable> moveables, int[] hudargs) {
-		this.moveables = moveables;
+		this.moveables = (moveables != null) ? moveables : new ArrayList<Moveable>();
 		this.hudargs = hudargs;
 		frame.repaint();
 	}
@@ -242,7 +245,7 @@ class View extends JPanel {
 		for (String nom : IMAGE_NAMES_ANIMATED) {
 			BufferedImage[][] currmatrix = new BufferedImage[DIRECTION_NAMES.length][];
 			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
-				BufferedImage sheet = createImage("./images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
+				BufferedImage sheet = createImage(IMAGE_PATH+nom+"-"+DIRECTION_NAMES[i]+".png");
 				if (sheet != null) {
 					int subsize = sheet.getHeight(); //consider splitting this into another method
 					int numSprites = sheet.getWidth() / subsize;

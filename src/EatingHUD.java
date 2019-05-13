@@ -19,7 +19,7 @@ public class EatingHUD implements HUD, ImageObserver {
 	public EatingHUD(int w, int h) {
 		frameWidth = w;
 		frameHeight = h;
-		background = View.createImage("./images/background_eating.png");
+		background = View.createImage(View.IMAGE_PATH+"background_eating.png");
 	}
 	
 	/**
@@ -28,18 +28,10 @@ public class EatingHUD implements HUD, ImageObserver {
 	public void paint(Graphics g, int[] args) {
 		g.drawString(Integer.toString(args[0]), 0, 0);
 	}
-
-//	@Override
-//	public HUD nextHUD(int fw, int fh) {
-//		return new MigratingHUD(fw, fh);
-//	}
-
-	@Override
 	
 	/**
-	 * generate the background image.
+	 * draw the background image.
 	 * 
-	 * @Author Wenki
 	 */
 	public void paintBack(Graphics g,int[]args) {
 		g.drawImage(background,0,0,this);

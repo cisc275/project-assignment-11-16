@@ -16,29 +16,30 @@ public class BreedingHUD implements HUD, ImageObserver {
 	int frameWidth;
 	//int shifter;
 	int y;
-
-	BufferedImage distract = View.createImage("./images/distract.png");
-	BufferedImage distractB = View.createImage("./images/distractB.png");
+	BufferedImage bushes;
 	BufferedImage background;
-	BufferedImage bushes = View.createImage("./images/background_breeding_bushes.png");
-	BufferedImage parking = View.createImage("./images/background_breeding_parkinglot.png");
-	BufferedImage forest = View.createImage("./images/background_breeding.png");
-
+	BufferedImage distract;
+	BufferedImage distractB;
 	
-	public BreedingHUD(int w, int h) {
-		distract = View.createImage("./images/distract.png");
-		distractB = View.createImage("./images/distractB.png");
+	public BreedingHUD(int w, int h, boolean migrating) {
 		frameWidth = w;
 		frameHeight = h;
-		
+		bushes = View.createImage(View.IMAGE_PATH+"background_breeding_bushes.png");
+		if (migrating) {
+			background = View.createImage(View.IMAGE_PATH+"background_breeding.png");
+		} else {
+			background = View.createImage(View.IMAGE_PATH+"background_breeding_parkinglot.png");
+		}
+		distract = View.createImage(View.IMAGE_PATH+"images/distract.png");
+		distractB = View.createImage(View.IMAGE_PATH+"images/distractB.png");
 	}
 	
 	public void paint(Graphics g, int[] args) {
 		//Zach: okay my idea is to make an exclamation mark over the raccoon's head that fills up
 		if (args[2] == 1) {
-		g.drawImage(distractB, args[0]+30, y, 20, 180, this);
-		g.drawImage(distract, args[0], args[1] - 80, 80, 90, this);
-		refreshY(args[1],args[3]);
+			g.drawImage(distractB, args[0]+30, y, 20, 180, this);
+			g.drawImage(distract, args[0], args[1] - 80, 80, 90, this);
+			refreshY(args[1],args[3]);
 		}
 	}
 	
@@ -51,19 +52,10 @@ public class BreedingHUD implements HUD, ImageObserver {
 	
 	@Override
 	public void paintBack(Graphics g,int[] args) {
-
-		if(args[4]==0) {
-			background = parking;
-		}
-		if(args[4] ==1) {
-			background = forest;
-		}
 		g.drawImage(background,0,0,this);
 		//g.drawImage(bushes,0,0,this); currently not transparent :(
 		
 	}
-
-
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 		// TODO Auto-generated method stub

@@ -140,7 +140,7 @@ public class Controller implements MouseMotionListener, MouseListener, ActionLis
 	}
 	
 	public void mouseMoved(MouseEvent e) {
-			model.mouseMoved(e.getX(), e.getY());
+		model.mouseMoved(e.getX(), e.getY());
 	}
 
 	@Override
@@ -150,15 +150,13 @@ public class Controller implements MouseMotionListener, MouseListener, ActionLis
 		int answer = -1;
 		if (e.getSource() == view.qA1Button) {
 			answer = 0;
-		}
-		if (e.getSource() == view.qA1Button) {
+		} else if (e.getSource() == view.qA2Button) {
 			answer = 1;
-		}
-		if (e.getSource() == view.qA1Button) {
+		} else if (e.getSource() == view.qA3Button) {
 			answer = 2;
 		}
 		view.quizTime = false;
 		view.removeMenu();
-		model.actionPerformed(e, answer);
+		model.buttonClicked(answer);
 	}
 }
