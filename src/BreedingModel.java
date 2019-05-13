@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class BreedingModel extends Model {
+public class BreedingModel extends Model {
 	
 	BreedingBird bird;
 	//List<Predator> predators;
@@ -13,9 +13,10 @@ class BreedingModel extends Model {
 	int distractCountdown = 50;
 	int randX = (int) (Math.random()*frameHeight); //random isn't working like id like
 	int randY = (int) (Math.random()*frameWidth);
+	boolean isMigrating;
 	
 	//pass frame height/width from view to create models
-	BreedingModel(int w, int h){
+	BreedingModel(int w, int h,boolean mig){
 		frameHeight = w;
 		frameWidth = h;
 		bird = new BreedingBird(400, 400, 30, 0, 0, 8);
@@ -23,6 +24,7 @@ class BreedingModel extends Model {
 		//predators.add(new Raccoon(40, 40, 10, 5, 0));
 		p = new Raccoon(300, 800, 35, 0, 0);
 		nest = new Nest(frameHeight/2,frameWidth/2,50);
+		isMigrating = mig;
 	}
 	
 	//for testing 
@@ -171,15 +173,13 @@ class BreedingModel extends Model {
 	@Override
 	int[] getHUDargs() {
 		int[] toret = {
+				isMigrating ? 1 : 0,
 				0,
 				0
 		};
 		return toret;
 	}
 	
-	@Override
-	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
-			return new Menu(frameWidth, frameHeight);
-	}
+	
 	
 }

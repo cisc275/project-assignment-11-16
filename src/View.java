@@ -17,10 +17,10 @@ class View extends JPanel {
 	
 	JFrame frame;
 	static int frameWidth = 1080;
-	static int frameHeight = 720;//1080;
+	static int frameHeight = 720;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
-	static final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
+	static //final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
 	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "hawk", "raccoon", "pointerarea", "gust", "bag", "nest"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
@@ -40,7 +40,7 @@ class View extends JPanel {
 	int cameraOffX = 0;
 	int cameraOffY = 0;
 	
-	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-40);
+	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-50);
 	JPanel subpanel;
 	JButton migrateButton;
 	JButton stayButton;
@@ -69,30 +69,25 @@ class View extends JPanel {
 	private void buildFrame() {
 		frame = new JFrame();
 		frame.add(this);
-		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Killdeer Simulator");
+		Insets insets1 = this.getInsets();
 	
-		
-		
-		ImageIcon migrateIcon = new ImageIcon("./images/bird.png");
-		ImageIcon  stayIcon = new ImageIcon("./images/bird.png");
-		migrateButton = new JButton("MIGRATE", migrateIcon); 
-		stayButton = new JButton("STAY", stayIcon); 
+		migrateButton = new JButton("MIGRATE"); 
+		stayButton = new JButton("STAY"); 
 		migrateButton.addActionListener(someactionevent -> {removeMenu(); migrate = true; endMenu = true;});
 		stayButton.addActionListener(someactionevent -> {removeMenu(); endMenu = true;});
 		migrateButton.setPreferredSize(buttonSize);
 		stayButton.setPreferredSize(buttonSize); //must be pref size
-		Insets insets1 = this.getInsets();
-		stayButton.setBounds(150 + insets1.left, 15 + insets1.top,
-				buttonSize.width + 50, buttonSize.height + 20);
-		
-		frame.setVisible(true); //NOTE: must put all in frame before setVisible
+		stayButton.setBounds(150 + insets1.left, 15 + insets1.top, buttonSize.width + 50, buttonSize.height + 20);
+		stayButton.setOpaque(false);
+		migrateButton.setOpaque(false);
+
 		Insets insets = frame.getInsets();
 		//set the frame size to fit the panel
 		frame.setSize(frameWidth + insets.left + insets.right, frameHeight + insets.top + insets.bottom);
-		System.out.println( insets.left+ "+"+ insets.right+ "+" +insets.top+ "+" +insets.bottom);
 		
+		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		this.setFocusable(true);
 	}
 	
@@ -112,20 +107,22 @@ class View extends JPanel {
 	 */
 	public void buildMenu() {
 		subpanel = new JPanel();
-		subpanel.add(migrateButton);
 		subpanel.add(stayButton);
+		subpanel.add(migrateButton);
+		subpanel.setOpaque(false);
 		this.add(subpanel);
 		frame.setVisible(true);
 	}
 
 	public void paint(Graphics g) {
-		if (hud != null)
-			 hud.paintBack(g);
+		
 		
 		if(subpanel != null) {
 			subpanel.paint(g);
 		}
-		
+		if (hud != null) {
+			 hud.paintBack(g,hudargs);
+		}
 		for(Moveable m : moveables) {
 			int sx = m.getX() - cameraOffX;
 			int sy = m.getY() - cameraOffY;
@@ -139,6 +136,7 @@ class View extends JPanel {
 				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
 			}
 		}
+		
 		//System.out.println(hud);
 		if (hud != null)
 			hud.paint(g, hudargs);
