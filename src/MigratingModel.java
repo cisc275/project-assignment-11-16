@@ -10,10 +10,10 @@ class MigratingModel extends Model{
 	
 	private static int enemyScore = -10; 
 	private static int gustScore = 20;
-	private final static int maxEnemies = 3;
-	private final static int maxGusts = 2;
-	protected final static int powerDuration = 50;
-	protected final static int velocityChange = 10;
+	protected static int maxEnemies = 3;
+	protected static int maxGusts = 2;
+	protected static int powerDuration = 50;
+	protected static int velocityChange = 10;
 	
 	protected boolean powerOn = false;
 	protected int powerTimer = 0;
@@ -78,21 +78,31 @@ class MigratingModel extends Model{
 			accelerateMoveables(velocityChange);
 			powerOn = false;
 		}
-
-		for (Moveable o : enemies) {
-			o.update();
-		}
-		for (Moveable o : gusts) {
-			o.update();
-		}
-		updateEnemyCollision();
-		updateGustCollision();
+		
+		updateMoveableLists();
+		
 		if(powerOn == false) {
 			distance += birdVelocity;
 		}else {
 			distance += birdVelocity+velocityChange; 
 		}
 		System.out.println(this.endGame());
+	}
+	
+	
+	void updateMoveableLists() {
+		for (Moveable o : enemies) {
+			o.update();
+		}
+		for (Moveable o : gusts) {
+			o.update();
+		}
+		for(Moveable o : backgroundObjects) {
+			o.update();
+		}
+		updateEnemyCollision();
+		updateGustCollision();
+		updateBackgroundObjects();
 	}
 	
 	/**
@@ -107,7 +117,7 @@ class MigratingModel extends Model{
 		m.addAll(enemies);
 		m.add(bird);
 		m.addAll(gusts);
-		//m.addAll(backgroundObjects);
+		m.addAll(backgroundObjects); 
 		return m;
 	}
 	
@@ -234,6 +244,22 @@ class MigratingModel extends Model{
 		}
 	}
 	
+	
+	/**
+	 * If bgObjects exit frame, they loop back around. 
+	 * Mostly for clouds, used to also hold pointer in tutorial
+	 * @author Anna
+	 */
+	void updateBackgroundObjects() {
+		Iterator <Moveable> bgIterator = backgroundObjects.iterator();
+		while(bgIterator.hasNext()) {
+			Moveable o = bgIterator.next();
+			if(o.exitsFrame(frameWidth, frameHeight)) {
+				o.setLocation(frameWidth, o.getY());
+			}
+		}
+	}
+	
 	/**
 	 * Speeds up or down all objects besides bird according to input
 	 * @author Anna
@@ -244,6 +270,9 @@ class MigratingModel extends Model{
 		}
 		for(Enemy enemy : enemies) {
 			enemy.setVelocity(enemy.getXVelocity()+velocity, enemy.getYVelocity());
+		}
+		for(Moveable cloud : backgroundObjects) {
+			cloud.setVelocity(cloud.getXVelocity()+velocity, cloud.getYVelocity());
 		}
 	}
 

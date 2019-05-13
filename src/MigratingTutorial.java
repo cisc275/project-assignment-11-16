@@ -1,5 +1,10 @@
 import java.util.Collection;
 
+/**
+ * Prompts player to collide with a gust and a hawk to show what happens
+ * @author Anna
+ *
+ */
 public class MigratingTutorial extends MigratingModel {
 
 	PointerArea pointer;
@@ -8,23 +13,22 @@ public class MigratingTutorial extends MigratingModel {
 	
 	MigratingTutorial(int w, int h, boolean isMigrate) {
 		super(w, h, isMigrate);
+		
 		gusts.add(new Gust(frameWidth-10,150));
 		pointer = new PointerArea(500, 150, 50);
 		backgroundObjects.add(pointer);
+		backgroundObjects.add(new Cloud(frameWidth-100, 50));
+		backgroundObjects.add(new Cloud(600, 600));
+		backgroundObjects.add(new Cloud(300, 300));
 		stage = 0;
+
+		
 	}
 	
 	void update() {
 		bird.update();
-		for (Moveable o : enemies) {
-			o.update();
-		}
-		for (Moveable o : gusts) {
-			o.update();
-		}
-		updateEnemyCollision();
-		updateGustCollision();
-	
+		updateMoveableLists();
+
 		if(stage == 0 && gusts.isEmpty()) {
 			enemies.add(new Hawk(frameWidth-10, 500));
 			pointer = new PointerArea(500, 500, 50);
@@ -51,14 +55,5 @@ public class MigratingTutorial extends MigratingModel {
 		}
 	}
 	
-	/*
-	@Override
-	Collection<Moveable> getMoveables() {
-		Collection<Moveable> m = super.getMoveables();
-		if (pointer != null)
-			m.add(pointer);
-		return m;
-	}
-	*/
 
 }
