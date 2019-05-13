@@ -12,6 +12,8 @@ import java.awt.image.ImageObserver;
  * @author ZachC
  */
 public class BreedingHUD implements HUD, ImageObserver {
+	static final int ABOVE_PREDATOR = 40;
+	
 	int frameHeight;
 	int frameWidth;
 	//int shifter;
@@ -30,32 +32,37 @@ public class BreedingHUD implements HUD, ImageObserver {
 		} else {
 			background = View.createImage(View.IMAGE_PATH+"background_breeding_parkinglot.png");
 		}
-		distract = View.createImage(View.IMAGE_PATH+"images/distract.png");
-		distractB = View.createImage(View.IMAGE_PATH+"images/distractB.png");
+		distract = View.createImage(View.IMAGE_PATH+"distract.png");
+		distractB = View.createImage(View.IMAGE_PATH+"distractB.png");
 	}
 	
+	/**
+	 * 0: predator's x
+	 * 1: predator's y
+	 * 2: broken wing
+	 * 3: distract countdown
+	 * 4: distract duration
+	 * 5: is migrating
+	 */
 	public void paint(Graphics g, int[] args) {
 		//Zach: okay my idea is to make an exclamation mark over the raccoon's head that fills up
 		if (args[2] == 1) {
-			g.drawImage(distractB, args[0]+30, y, 20, 180, this);
-			g.drawImage(distract, args[0], args[1] - 80, 80, 90, this);
-			refreshY(args[1],args[3]);
+			int filled = Math.min(Math.max(1, (int) (distract.getHeight() * (1.0 - (1.0 * args[3] / args[4])))), distract.getHeight());
+			BufferedImage filledImage = distract.getSubimage(0, distract.getHeight()-filled, distract.getWidth(), filled);
+			g.drawImage(filledImage, args[0], args[1]-ABOVE_PREDATOR-filled, this);
+			//g.drawImage(distractB, args[0]+30, y, 20, 180, this);
+			//g.drawImage(distract, args[0], args[1]-ABOVE_PREDATOR-distract.getHeight(), this);
+			//refreshY(args[1],args[3]);
 		}
 	}
 	
-	//fills in the exclamation point
-	//doesn't currently work
-	public void refreshY(int yloc ,int distract) {
-		y = yloc + distract;
-		System.out.println("y =" + y);
-	}
-	
 	@Override
-	public void paintBack(Graphics g,int[] args) {
-		g.drawImage(background,0,0,this);
+	public void paintBack(Graphics g, int[] args) {
+		g.drawImage(background, 0, 0, this);
 		//g.drawImage(bushes,0,0,this); currently not transparent :(
 		
 	}
+	
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 		// TODO Auto-generated method stub

@@ -4,12 +4,12 @@ import java.util.Collection;
 import java.util.List;
 
 public class BreedingModel extends Model {
-	
+	static final int DISTRACT_DURATION = 60;
 	BreedingBird bird;
 	Predator p;
 	Nest nest;
 	boolean quizTime = false;
-	int distractCountdown = 50;
+	int distractCountdown = DISTRACT_DURATION;
 	int tutorialSpeed = 0;
 	int normalSpeed = 6;
 	int runawaySpeed = 10;
@@ -65,7 +65,7 @@ public class BreedingModel extends Model {
 		if (this.bird.getBrokenWing() == true) {
 			p.updateBirdLoc(xB, yB);
 			distractCountdown--;
-			System.out.println(distractCountdown);
+			//System.out.println(distractCountdown);
 			//predator chases bird
 		}
 		else p.updateBirdLoc(nest.x, nest.y);
@@ -121,7 +121,7 @@ public class BreedingModel extends Model {
 			//start raccoon at right of screen
 			case 1: p = new Raccoon(frameWidth, frameHeight/2,35,0,0, normalSpeed); break;
 		}
-		distractCountdown = 60;
+		distractCountdown = DISTRACT_DURATION;
 	}
 	
 	/** checks which quadrant raccoon is in and runs off screen
@@ -151,8 +151,7 @@ public class BreedingModel extends Model {
 		//predators in the view should run away
 		if (distractCountdown < 0) {
 			byeByePredator();
-		}
-		if (p.exitsFrame(frameWidth, frameHeight)) {
+		} else if (p.exitsFrame(frameWidth, frameHeight)) {
 			generatePredators();
 			//quizTime = true;
 			//uncomment this to start quiz and break game
@@ -178,9 +177,9 @@ public class BreedingModel extends Model {
 
 	@Override
 	void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick) {
-		if (leftClick == true) {
+		if (leftClick) {
 			this.setDestination(mouseX, mouseY);
-		} else if (rightClick == true) {
+		} else if (rightClick) {
 			this.startBrokenWing();
 		}
 	}
@@ -208,6 +207,7 @@ public class BreedingModel extends Model {
 				p.getY(),
 				bird.brokenWing ? 1 : 0,
 				distractCountdown,
+				DISTRACT_DURATION,
 				isMigrating ? 1 : 0,
 		};
 		return toret;
