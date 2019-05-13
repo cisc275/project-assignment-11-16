@@ -92,9 +92,9 @@ class View extends JPanel {
 		qA1Button = new JButton("Answer A");
 		qA2Button = new JButton("Answer B");
 		qA3Button = new JButton("Answer C");
-		//qA1Button.addActionListener(someactionevent -> {removeMenu(); quizTime = false;});
-		//qA2Button.addActionListener(someactionevent -> {removeMenu(); quizTime = false;});
-		//qA3Button.addActionListener(someactionevent -> {removeMenu(); quizTime = false;});
+		qA1Button.addActionListener(someactionevent -> {System.out.print("fuck");removeMenu(); endMenu = true; quizTime = false;});
+		qA2Button.addActionListener(someactionevent -> {removeMenu(); endMenu = true; quizTime = false;});
+		qA3Button.addActionListener(someactionevent -> {removeMenu(); endMenu = true; quizTime = false;});
 		//qA1Button.setPreferredSize(answerSize);
 		//qA2Button.setPreferredSize(answerSize);
 		//qA3Button.setPreferredSize(answerSize);

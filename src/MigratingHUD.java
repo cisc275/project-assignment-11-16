@@ -17,7 +17,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 	int destinationY = frameHeight - map.getHeight()/3;
 	int initialX = frameWidth - map.getWidth()*2/3;
 	int initialY = frameHeight - map.getHeight()*7/8;
-	int x =initialX;
+	int x = initialX;
 	int y = initialY;
 	int currentDistance;
 	int maxDistance;

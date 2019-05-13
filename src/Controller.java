@@ -99,7 +99,7 @@ public class Controller implements MouseMotionListener, MouseListener, ActionLis
 				while (view.quizTime) {
 					view.buildQuiz();
 					//System.out.println("While loop");
-					bMode1.quizTime = view.quizTime;
+					view.quizTime = bMode1.quizTime;
 				}
 				//System.out.println("Outside the loop");
 				
@@ -171,7 +171,8 @@ public class Controller implements MouseMotionListener, MouseListener, ActionLis
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		view.quizTime = false;
+		view.endMenu = true;
+		System.out.println("button was pressed!");
 		int answer = -1;
 		if (e.getSource() == view.qA1Button) {
 			answer = 0;
@@ -182,6 +183,8 @@ public class Controller implements MouseMotionListener, MouseListener, ActionLis
 		if (e.getSource() == view.qA1Button) {
 			answer = 2;
 		}
+		view.quizTime = false;
+		view.removeMenu();
 		model.actionPerformed(e, answer);
 	}
 }

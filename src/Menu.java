@@ -1,3 +1,4 @@
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -58,6 +59,12 @@ public class Menu extends Model {
 	@Override
 	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
 			return new EatingModel(frameWidth, frameHeight);
+	}
+
+	@Override
+	void actionPerformed(ActionEvent e, int answer) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

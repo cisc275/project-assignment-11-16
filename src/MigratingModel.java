@@ -1,3 +1,4 @@
+import java.awt.event.ActionEvent;
 import java.util.*;
 
 
@@ -278,6 +279,12 @@ class MigratingModel extends Model{
 	@Override
 	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
 			return new BreedingModel(frameWidth, frameHeight);
+	}
+
+	@Override
+	void actionPerformed(ActionEvent e, int answer) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

@@ -8,14 +8,13 @@ import java.util.Random;
 class BreedingModel extends Model {
 	
 	BreedingBird bird;
-	//List<Predator> predators;
 	Predator p;
 	Nest nest;
 	boolean quizTime = false;
 	int distractCountdown = 50;
 	int tutorialSpeed = 0;
-	int normalSpeed = 5;
-	int runawaySpeed = 8;
+	int normalSpeed = 6;
+	int runawaySpeed = 10;
 	int switchDir;
 	int correctAnswer;
 	
@@ -24,8 +23,6 @@ class BreedingModel extends Model {
 		frameHeight = h;
 		frameWidth = w;
 		bird = new BreedingBird(frameWidth/2, frameHeight/2, 30, 0, 0, 8);
-		//predators = new ArrayList<Predator>();
-		//predators.add(new Raccoon(40, 40, 10, 5, 0));
 		p = new Raccoon(frameWidth/2, frameHeight-100, 35, 0, 0, tutorialSpeed);
 		nest = new Nest(frameWidth/2,(frameHeight/2)-100,50);
 	}
@@ -35,7 +32,6 @@ class BreedingModel extends Model {
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
-		//predators = p;
 		nest = new Nest(0, 0, 0);
 	}	
 	
@@ -44,7 +40,6 @@ class BreedingModel extends Model {
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
-		//predators = p;
 		nest = n;
 	}	
 	
@@ -53,15 +48,11 @@ class BreedingModel extends Model {
 	}
 	
 	void updateBird(int xB, int yB) {
-		/*
-		 * for (Predator p : this.predators) { p.updateBirdLoc(xB, yB); }
-		 */
 		if (this.bird.getBrokenWing() == true) {
-			//p.velocity.setPolar(p.velocity.getR(), -(p.velocity.getTheta()));
 			p.updateBirdLoc(xB, yB);
-			//p.speed = normalSpeed;
 			distractCountdown--;
 			System.out.println(distractCountdown);
+			//predator chases bird
 		}
 		else p.updateBirdLoc(nest.x, nest.y);
 		//predator goes towards nest
@@ -69,7 +60,6 @@ class BreedingModel extends Model {
 	
 	void update() {
 		bird.update();
-		//for (Predator p : this.predators) {
 			p.update();
 			this.updateBird(this.bird.getX(), this.bird.getY());
 			updateCollision();
@@ -82,9 +72,9 @@ class BreedingModel extends Model {
 			System.out.println("bird collided with p");
 		}
 		if (p.collidesWith(nest)) {
+			byeByePredator(); //this should make the predator leave after colliding once, but does not
 			nest.numEggs -= 1;
 			System.out.println("bird collided with n");
-			byeByePredator();
 	}
 	}
 	boolean endGame() {
@@ -96,7 +86,6 @@ class BreedingModel extends Model {
 	
 	Collection<Moveable> getMoveables(){
 		Collection<Moveable> m = new ArrayList<Moveable>();
-		//m.addAll(predators);
 		m.add(p);
 		m.add(bird);
 		m.add(nest);
@@ -125,30 +114,25 @@ class BreedingModel extends Model {
 		distractCountdown = 60;
 	}
 	
-	/* should make the predator run off the screen to the left, but uhhh
+	/* checks which quadrant raccoon is in and runs off screen
 	 * @author Zach */
 	void byeByePredator() {
 		p.setSpeed(runawaySpeed);
 		if(p.getX() >= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
 			//if in bottom right quadrant, go to that corner
 			p.updateBirdLoc(frameWidth+p.radius*2, frameHeight+p.radius*2);
-			System.out.println("You should be going bottom right");
 		}
 		if(p.getX() <= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
 			//if in bottom left quadrant, go to that corner
 			p.updateBirdLoc(-p.radius*2, frameHeight+p.radius*2);
-			System.out.println("You should be going bottom left");
-			//System.out.print(p.getY() + ">" + frameHeight/2);
 		}
 		if(p.getX() >= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
 			//if in top right quadrant, go to that corner
 			p.updateBirdLoc(frameWidth+p.radius*2, -p.radius*2);
-			System.out.println("You should be going top right");
 		}
 		if(p.getX() <= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
 			//if in top left quadrant, go to that corner
 			p.updateBirdLoc(-p.radius*2, -p.radius*2);
-			System.out.println("You should be going top left");
 		}
 	}
 	
@@ -159,13 +143,18 @@ class BreedingModel extends Model {
 		}
 		if (p.exitsFrame(frameWidth, frameHeight)) {
 			generatePredators();
-			quizTime = true;
+			//quizTime = true;
+			//uncomment this to start quiz and break game
 		}
 	
 		
 	}
 	
-	void updatePredatorCollision() {
+	void isCorrect(int ans) {
+		if (ans == correctAnswer) {
+			score += 100;
+		}
+		else score -= 50;
 		
 	}
 	void startBrokenWing() {
@@ -205,8 +194,10 @@ class BreedingModel extends Model {
 	@Override
 	int[] getHUDargs() {
 		int[] toret = {
-				0,
-				0
+				p.getX(),
+				p.getY(),
+				bird.brokenWing ? 1 : 0,
+				distractCountdown
 		};
 		return toret;
 	}
@@ -219,7 +210,8 @@ class BreedingModel extends Model {
 	@Override
 	void actionPerformed(ActionEvent e, int answer) {
 		// TODO Auto-generated method stub
-		quizTime = false;
+		isCorrect(answer);
+		this.quizTime = false;
 	}
 	
 }
