@@ -55,7 +55,15 @@ class EatingModelTest {
 	@Test
 	void updateTest() {
 		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList, 5);
-
+		eModel.food.add(new Grasshopper(1000, 1000, 10, 0, 0));
+		EatingModel eModel1 = new EatingModel(frameWidth, frameHeight, testBird, foodList, 5);
+		eModel.update();
+		assertNotEquals(eModel.timeTaken, eModel1.timeTaken);
+		
+		//test collision
+		eModel.food.add(new Grasshopper(eModel.getBirdX(), eModel.getBirdY(), 10, 0, 0));
+		eModel.update();
+		assertNotEquals(eModel.getScore(), 0);
 	}
 	
 	@Test
@@ -66,7 +74,12 @@ class EatingModelTest {
 	//test different get methods
 	@Test
 	void getsTest() {
-		
+		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList, 5);
+		assertNotNull(eModel.getBirdX());
+		assertNotNull(eModel.getMoveables());
+		assertNotNull(eModel.getBirdY());
+		assertNotNull(eModel.getHUDargs());
+		assertNotNull(eModel.nextModel(eModel.frameWidth, eModel.frameHeight, false));
 	}
 	
 	//test different mouse listener methods
@@ -77,11 +90,5 @@ class EatingModelTest {
 	
 	@Test
 	void HUDTest() {
-		
-	}
-	
-	@Test
-	void newModelTest() {
-		
 	}
 }
