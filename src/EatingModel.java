@@ -146,10 +146,7 @@ class EatingModel extends Model {
 		return toret;
 	}
 
-	@Override
-	public Model nextModel(int frameWidth, int frameHeight, boolean isMigrating) {
-			return new MigratingModel(frameWidth, frameHeight, isMigrating);
-	}
+	
 
 	@Override
 	void actionPerformed(ActionEvent e, int answer) {

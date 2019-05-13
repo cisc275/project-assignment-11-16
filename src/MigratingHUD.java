@@ -26,8 +26,9 @@ public class MigratingHUD implements HUD, ImageObserver {
 		frameWidth = w;
 		frameHeight = h;
 	}
-	public void paintBack(Graphics g) {
-		BufferedImage background = View.createImage("./images/background_migrating.gif");
+
+	public void paintBack(Graphics g, int[]args) {
+		BufferedImage background = View.createImage("./images/background_migrating.png");
 		g.drawImage(background,0,0,this);
 	}
 	/**

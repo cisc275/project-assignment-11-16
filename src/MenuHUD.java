@@ -28,9 +28,9 @@ public class MenuHUD implements HUD, ImageObserver {
 		return new EatingHUD(fw,fh);
 	}
 	@Override
-	public void paintBack(Graphics g) {
+	public void paintBack(Graphics g,int[] args) {
 		// TODO Auto-generated method stub
-		BufferedImage background = View.createImage("./images/background_start_menu.gif");
+		BufferedImage background = View.createImage("./images/background_start_menu.png");
 		g.drawImage(background,0,0,this);
 	}
 	@Override

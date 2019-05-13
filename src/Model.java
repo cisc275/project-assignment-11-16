@@ -41,18 +41,7 @@ abstract class Model {
 	abstract void mouseDragged(int mouseX, int mouseY, int actualX, int actualY);
 	
 	abstract void mouseMoved(int mouseX, int mouseY);
-	
-	/**
-	 * i'm gonna fix that spaghetti -Prescott
-	 * @param frameWidth
-	 * @param frameHeight
-	 * @param isMigrating
-	 * @return
-	 * @deprecated
-	 */
-	abstract Model nextModel(int frameWidth, int frameHeight, boolean isMigrating);
-	
-	abstract void actionPerformed(ActionEvent e, int answer);
+
 
 	
 }

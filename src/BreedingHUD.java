@@ -42,17 +42,26 @@ public class BreedingHUD implements HUD, ImageObserver {
 	}
 	
 	@Override
+	public void paintBack(Graphics g,int[] args) {
+		BufferedImage background = null;
+		BufferedImage bushes = View.createImage("./images/background_breeding_bushes.png");
+		if(args[4]==0) {
+			background = View.createImage("./images/background_breeding_parkinglot.png");
+		}
+		if(args[4] ==1) {
+			background = View.createImage("./images/background_breeding.png");
+		}
+		g.drawImage(background,0,0,this);
+		//g.drawImage(bushes,0,0,this); currently not transparent :(
+		
+	}
+
+	@Override
 	public HUD nextHUD(int fw, int fh) {
 		// TODO Auto-generated method stub
 		return new MenuHUD(fw,fh);
 	}
 
-	@Override
-	public void paintBack(Graphics g) {
-		BufferedImage background = View.createImage("./images/background_breeding.gif");
-		g.drawImage(background,0,0,this);
-		
-	}
 
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {

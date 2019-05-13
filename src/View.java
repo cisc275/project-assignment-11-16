@@ -17,10 +17,11 @@ class View extends JPanel {
 	
 	JFrame frame;
 	static int frameWidth = 1080;
-	static int frameHeight = 720;//1080;
+	static int frameHeight = 720;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
-	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "grasshopper", "hawk", "raccoon", "pointerarea"};
+	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
+	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
 	int[] hudargs;
@@ -39,8 +40,9 @@ class View extends JPanel {
 	int cameraOffX = 0;
 	int cameraOffY = 0;
 	
-	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-40);
+
 	static Dimension answerSize = new Dimension(frameWidth,frameHeight/3); //gotta figure out a good size
+	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-50);
 	JPanel subpanel;
 	JButton migrateButton;
 	JButton stayButton;
@@ -72,23 +74,17 @@ class View extends JPanel {
 	private void buildFrame() {
 		frame = new JFrame();
 		frame.add(this);
-		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Killdeer Simulator");
+		Insets insets1 = this.getInsets();
 	
-		
-		
-		ImageIcon migrateIcon = new ImageIcon("./images/bird.png");
-		ImageIcon  stayIcon = new ImageIcon("./images/bird.png");
-		migrateButton = new JButton("MIGRATE", migrateIcon); 
-		stayButton = new JButton("STAY", stayIcon); 
+
+		migrateButton = new JButton("MIGRATE"); 
+		stayButton = new JButton("STAY"); 
 		migrateButton.addActionListener(someactionevent -> {removeMenu(); migrate = true; endMenu = true;});
 		stayButton.addActionListener(someactionevent -> {removeMenu(); endMenu = true;});
 		migrateButton.setPreferredSize(buttonSize);
 		stayButton.setPreferredSize(buttonSize); //must be pref size
-		Insets insets1 = this.getInsets();
-		stayButton.setBounds(150 + insets1.left, 15 + insets1.top,
-				buttonSize.width + 50, buttonSize.height + 20);
 		qA1Button = new JButton("Answer A");
 		qA2Button = new JButton("Answer B");
 		qA3Button = new JButton("Answer C");
@@ -99,11 +95,14 @@ class View extends JPanel {
 		//qA2Button.setPreferredSize(answerSize);
 		//qA3Button.setPreferredSize(answerSize);
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
+		stayButton.setBounds(150 + insets1.left, 15 + insets1.top, buttonSize.width + 50, buttonSize.height + 20);
+		stayButton.setOpaque(false);
+		migrateButton.setOpaque(false);
 		Insets insets = frame.getInsets();
 		//set the frame size to fit the panel
 		frame.setSize(frameWidth + insets.left + insets.right, frameHeight + insets.top + insets.bottom);
-		System.out.println( insets.left+ "+"+ insets.right+ "+" +insets.top+ "+" +insets.bottom);
 		
+		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		this.setFocusable(true);
 	}
 	
@@ -129,8 +128,9 @@ class View extends JPanel {
 	 */
 	public void buildMenu() {
 		subpanel = new JPanel();
-		subpanel.add(migrateButton);
 		subpanel.add(stayButton);
+		subpanel.add(migrateButton);
+		subpanel.setOpaque(false);
 		this.add(subpanel);
 		frame.setVisible(true);
 	}
@@ -149,13 +149,14 @@ class View extends JPanel {
 	}
 
 	public void paint(Graphics g) {
-		if (hud != null)
-			 hud.paintBack(g);
+		
 		
 		if(subpanel != null) {
 			subpanel.paint(g);
 		}
-		
+		if (hud != null) {
+			 hud.paintBack(g,hudargs);
+		}
 		for(Moveable m : moveables) {
 			int sx = m.getX() - cameraOffX;
 			int sy = m.getY() - cameraOffY;
@@ -169,6 +170,7 @@ class View extends JPanel {
 				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
 			}
 		}
+		
 		//System.out.println(hud);
 		if (hud != null)
 			hud.paint(g, hudargs);
@@ -218,7 +220,7 @@ class View extends JPanel {
 	/*private BufferedImage createImages(String type) {
 		BufferedImage bufferedImage;
 		try {
-			bufferedImage = ImageIO.read(new File("/src/images/"+type+".gif"));
+			bufferedImage = ImageIO.read(new File("./images/"+type+".png"));
 			return bufferedImage;
 		} catch (IOException e) {
 			System.out.println(type+" could not be found");
@@ -237,12 +239,12 @@ class View extends JPanel {
 	 */
 	private void createImages() {
 		images = new HashMap<String, BufferedImage[][]>();
-		for (String nom : IMAGE_NAMES) {
+		for (String nom : IMAGE_NAMES_ANIMATED) {
 			BufferedImage[][] currmatrix = new BufferedImage[DIRECTION_NAMES.length][];
 			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
 				BufferedImage sheet = createImage("./images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
 				if (sheet != null) {
-					int subsize = sheet.getHeight();
+					int subsize = sheet.getHeight(); //consider splitting this into another method
 					int numSprites = sheet.getWidth() / subsize;
 					currmatrix[i] = new BufferedImage[numSprites];
 					for (int j = 0; j < numSprites; j++) {
@@ -262,6 +264,9 @@ class View extends JPanel {
 			}
 			images.put(nom, currmatrix);
 		}
+		//for (String nom : IMAGE_NAMES_STATIC) { //idk how to do this, but make a nondirectional spritesheet (kelly)
+			//BufferedImage myImg = createImage("./images/" + nom + ".png");
+		//}
 	}
 	
 	/**

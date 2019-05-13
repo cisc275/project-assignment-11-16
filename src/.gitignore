@@ -32,3 +32,11 @@
 /Beetle.class
 /GameSequence.class
 /GameSequenceElement.class
+<<<<<<< HEAD
+=======
+/BreedingHUD.class
+/BreedingModel.class
+/EatingHUD.class
+/MigratingHUD.class
+/MigratingModel.class
+>>>>>>> master

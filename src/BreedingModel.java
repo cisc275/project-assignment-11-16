@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-class BreedingModel extends Model {
+public class BreedingModel extends Model {
 	
 	BreedingBird bird;
 	Predator p;
@@ -17,14 +17,15 @@ class BreedingModel extends Model {
 	int runawaySpeed = 10;
 	int switchDir;
 	int correctAnswer;
-	
+	boolean isMigrating;
 	//pass frame height/width from view to create models
-	BreedingModel(int w, int h){
+	BreedingModel(int w, int h, boolean mig){
 		frameHeight = h;
 		frameWidth = w;
 		bird = new BreedingBird(frameWidth/2, frameHeight/2, 30, 0, 0, 8);
 		p = new Raccoon(frameWidth/2, frameHeight-100, 35, 0, 0, tutorialSpeed);
 		nest = new Nest(frameWidth/2,(frameHeight/2)-100,50);
+		isMigrating = mig;
 	}
 	
 	//for testing 
@@ -197,7 +198,8 @@ class BreedingModel extends Model {
 				p.getX(),
 				p.getY(),
 				bird.brokenWing ? 1 : 0,
-				distractCountdown
+				distractCountdown,
+				isMigrating ? 1 : 0,
 		};
 		return toret;
 	}
@@ -213,5 +215,6 @@ class BreedingModel extends Model {
 		isCorrect(answer);
 		this.quizTime = false;
 	}
+
 	
 }
