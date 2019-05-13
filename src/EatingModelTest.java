@@ -26,12 +26,12 @@ class EatingModelTest {
 	
 	@Test
 	void generateFoodTest() {
-		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList);
-		EatingModel eModel2 = new EatingModel(frameWidth, frameHeight, testBird, foodList);
+		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, new ArrayList<Food>());
+		EatingModel eModel2 = new EatingModel(frameWidth, frameHeight, testBird, new ArrayList<Food>());
 		
 		eModel.spawnRandomFood();
 		
-		assertNotEquals(eModel, eModel2);
+		assertNotEquals(eModel.food, eModel2.food);
 	}
 	
 	@Test 
@@ -64,31 +64,46 @@ class EatingModelTest {
 		eModel.food.add(new Grasshopper(eModel.getBirdX(), eModel.getBirdY(), 10, 0, 0));
 		eModel.update();
 		assertNotEquals(eModel.getScore(), 0);
-	}
-	
-	@Test
-	void foodSpawnTest() {
 		
+		eModel.food = new ArrayList<Food>();
+		eModel.food.add(new Grasshopper(10000, 100000, 10, 0, 0));
+		eModel.update();
+		assertEquals(eModel.getMoveables().size(), eModel1.getMoveables().size()); 
 	}
 	
 	//test different get methods
 	@Test
-	void getsTest() {
+	void getSetTest() {
 		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList, 5);
 		assertNotNull(eModel.getBirdX());
 		assertNotNull(eModel.getMoveables());
 		assertNotNull(eModel.getBirdY());
 		assertNotNull(eModel.getHUDargs());
 		assertNotNull(eModel.nextModel(eModel.frameWidth, eModel.frameHeight, false));
+		eModel.setDestination(10, 20);
+		assertEquals(eModel.bird.destinationY, 20);
+		assertEquals(eModel.bird.destinationX, 10);
+		eModel.setScore(100);
+		assertEquals(eModel.score, 100);
 	}
 	
 	//test different mouse listener methods
 	@Test
 	void mouseTest() {
+		EatingModel eModel = new EatingModel(frameWidth, frameHeight, new EatingBird(0, 0), foodList, 5);
+		EatingModel eModel0 = new EatingModel(frameWidth, frameHeight, new EatingBird(0, 0), foodList, 5);
+		EatingModel eModel1 = new EatingModel(frameWidth, frameHeight, new EatingBird(0, 0), foodList, 5);
+		eModel1.mouseDragged(100, 200, 1000, 2000);
+		eModel.update();
+		eModel1.update();
+		assertNotEquals(eModel.getBirdX(), eModel1.getBirdX());
+		assertNotEquals(eModel.getBirdY(), eModel1.getBirdY());
 		
-	}
-	
-	@Test
-	void HUDTest() {
+		eModel0.mousePressed(1110, 10, 100, 100, true, false);
+		eModel.update();
+		eModel0.update();
+		assertNotEquals(eModel.getBirdX(), eModel0.getBirdX());
+		assertNotEquals(eModel.getBirdY(), eModel0.getBirdY());
+		
 	}
 }
