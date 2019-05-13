@@ -22,6 +22,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 	int y = initialY;
 	int currentDistance;
 	int maxDistance;
+	BufferedImage background;
 	
 	public MigratingHUD(int w, int h, boolean migrating) {
 		frameWidth = w;

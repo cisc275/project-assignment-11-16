@@ -56,7 +56,6 @@ public class BreedingHUD implements HUD, ImageObserver {
 		//g.drawImage(bushes,0,0,this); currently not transparent :(
 		
 	}
-	
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 		// TODO Auto-generated method stub

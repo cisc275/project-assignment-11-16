@@ -24,7 +24,6 @@ public class MenuHUD implements HUD, ImageObserver {
 		// TODO Auto-generated method stub
 
 	}
-	
 	@Override
 	public void paintBack(Graphics g,int[] args) {
 		g.drawImage(background,0,0,this);
