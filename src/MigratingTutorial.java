@@ -1,4 +1,4 @@
-import java.util.Collection;
+
 
 /**
  * Prompts player to collide with a gust and a hawk to show what happens

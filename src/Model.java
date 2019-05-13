@@ -1,4 +1,3 @@
-import java.awt.event.ActionEvent;
 import java.util.Collection;
 
 abstract class Model {
@@ -41,7 +40,6 @@ abstract class Model {
 	abstract void mouseDragged(int mouseX, int mouseY, int actualX, int actualY);
 	
 	abstract void mouseMoved(int mouseX, int mouseY);
-
-
 	
+	abstract void buttonClicked(int answer);
 }

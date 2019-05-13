@@ -1,4 +1,3 @@
-import java.awt.event.ActionEvent;
 import java.util.*;
 
 
@@ -312,13 +311,8 @@ class MigratingModel extends Model{
 		};
 		return toret;
 	}
-
-
-	@Override
-	void actionPerformed(ActionEvent e, int answer) {
-		// TODO Auto-generated method stub
+	
+	void buttonClicked(int answer) {
 		
 	}
-
-	
 }
