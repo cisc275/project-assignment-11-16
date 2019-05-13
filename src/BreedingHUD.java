@@ -19,16 +19,16 @@ public class BreedingHUD implements HUD, ImageObserver {
 	public void paintBack(Graphics g,int[] args) {
 		BufferedImage background = null;
 		if(args[0]==0) {
-			background = View.createImage("src/images/background_breeding_parkinglot.png");
+			background = View.createImage("./images/background_breeding_parkinglot.png");
 		}
 		if(args[0] ==1) {
-			background = View.createImage("src/images/background_breeding.gif");
+			background = View.createImage("./images/background_breeding.gif");
 		}
 		g.drawImage(background,0,0,this);
 		
 	}
 	public void paint(Graphics g, int[] args) {
-		BufferedImage bushes = View.createImage("src/images/background_breeding_bushes.gif");
+		BufferedImage bushes = View.createImage("./images/background_breeding_bushes.gif");
 		g.drawImage(bushes,0,0,this);
 	}
 

@@ -1,6 +1,6 @@
 
 public class Cloud extends Moveable {
-
+	String nameArr
 
 	Cloud(int xP, int yP) {
 		super(xP, yP, 30, -8, 0);
