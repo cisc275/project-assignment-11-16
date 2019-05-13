@@ -4,6 +4,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+/*
+ * Unit tests for EatingModel
+ * @author Kelly
+ * 
+ */
+
 class EatingModelTest {
 	
 	EatingBird testBird = new EatingBird(0, 0);
@@ -28,10 +34,47 @@ class EatingModelTest {
 		assertNotEquals(eModel, eModel2);
 	}
 	
-	@Test
+	@Test //fucking fix this lol
 	void endGameTest() {
 		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList, 5, 5);
 		eModel.setScore(5);
 		assertTrue(eModel.endGame());
+	}
+	
+	@Test
+	void initTest() {
+		
+	}
+	
+	@Test
+	void updateTest() {
+		
+	}
+	
+	@Test
+	void foodSpawnTest() {
+		
+	}
+	
+	//test different get methods
+	@Test
+	void getsTest() {
+		
+	}
+	
+	//test different mouse listener methods
+	@Test
+	void mouseTest() {
+		
+	}
+	
+	@Test
+	void HUDTest() {
+		
+	}
+	
+	@Test
+	void newModelTest() {
+		
 	}
 }
