@@ -38,7 +38,6 @@ public class BreedingHUD implements HUD, ImageObserver {
 		return new MenuHUD(fw,fh);
 	}
 
-	
 
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {

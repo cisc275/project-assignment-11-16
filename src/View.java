@@ -20,7 +20,8 @@ class View extends JPanel {
 	static int frameHeight = 720;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);  //for setting window
 	BufferedImage bird;
-	static final String[] IMAGE_NAMES = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "grasshopper", "hawk", "raccoon", "pointerarea", "cloud"};
+	static //final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
+	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "hawk", "raccoon", "pointerarea", "gust", "bag", "nest"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
 	int[] hudargs;
@@ -185,7 +186,7 @@ class View extends JPanel {
 	/*private BufferedImage createImages(String type) {
 		BufferedImage bufferedImage;
 		try {
-			bufferedImage = ImageIO.read(new File("/src/images/"+type+".gif"));
+			bufferedImage = ImageIO.read(new File("/src/images/"+type+".png"));
 			return bufferedImage;
 		} catch (IOException e) {
 			System.out.println(type+" could not be found");
@@ -204,12 +205,12 @@ class View extends JPanel {
 	 */
 	private void createImages() {
 		images = new HashMap<String, BufferedImage[][]>();
-		for (String nom : IMAGE_NAMES) {
+		for (String nom : IMAGE_NAMES_ANIMATED) {
 			BufferedImage[][] currmatrix = new BufferedImage[DIRECTION_NAMES.length][];
 			for (int i = 0; i < DIRECTION_NAMES.length; i++) {
-				BufferedImage sheet = createImage("src/images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
+				BufferedImage sheet = createImage("./images/"+nom+"-"+DIRECTION_NAMES[i]+".png");
 				if (sheet != null) {
-					int subsize = sheet.getHeight();
+					int subsize = sheet.getHeight(); //consider splitting this into another method
 					int numSprites = sheet.getWidth() / subsize;
 					currmatrix[i] = new BufferedImage[numSprites];
 					for (int j = 0; j < numSprites; j++) {
@@ -228,6 +229,9 @@ class View extends JPanel {
 				}
 			}
 			images.put(nom, currmatrix);
+		}
+		for (String nom : IMAGE_NAMES_STATIC) { //idk how to do this, but make a nondirectional spritesheet (kelly)
+			//BufferedImage myImg = createImage("./images/" + nom + ".png");
 		}
 	}
 	
