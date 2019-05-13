@@ -16,8 +16,14 @@ public class BreedingHUD implements HUD, ImageObserver {
 	int frameWidth;
 	//int shifter;
 	int y;
+	BufferedImage background = null;
+	BufferedImage bushes;
+	BufferedImage distract;
+	BufferedImage distractB;
 	
 	public BreedingHUD(int w, int h) {
+		distract = View.createImage("./images/distract.png");
+		distractB = View.createImage("./images/distractB.png");
 		frameWidth = w;
 		frameHeight = h;
 		
@@ -25,8 +31,6 @@ public class BreedingHUD implements HUD, ImageObserver {
 	
 	public void paint(Graphics g, int[] args) {
 		//Zach: okay my idea is to make an exclamation mark over the raccoon's head that fills up
-		BufferedImage distract = View.createImage("./images/distract.png");
-		BufferedImage distractB = View.createImage("./images/distractB.png");
 		if (args[2] == 1) {
 		g.drawImage(distractB, args[0]+30, y, 20, 180, this);
 		g.drawImage(distract, args[0], args[1] - 80, 80, 90, this);
@@ -43,8 +47,7 @@ public class BreedingHUD implements HUD, ImageObserver {
 	
 	@Override
 	public void paintBack(Graphics g,int[] args) {
-		BufferedImage background = null;
-		BufferedImage bushes = View.createImage("./images/background_breeding_bushes.png");
+		bushes = View.createImage("./images/background_breeding_bushes.png");
 		if(args[4]==0) {
 			background = View.createImage("./images/background_breeding_parkinglot.png");
 		}
@@ -54,12 +57,6 @@ public class BreedingHUD implements HUD, ImageObserver {
 		g.drawImage(background,0,0,this);
 		//g.drawImage(bushes,0,0,this); currently not transparent :(
 		
-	}
-
-	@Override
-	public HUD nextHUD(int fw, int fh) {
-		// TODO Auto-generated method stub
-		return new MenuHUD(fw,fh);
 	}
 
 

@@ -15,9 +15,11 @@ import java.awt.image.ImageObserver;
 public class EatingHUD implements HUD, ImageObserver {
 	int frameHeight;
 	int frameWidth;
+	BufferedImage background;
 	public EatingHUD(int w, int h) {
 		frameWidth = w;
 		frameHeight = h;
+		background = View.createImage("./images/background_eating.png");
 	}
 	
 	/**
@@ -27,10 +29,10 @@ public class EatingHUD implements HUD, ImageObserver {
 		g.drawString(Integer.toString(args[0]), 0, 0);
 	}
 
-	@Override
-	public HUD nextHUD(int fw, int fh) {
-		return new MigratingHUD(fw, fh);
-	}
+//	@Override
+//	public HUD nextHUD(int fw, int fh) {
+//		return new MigratingHUD(fw, fh);
+//	}
 
 	@Override
 	
@@ -40,8 +42,6 @@ public class EatingHUD implements HUD, ImageObserver {
 	 * @Author Wenki
 	 */
 	public void paintBack(Graphics g,int[]args) {
-		// TODO Auto-generated method stub
-		BufferedImage background = View.createImage("./images/background_eating.png");
 		g.drawImage(background,0,0,this);
 	}
 
