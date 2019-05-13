@@ -46,7 +46,7 @@ class EatingModel extends Model {
 		food = f;
 	}
 	
-	EatingModel(int w, int h, EatingBird b, List<Food> f, int foodNum, int time){
+	EatingModel(int w, int h, EatingBird b, List<Food> f, int time){
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;

@@ -34,21 +34,28 @@ class EatingModelTest {
 		assertNotEquals(eModel, eModel2);
 	}
 	
-	@Test //fucking fix this lol
+	@Test 
 	void endGameTest() {
-		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList, 5, 5);
-		eModel.setScore(5);
+		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList, 5);
+		eModel.timeTaken = 5;
 		assertTrue(eModel.endGame());
 	}
 	
 	@Test
-	void initTest() {
+	void constructTest() {
+		EatingModel eModel = new EatingModel(frameWidth, frameHeight);
+		assertEquals(eModel.frameHeight, frameHeight);
+		assertEquals(eModel.frameWidth, frameWidth);
+		assertEquals(eModel.timeLimit, 200);
+		assertEquals(eModel.timeTaken, 0);
+		assertNotEquals(eModel.food, foodList);
 		
 	}
 	
 	@Test
 	void updateTest() {
-		
+		EatingModel eModel = new EatingModel(frameWidth, frameHeight, testBird, foodList, 5);
+
 	}
 	
 	@Test
