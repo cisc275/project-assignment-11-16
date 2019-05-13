@@ -23,10 +23,10 @@ public class MenuHUD implements HUD, ImageObserver {
 
 	}
 
-	@Override
-	public HUD nextHUD(int fw, int fh) {
-		return new EatingHUD(fw,fh);
-	}
+//	@Override
+//	public HUD nextHUD(int fw, int fh) {
+//		return new EatingHUD(fw,fh);
+//	}
 	@Override
 	public void paintBack(Graphics g,int[] args) {
 		// TODO Auto-generated method stub

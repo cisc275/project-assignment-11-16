@@ -20,7 +20,7 @@ public interface HUD {
 	 * @return
 	 * @deprecated
 	 */
-	public HUD nextHUD(int fw, int fh);
+	//public HUD nextHUD(int fw, int fh);
 	
 	/**
 	 * Paint the background image for each view

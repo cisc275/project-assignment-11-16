@@ -16,14 +16,18 @@ public class BreedingHUD implements HUD, ImageObserver {
 	int frameWidth;
 	//int shifter;
 	int y;
+
 	BufferedImage distract = View.createImage("./images/distract.png");
 	BufferedImage distractB = View.createImage("./images/distractB.png");
 	BufferedImage background;
 	BufferedImage bushes = View.createImage("./images/background_breeding_bushes.png");
 	BufferedImage parking = View.createImage("./images/background_breeding_parkinglot.png");
 	BufferedImage forest = View.createImage("./images/background_breeding.png");
+
 	
 	public BreedingHUD(int w, int h) {
+		distract = View.createImage("./images/distract.png");
+		distractB = View.createImage("./images/distractB.png");
 		frameWidth = w;
 		frameHeight = h;
 		
@@ -47,7 +51,7 @@ public class BreedingHUD implements HUD, ImageObserver {
 	
 	@Override
 	public void paintBack(Graphics g,int[] args) {
-		background = null;
+
 		if(args[4]==0) {
 			background = parking;
 		}
@@ -57,12 +61,6 @@ public class BreedingHUD implements HUD, ImageObserver {
 		g.drawImage(background,0,0,this);
 		//g.drawImage(bushes,0,0,this); currently not transparent :(
 		
-	}
-
-	@Override
-	public HUD nextHUD(int fw, int fh) {
-		// TODO Auto-generated method stub
-		return new MenuHUD(fw,fh);
 	}
 
 
