@@ -22,7 +22,6 @@ public class MigratingHUD implements HUD, ImageObserver {
 	int y = initialY;
 	int currentDistance;
 	int maxDistance;
-	BufferedImage background;
 	
 	public MigratingHUD(int w, int h, boolean migrating) {
 		frameWidth = w;
@@ -54,8 +53,8 @@ public class MigratingHUD implements HUD, ImageObserver {
 	public void paint(Graphics g, int[] args) {
 		currentDistance = args[1];
 		maxDistance = args[2];
-		int birdX = initialX + (destinationX-initialX) * (currentDistance/maxDistance);
-		int birdY = initialY + (destinationY-initialY) * (currentDistance/maxDistance);
+		int birdX = (int) (initialX + (destinationX-initialX) * (1.0*currentDistance/maxDistance));
+		int birdY = (int) (initialY + (destinationY-initialY) * (1.0*currentDistance/maxDistance));
 		g.drawImage(map, frameWidth-map.getWidth(), frameHeight-map.getHeight(), this);	
 		g.drawImage(mapBird, birdX, birdY, this);
 	}
