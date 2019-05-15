@@ -151,13 +151,12 @@ public class BreedingModel extends Model {
 		//predators in the view should run away
 		if (distractCountdown < 0) {
 			byeByePredator();
-		} else if (p.exitsFrame(frameWidth, frameHeight)) {
+		}
+		if (p.exitsFrame(frameWidth, frameHeight)) {
 			generatePredators();
 			//quizTime = true;
 			//uncomment this to start quiz and break game
 		}
-	
-		
 	}
 	
 	void isCorrect(int ans) {
