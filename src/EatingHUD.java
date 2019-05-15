@@ -3,15 +3,11 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
-
-
-
 /**
  * 
  * @author Prescott
  *
  */
-
 public class EatingHUD implements HUD, ImageObserver {
 	int frameHeight;
 	int frameWidth;
@@ -23,9 +19,10 @@ public class EatingHUD implements HUD, ImageObserver {
 	}
 	
 	/**
-	 * args: score, scoregooal, time, maxtime
+	 * args: score, scoregoal, time, maxtime
 	 */
 	public void paint(Graphics g, int[] args) {
+		//TODO do it better
 		g.drawString(Integer.toString(args[0]), 0, 0);
 	}
 	
@@ -33,7 +30,8 @@ public class EatingHUD implements HUD, ImageObserver {
 	 * draw the background image.
 	 * 
 	 */
-	public void paintBack(Graphics g,int[]args) {
+	public void paintBack(Graphics g, int[]args) {
+		//TODO moving camera
 		g.drawImage(background,0,0,this);
 	}
 

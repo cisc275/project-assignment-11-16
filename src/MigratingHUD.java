@@ -8,27 +8,40 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 public class MigratingHUD implements HUD, ImageObserver {
-	static int frameWidth = 1080;
-	static int frameHeight = 720;//1080;
-	
-	BufferedImage map = View.createImage("./images/migrateMinimap.png");
-	BufferedImage mapBird = View.createImage("./images/mapBird.png");
-	int destinationX = frameWidth - map.getWidth()/3;
-	int destinationY = frameHeight - map.getHeight()/3;
-	int initialX = frameWidth - map.getWidth()*2/3;
-	int initialY = frameHeight - map.getHeight()*7/8;
-	int x = initialX;
-	int y = initialY;
+	static int frameWidth;
+	static int frameHeight;//1080;
+
+	BufferedImage background;
+	BufferedImage map;
+	BufferedImage mapBird;
+	int destinationX;
+	int destinationY;
+	int initialX;
+	int initialY;
+	/**
+	 * @deprecated
+	 */
+	int x;
+	/**
+	 * @deprecated
+	 */
+	int y;
 	int currentDistance;
 	int maxDistance;
 	
-	public MigratingHUD(int w, int h) {
+	public MigratingHUD(int w, int h, boolean mig) {
 		frameWidth = w;
 		frameHeight = h;
+		map = View.createImage(View.IMAGE_PATH+"nonMigrateMinimap.png");
+		mapBird = View.createImage(View.IMAGE_PATH+"mapBird.png");
+		background = View.createImage(View.IMAGE_PATH+"background_migrating.png");
+		destinationX = frameWidth - map.getWidth()/3;
+		destinationY = frameHeight - map.getHeight()/3;
+		initialX = frameWidth - map.getWidth()*2/3;
+		initialY = frameHeight - map.getHeight()*7/8;
 	}
 
 	public void paintBack(Graphics g, int[]args) {
-		background = View.createImage("./images/background_migrating.png");
 		g.drawImage(background,0,0,this);
 	}
 	/**
@@ -38,7 +51,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 	 *  index 2. max distance<br>
 	 *This method draw the minimap at the right corner of the frame.
 	 *
-	 * @author Wenki
+	 * @author -Wenki- Prescott
 	 */
 	public void paint(Graphics g, int[] args) {
 		currentDistance = args[1];
@@ -46,7 +59,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 		int birdX = (int) (initialX + (destinationX-initialX) * (1.0*currentDistance/maxDistance));
 		int birdY = (int) (initialY + (destinationY-initialY) * (1.0*currentDistance/maxDistance));
 		g.drawImage(map, frameWidth-map.getWidth(), frameHeight-map.getHeight(), this);	
-		g.drawImage(mapBird, x,y , this);
+		g.drawImage(mapBird, birdX, birdY, this);
 		refreshXY();
 	}
 	
@@ -56,6 +69,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 	 * For Y position, used a line function that update Y location with the X location.
 	 * 
 	 * @author Wenki
+	 * @deprecated
 	 */
 	public void refreshXY() {
 		if(x != destinationX) {
