@@ -8,21 +8,21 @@ class MigratingModel extends Model{
 	List<Gust> gusts;
 	List<Moveable> backgroundObjects; 
 	
-	private static int enemyScore = -10; 
-	private static int gustScore = 20;
 	protected static int maxEnemies = 3;
 	protected static int maxGusts = 2;
-	protected static int powerDuration = 50;
-	protected static int velocityChange = 10;
+	protected static int powerDuration = 40;
+	protected int velocityChange = 0;
+	protected int powerupVelocity = -10; 
+	protected int powerdownVelocity = 3;
 	
-	protected boolean powerOn = false;
+	protected boolean powerUp = false;
+	protected boolean powerDown = false;
 	protected int powerTimer = 0;
-	
 
 	protected int distance = 0; //how far bird has travelled
 	protected int maxDistance;  //how much it needs to travel varies on migrate or not. 
 	protected boolean isMigrating;
-	protected int migrateDistance = 5000;
+	protected int migrateDistance = 10000;
 	protected int stayDistance = 2000;
 	
 	protected int avoidOverlap = 3;
@@ -72,21 +72,12 @@ class MigratingModel extends Model{
 		while(gusts.size() < maxGusts) {
 			generateGust();
 		}
-		if( powerOn && powerTimer > 0) {
-			powerTimer--;
-		}else if (powerOn == true && powerTimer == 0){
-			accelerateMoveables(velocityChange);
-			powerOn = false;
-		}
 		
 		updateMoveableLists();
+		updatePower(); 
 		
-		if(powerOn == false) {
-			distance += birdVelocity;
-		}else {
-			distance += birdVelocity+velocityChange; 
-		}
-		System.out.println(this.endGame());
+		//System.out.println(this.endGame());
+		System.out.println(powerDown);
 	}
 	
 	
@@ -103,6 +94,23 @@ class MigratingModel extends Model{
 		updateEnemyCollision();
 		updateGustCollision();
 		updateBackgroundObjects();
+	}
+	
+	void updatePower(){
+		if(powerTimer > 0) {
+			powerTimer--;
+		}else if (powerTimer == 0){
+			powerUp = false;
+			powerDown = false;
+			accelerateMoveables(-1*velocityChange);
+		}
+		
+		if(powerUp == false && powerDown == false){
+			velocityChange = 0;
+		}
+		
+		distance += birdVelocity-velocityChange; 
+
 	}
 	
 	/**
@@ -166,8 +174,8 @@ class MigratingModel extends Model{
         	newEnemy = new Bag(frameWidth,yloc);
         	removeInBagRange(yloc);
         	}
-		if(powerTimer != 0) {
-			newEnemy.setVelocity(newEnemy.getXVelocity()-velocityChange, newEnemy.getYVelocity());
+		if(powerUp||powerDown) {
+			newEnemy.setVelocity(newEnemy.getXVelocity()+velocityChange, newEnemy.getYVelocity());
 		}
 		enemies.add(newEnemy);
 	}
@@ -177,8 +185,8 @@ class MigratingModel extends Model{
 	 */
 	void generateGust() {
 		Gust g = new Gust(frameWidth, (int) (Math.random()*frameHeight));
-		if(powerTimer != 0) {
-			g.setVelocity(g.getXVelocity()-velocityChange, g.getYVelocity());
+		if(powerUp||powerDown) {
+			g.setVelocity(g.getXVelocity()+velocityChange, g.getYVelocity());
 		}
 		gusts.add(g);
 	}
@@ -209,11 +217,16 @@ class MigratingModel extends Model{
 			Enemy e = enemiesIterator.next();
 			if (bird.collidesWith(e)) {
 				enemiesIterator.remove();
-				if(e.getImageName()=="Hawk") { /**if collide with hawk, deduct hp by 10 pts*/
-					this.setScore(this.getScore() + enemyScore); 
-				}
-				else { /**if collide with plastic bag, deduct hp by 10 pts*/
-					this.setScore(this.getScore() + (int)0.5*enemyScore);
+				if(powerDown == false) {
+					powerTimer = powerDuration;
+					velocityChange = powerdownVelocity;
+					if(powerUp == true) {
+						accelerateMoveables(velocityChange-powerupVelocity);
+					}else {
+						accelerateMoveables(velocityChange);
+					}
+					powerDown = true;
+					powerUp = false;
 				}
 			} else if (e.exitsFrame(frameWidth, frameHeight)) {
 				enemiesIterator.remove();
@@ -232,18 +245,19 @@ class MigratingModel extends Model{
 			Gust g = gustIterator.next();
 			if(bird.collidesWith(g)) {
 				gustIterator.remove();
-				powerTimer = powerDuration;
-				if(powerOn == false) {
-					powerOn = true;
-					accelerateMoveables(-velocityChange);
+				if(powerUp == false && powerDown == false) {
+					powerTimer = powerDuration;
+					powerUp = true;
+					velocityChange = powerupVelocity;
+					accelerateMoveables(velocityChange);
 				}
-				this.setScore(this.getScore() + gustScore);	
+
 			}else if(g.exitsFrame(frameWidth, frameHeight)) {
 				gustIterator.remove();
 			}
 		}
 	}
-	
+
 	
 	/**
 	 * If bgObjects exit frame, they loop back around. 

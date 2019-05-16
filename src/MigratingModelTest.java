@@ -78,7 +78,7 @@ class MigratingModelTest {
 		for(Enemy e : enemies) {
 			e.move();
 		}
-		mModel.powerOn = true;
+		mModel.powerUp = true;
 		mModel.powerTimer = 30;
 		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts,true);
 		
@@ -160,7 +160,7 @@ class MigratingModelTest {
 		for(Enemy e : enemies) {
 			e.move();
 		}
-		mModel.powerOn = true;
+		mModel.powerUp = true;
 		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts,true);
 		
 		assertNotEquals(mModel, mModel2);
