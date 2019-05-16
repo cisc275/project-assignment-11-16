@@ -3,7 +3,7 @@
  * @author Wenki
  *
  */
-public class Gust extends Moveable{
+public class Gust extends FlyingObject{
 
 	Gust(int xP, int yP) {
 		super(xP, yP, 30, -5, 0);

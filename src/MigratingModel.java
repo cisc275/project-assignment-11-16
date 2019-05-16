@@ -11,9 +11,9 @@ class MigratingModel extends Model{
 	protected static int maxEnemies = 3;
 	protected static int maxGusts = 2;
 	protected static int powerDuration = 40;
-	protected int velocityChange = 0;
-	protected int powerupVelocity = -10; 
-	protected int powerdownVelocity = 3;
+	protected double velocityChange = 1;
+	protected int powerupVelocity = 2; 
+	protected double powerdownVelocity = .5;
 	
 	protected boolean powerUp = false;
 	protected boolean powerDown = false;
@@ -74,7 +74,7 @@ class MigratingModel extends Model{
 		}
 		
 		updateMoveableLists();
-		updatePower(); 
+		updatePower();
 		
 		//System.out.println(this.endGame());
 		System.out.println(powerDown);
@@ -94,22 +94,25 @@ class MigratingModel extends Model{
 		updateEnemyCollision();
 		updateGustCollision();
 		updateBackgroundObjects();
+
+		
 	}
 	
 	void updatePower(){
-		if(powerTimer > 0) {
+		if(powerTimer == powerDuration) {
+			accelerateMoveables(velocityChange);
 			powerTimer--;
-		}else if (powerTimer == 0){
+		}else if(powerTimer > 0) {
+			powerTimer--;
+		}else if(powerTimer == 0) {
 			powerUp = false;
 			powerDown = false;
-			accelerateMoveables(-1*velocityChange);
+			velocityChange = 1;
+			accelerateMoveables(velocityChange);
 		}
 		
-		if(powerUp == false && powerDown == false){
-			velocityChange = 0;
-		}
 		
-		distance += birdVelocity-velocityChange; 
+		distance += birdVelocity*velocityChange; 
 
 	}
 	
@@ -175,7 +178,7 @@ class MigratingModel extends Model{
         	removeInBagRange(yloc);
         	}
 		if(powerUp||powerDown) {
-			newEnemy.setVelocity(newEnemy.getXVelocity()+velocityChange, newEnemy.getYVelocity());
+			newEnemy.setVelocity((int)(newEnemy.getXVelocity()*velocityChange), newEnemy.getYVelocity());
 		}
 		enemies.add(newEnemy);
 	}
@@ -186,7 +189,7 @@ class MigratingModel extends Model{
 	void generateGust() {
 		Gust g = new Gust(frameWidth, (int) (Math.random()*frameHeight));
 		if(powerUp||powerDown) {
-			g.setVelocity(g.getXVelocity()+velocityChange, g.getYVelocity());
+			g.setVelocity((int)(g.getXVelocity()*velocityChange), g.getYVelocity());
 		}
 		gusts.add(g);
 	}
@@ -220,11 +223,6 @@ class MigratingModel extends Model{
 				if(powerDown == false) {
 					powerTimer = powerDuration;
 					velocityChange = powerdownVelocity;
-					if(powerUp == true) {
-						accelerateMoveables(velocityChange-powerupVelocity);
-					}else {
-						accelerateMoveables(velocityChange);
-					}
 					powerDown = true;
 					powerUp = false;
 				}
@@ -245,11 +243,10 @@ class MigratingModel extends Model{
 			Gust g = gustIterator.next();
 			if(bird.collidesWith(g)) {
 				gustIterator.remove();
-				if(powerUp == false && powerDown == false) {
+				if(powerUp == false) {
 					powerTimer = powerDuration;
-					powerUp = true;
 					velocityChange = powerupVelocity;
-					accelerateMoveables(velocityChange);
+					powerUp = true;
 				}
 
 			}else if(g.exitsFrame(frameWidth, frameHeight)) {
@@ -278,16 +275,18 @@ class MigratingModel extends Model{
 	 * Speeds up or down all objects besides bird according to input
 	 * @author Anna
 	 */
-	void accelerateMoveables(int velocity) {
+	void accelerateMoveables(double scale) {
 		for(Gust gust : gusts) {
-			gust.setVelocity(gust.getXVelocity()+velocity, gust.getYVelocity());
+			gust.scaleVelocity(scale);
 		}
 		for(Enemy enemy : enemies) {
-			enemy.setVelocity(enemy.getXVelocity()+velocity, enemy.getYVelocity());
+			enemy.scaleVelocity(scale);
 		}
+		/*
 		for(Moveable cloud : backgroundObjects) {
-			cloud.setVelocity(cloud.getXVelocity()+velocity, cloud.getYVelocity());
+			cloud.scaleVelocity(scale);
 		}
+		*/
 	}
 
 	@Override
