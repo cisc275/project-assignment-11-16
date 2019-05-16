@@ -14,8 +14,6 @@ public class MigratingHUD implements HUD, ImageObserver {
 	BufferedImage background;
 	BufferedImage map;
 	BufferedImage mapBird;
-	BufferedImage powerUp;
-	BufferedImage powerDown;
 	int destinationX;
 	int destinationY;
 	int initialX;
@@ -41,8 +39,6 @@ public class MigratingHUD implements HUD, ImageObserver {
 		}
 		mapBird = View.createImage(View.IMAGE_PATH+"mapBird.png");
 		background = View.createImage(View.IMAGE_PATH+"background_migrating.png");
-		powerUp = View.createImage(View.IMAGE_PATH+"migratingbird-powerupanimated.png");
-		powerDown = View.createImage(View.IMAGE_PATH+"migratingbird-powerdownanimated.png");
 		destinationX = frameWidth - map.getWidth()/3;
 		destinationY = frameHeight - map.getHeight()/3;
 		initialX = frameWidth - map.getWidth()*2/3;
@@ -93,9 +89,6 @@ public class MigratingHUD implements HUD, ImageObserver {
 		// TODO Auto-generated method stub
 		return false;
 	}
-//	@Override
-//	public HUD nextHUD(int fw, int fh) {
-//		return new BreedingHUD(fw, fh);
-//	}
+
 
 }
