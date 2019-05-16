@@ -19,6 +19,7 @@ public class GameSequence {
 		//elements.add(() -> new GameSequenceElement(new EatingTutorial(w, h), new EatingHUD(w, h)));
 		//elements.add(() -> new GameSequenceElement(new EatingModel(w, h), new EatingHUD(w, h)));
 		//elements.add(() -> new GameSequenceElement(new MigratingTutorial(w, h, mig), null));
+
 		elements.add(() -> new GameSequenceElement(new MigratingModel(w, h, mig), new MigratingHUD(w, h, mig)));
 		elements.add(() -> new GameSequenceElement(new BreedingModel(w, h, mig), new BreedingHUD(w, h, mig)));
 		itty = elements.iterator();
