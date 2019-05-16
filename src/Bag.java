@@ -11,7 +11,7 @@ public class Bag extends Enemy{
 	int accelDuration = (int)velocityDuration/10;
 
 	Bag(int xP, int yP) {
-		super(xP, yP, RADIUS, -5, 1);
+		super(xP, yP, RADIUS, -6, 1);
 	}
 	Bag(int xP, int yP, int velocity) {
 		super(xP, yP, RADIUS, velocity, 2);

@@ -52,13 +52,13 @@ class MigratingModelTest {
 	@Test 
 	void setDest() {
 		MigratingModel mModel1 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts,true);
-		mModel1.setDestination(0, 4);
+		mModel1.bird.setDestination(0, 4);
 		MigratingBird bird2 = new MigratingBird(frameWidth/2,frameHeight/2);
 		bird2.setDestination(0, 4);
 		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird2, enemies, gusts,true);
 		
-		assertEquals(mModel1.bird.destinationX, mModel2.bird.destinationX);
-		assertEquals(mModel1.bird.destinationY, mModel2.bird.destinationY);
+		assertEquals(mModel1.bird.getDestinationX(), mModel2.bird.getDestinationX());
+		assertEquals(mModel1.bird.getDestinationY(), mModel2.bird.getDestinationY());
 		
 		
 	}
@@ -78,7 +78,7 @@ class MigratingModelTest {
 		for(Enemy e : enemies) {
 			e.move();
 		}
-		mModel.powerOn = true;
+		mModel.bird.powerUp();
 		mModel.powerTimer = 30;
 		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts,true);
 		
@@ -160,7 +160,7 @@ class MigratingModelTest {
 		for(Enemy e : enemies) {
 			e.move();
 		}
-		mModel.powerOn = true;
+		mModel.bird.getPowerUp();
 		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts,true);
 		
 		assertNotEquals(mModel, mModel2);
