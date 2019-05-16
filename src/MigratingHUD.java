@@ -18,8 +18,8 @@ public class MigratingHUD implements HUD, ImageObserver {
 	int destinationY;
 	int initialX;
 	int initialY;
-	int x = initialX;
-	int y = initialY;
+	int x;
+	int y;
 	int currentDistance;
 	int maxDistance;
 	
@@ -29,8 +29,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 		background = View.createImage(View.IMAGE_PATH+"background_migrating.png");
 		if (migrating) {
 			map = View.createImage(View.IMAGE_PATH+"migrateMinimap.png");
-		}
-		else {
+		}else {
 			map = View.createImage(View.IMAGE_PATH+"nonMigrateMinimap.png");
 		}
 		mapBird = View.createImage(View.IMAGE_PATH+"mapBird.png");
@@ -38,6 +37,8 @@ public class MigratingHUD implements HUD, ImageObserver {
 		destinationY = frameHeight - map.getHeight()/3;
 		initialX = frameWidth - map.getWidth()*2/3;
 		initialY = frameHeight - map.getHeight()*7/8;
+		x = initialX;
+		y = initialY;
 	}
 
 	public void paintBack(Graphics g, int[]args) {
@@ -49,34 +50,20 @@ public class MigratingHUD implements HUD, ImageObserver {
 	 * 	index 0. is migrating (1 = migrating, 0 = not migrating);<br>
 	 *  index 1. current distance<br>
 	 *  index 2. max distance<br>
-	 *This method draw the minimap at the right corner of the frame.
+	 * This method draw the minimap at the right corner of the frame.
 	 *
 	 * @author Wenki
 	 */
 	public void paint(Graphics g, int[] args) {
 		currentDistance = args[1];
 		maxDistance = args[2];
+		int birdX = (int) (initialX + (destinationX-initialX) * (1.0*currentDistance/maxDistance));
+		int birdY = (int) (initialY + (destinationY-initialY) * (1.0*currentDistance/maxDistance));
 		g.drawImage(map, frameWidth-map.getWidth(), frameHeight-map.getHeight(), this);	
-		g.drawImage(mapBird, x, y, this);
-		refreshXY();
+		g.drawImage(mapBird, birdX, birdY, this);
 	}
 	
-	/**Refresh X,Y location so that it could update same pace with the game.
-	 *The X location update by convert the scale of the game to the scale of the map.
-	 * 
-	 * For Y position, used a line function that update Y location with the X location.
-	 * 
-	 * @author Wenki
-	 */
-	public void refreshXY() {
-		if(x != destinationX) {
-			x  = -(maxDistance - currentDistance)*(destinationX-initialX)/maxDistance + destinationX;
 
-			y = (x-initialX)*(destinationY - initialY)/(destinationX - initialX) + initialY;
-			
-		}
-		//System.out.println(x); //for test
-	}
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 		// TODO Auto-generated method stub
