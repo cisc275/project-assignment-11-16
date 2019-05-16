@@ -6,29 +6,27 @@ class MigratingModel extends Model{
 	MigratingBird bird;
 	List<Enemy> enemies;
 	List<Gust> gusts;
-	List<Moveable> backgroundObjects; 
+	List<Cloud> backgroundObjects; 
+	protected int maxEnemies = 3;
+	protected int maxGusts = 2;
 	
-	protected static int maxEnemies = 3;
-	protected static int maxGusts = 2;
-	protected static int powerDuration = 40;
-	protected double velocityChange = 1;
-	protected int powerupVelocity = 2; 
-	protected double powerdownVelocity = .5;
-	
-	protected boolean powerUp = false;
-	protected boolean powerDown = false;
+	protected double velocityScale = 1;
+	protected static double POWERUP_SCALE = 2.5; 
+	protected static double POWERDOWN_SCALE = .5;
+	protected static int POWER_DURATION = 40;
 	protected int powerTimer = 0;
 
 	protected int distance = 0; //how far bird has travelled
 	protected int maxDistance;  //how much it needs to travel varies on migrate or not. 
 	protected boolean isMigrating;
-	protected int migrateDistance = 10000;
-	protected int stayDistance = 2000;
+	protected static int MIGRATE_DISTANCE = 10000;
+	protected static int STAY_DISTANCE = 2000;
 	
 	protected int avoidOverlap = 3;
 	protected int birdVelocity = 10; 
 	
-	protected static int DISTANCE_FROM_FRAME = 300;
+	protected static int BIRD_STARTING_X = 300;
+	protected static int BIRD_STARTING_Y;
 	
 	
 	/**
@@ -42,55 +40,55 @@ class MigratingModel extends Model{
 		bird = new MigratingBird(0, 0); //bird is still
 		enemies = new ArrayList<Enemy>();
 		gusts = new ArrayList<Gust>();
-		backgroundObjects = new ArrayList<Moveable>();
+		backgroundObjects = new ArrayList<Cloud>();
 		isMigrating = isMigrate;
 		if(isMigrate) {
-			maxDistance =  migrateDistance;
+			maxDistance =  MIGRATE_DISTANCE;
 		} else {
-			maxDistance = stayDistance;
+			maxDistance = STAY_DISTANCE;
 		}
+		BIRD_STARTING_Y = frameHeight/2;
 	}
 	
 	//for testing ease
-	MigratingModel(int w, int h, MigratingBird b, List<Enemy> e, List<Gust> g,boolean isMigrate){
+	MigratingModel(int w, int h, MigratingBird b, List<Enemy> e, List<Gust> g, boolean isMigrate){
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
 		enemies = e;
 		gusts = g;
+		backgroundObjects = new ArrayList<Cloud>();
 		isMigrating = isMigrate;
-		backgroundObjects = new ArrayList<Moveable>();
+		BIRD_STARTING_Y = frameHeight/2;
 	}
 		
 	/**
-	 * Moveable generation here, moving moveables here
-	 * TO DO: update score based on time completion?
+	 * Object generation and position updates
+	 * Bird transitions here at start and end game
+	 * Adding to distance per tick
+	 * @author Anna
 	 */
 	void update() {
-		if(bird.destinationX < DISTANCE_FROM_FRAME) {
-			bird.setDestination(DISTANCE_FROM_FRAME, frameHeight/2);
+		if(bird.getDestinationX() < BIRD_STARTING_X) {
+			bird.setDestination(BIRD_STARTING_X, frameHeight/2);
 		}else if(distance > maxDistance) {
-			bird.setDestination(frameWidth+DISTANCE_FROM_FRAME, frameHeight/2);
+			bird.setDestination(frameWidth+BIRD_STARTING_X, bird.getDestinationY());
 		}
 		
 		bird.update();
+		updateMoveableLists();
+		updatePower();
+		distance += birdVelocity*velocityScale; 
+	}
+	
+	
+	void updateMoveableLists() {
 		while(enemies.size() < maxEnemies) {
 			generateEnemy();
 		}
 		while(gusts.size() < maxGusts) {
 			generateGust();
 		}
-		
-		updateMoveableLists();
-		updatePower();
-		distance += birdVelocity*velocityChange; 
-		
-		//System.out.println(this.endGame());
-		System.out.println(powerDown);
-	}
-	
-	
-	void updateMoveableLists() {
 		for (Moveable o : enemies) {
 			o.update();
 		}
@@ -103,27 +101,29 @@ class MigratingModel extends Model{
 		updateEnemyCollision();
 		updateGustCollision();
 		updateBackgroundObjects();
-
 		
 	}
 	
+	/**
+	 * Speed or slow everything when power is turned on
+	 * Decrements powertimer
+	 * @author Anna
+	 */
 	void updatePower(){
-		if(powerTimer == powerDuration) {
-			accelerateMoveables(velocityChange);
+		if(powerTimer == POWER_DURATION) {
+			scaleVelocities(velocityScale);
 			powerTimer--;
 		}else if(powerTimer > 0) {
 			powerTimer--;
 		}else if(powerTimer == 0) {
-			powerUp = false;
-			powerDown = false;
-			velocityChange = 1;
-			accelerateMoveables(velocityChange);
+			bird.powerReset();
+			velocityScale = 1;
+			scaleVelocities(velocityScale);
 		}
-
 	}
 	
 	/**
-	 * TO-DO: if overall timer ends? or if traveled certain distance, end game
+	 * End when bird exits frame
 	 */
 	boolean endGame() {
 		//return (distance >= maxDistance);
@@ -151,11 +151,7 @@ class MigratingModel extends Model{
 		m.addAll(backgroundObjects);
 		return m;
 	}
-	
-	void setDestination(int x, int y) {
-		this.bird.setDestination(x, y);
-	}
-		
+
 
 	/**
 	 * Use random number as switch to generate sub enemies - Hawk or Plastic Bags.
@@ -177,15 +173,17 @@ class MigratingModel extends Model{
         		yloc += avoidOverlap*m.getRadius(); //change the y-location 
         	}
         }
-        if(switchE == 1){
-        	newEnemy = new Hawk(frameWidth, yloc);
+        switch(switchE){
+	        case 0:
+	        	newEnemy = new Bag(frameWidth,yloc);
+	        	removeInBagRange(yloc);
+	        	break;
+	        case 1:
+	        	newEnemy = new Hawk(frameWidth, yloc);
+	        	break;
         }
-        if(switchE == 0) { 
-        	newEnemy = new Bag(frameWidth,yloc);
-        	removeInBagRange(yloc);
-        	}
-		if(powerUp||powerDown) {
-			newEnemy.scaleVelocity(velocityChange);
+		if(bird.getPowerUp() || bird.getPowerDown()) {
+			newEnemy.scaleVelocity(velocityScale);
 		}
 		enemies.add(newEnemy);
 	}
@@ -195,8 +193,8 @@ class MigratingModel extends Model{
 	 */
 	void generateGust() {
 		Gust g = new Gust(frameWidth, (int) (Math.random()*frameHeight));
-		if(powerUp||powerDown) {
-			g.scaleVelocity(velocityChange);
+		if(bird.getPowerUp() || bird.getPowerDown()) {
+			g.scaleVelocity(velocityScale);
 		}
 		gusts.add(g);
 	}
@@ -227,11 +225,10 @@ class MigratingModel extends Model{
 			Enemy e = enemiesIterator.next();
 			if (bird.collidesWith(e)) {
 				enemiesIterator.remove();
-				if(powerDown == false) {
-					powerTimer = powerDuration;
-					velocityChange = powerdownVelocity;
-					powerDown = true;
-					powerUp = false;
+				if(bird.getPowerDown() == false) {
+					powerTimer = POWER_DURATION;
+					velocityScale = POWERDOWN_SCALE;
+					bird.powerDown();
 				}
 			} else if (e.exitsFrame(frameWidth, frameHeight)) {
 				enemiesIterator.remove();
@@ -250,10 +247,10 @@ class MigratingModel extends Model{
 			Gust g = gustIterator.next();
 			if(bird.collidesWith(g)) {
 				gustIterator.remove();
-				if(powerUp == false) {
-					powerTimer = powerDuration;
-					velocityChange = powerupVelocity;
-					powerUp = true;
+				powerTimer = POWER_DURATION; //outside to enable continuous powerup
+				if(bird.getPowerUp() == false) {
+					velocityScale = POWERUP_SCALE;
+					bird.powerUp();
 				}
 
 			}else if(g.exitsFrame(frameWidth, frameHeight)) {
@@ -263,17 +260,17 @@ class MigratingModel extends Model{
 	}
 
 	
-	/**okay note, move this elsewhere
+	/**
 	 * If bgObjects exit frame, they loop back around. 
-	 * Mostly for clouds, used to also hold pointer in tutorial
+	 * For clouds and other things that don't affect bird
 	 * @author Anna
 	 */
 	void updateBackgroundObjects() {
-		Iterator <Moveable> bgIterator = backgroundObjects.iterator();
+		Iterator <Cloud> bgIterator = backgroundObjects.iterator();
 		while(bgIterator.hasNext()) {
 			Moveable o = bgIterator.next();
 			if(o.exitsFrame(frameWidth, frameHeight)) {
-				o.setLocation(frameWidth, o.getY());
+				o.setLocation(frameWidth+o.getR(), o.getY());
 			}
 		}
 	}
@@ -282,18 +279,17 @@ class MigratingModel extends Model{
 	 * Speeds up or down all objects besides bird according to input
 	 * @author Anna
 	 */
-	void accelerateMoveables(double scale) {
+	void scaleVelocities(double scale) {
 		for(Gust gust : gusts) {
 			gust.scaleVelocity(scale);
 		}
 		for(Enemy enemy : enemies) {
 			enemy.scaleVelocity(scale);
 		}
-		/*
-		for(Moveable cloud : backgroundObjects) {
+		for(Cloud cloud : backgroundObjects) {
 			cloud.scaleVelocity(scale);
 		}
-		*/
+		
 	}
 
 	@Override
@@ -316,8 +312,8 @@ class MigratingModel extends Model{
 
 	@Override
 	void mouseMoved(int mouseX, int mouseY) {
-		if(bird.destinationX == DISTANCE_FROM_FRAME) {
-			bird.setDestination(bird.destinationX, mouseY);
+		if(bird.getDestinationX() == BIRD_STARTING_X) {
+			bird.setDestination(bird.getDestinationX(), mouseY);
 		}
 	}
 
@@ -329,7 +325,7 @@ class MigratingModel extends Model{
 		int[] toret = {
 				isMigrating ? 1 : 0,
 				distance,
-				isMigrating ? migrateDistance : stayDistance
+				isMigrating ? MIGRATE_DISTANCE : STAY_DISTANCE,
 		};
 		return toret;
 	}
