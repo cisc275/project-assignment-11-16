@@ -5,13 +5,13 @@
  */
 public class MigratingBird extends Moveable {
 
-	final static double followDistanceCoefficient = .4;
-	final static int distanceFromFrame = 350;
+	final static double followDistanceCoefficientX = .05;
+	final static double followDistanceCoefficientY = .4;
 	int destinationX;
 	int destinationY;
 	
 	MigratingBird(int xP, int yP){
-		super(distanceFromFrame, yP, 50, 0, 0);
+		super(xP, yP, 50, 0, 0);
 		destinationX = xP;
 		destinationY = yP;
 	}
@@ -22,7 +22,7 @@ public class MigratingBird extends Moveable {
 
 	@Override
 	void update() {
-		velocity.setXY( 0, (int) Math.ceil((destinationY - this.y) * followDistanceCoefficient));
+		velocity.setXY( (int) Math.ceil((destinationX - this.x) * followDistanceCoefficientX), (int) Math.ceil((destinationY - this.y) * followDistanceCoefficientY)  );
 		move();
 	}
 	/**
@@ -30,11 +30,22 @@ public class MigratingBird extends Moveable {
 	 * 
 `	 */
 	void setDestination(int xPos, int yPos) {
-		//destinationX = xPos;//Mute the destination change in X location so that the bird fly vertically
-		 					// This is a FEATURE for the migrating mini-game
+		destinationX = xPos;//Mute the destination change in X location so that the bird fly vertically
 		destinationY = yPos;
 	}
 	
+
+ /*
+   //testing
+	public boolean collidesWith(Enemy e){
+		boolean eh = super.collidesWith(e);
+		if(eh) {
+			System.out.println(this.radius);
+			this.radius += 100;
+		}
+		return eh;
+	}
+	*/
 
 	@Override
 	public String getImageName() {

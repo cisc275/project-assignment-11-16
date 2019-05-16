@@ -28,7 +28,9 @@ class MigratingModel extends Model{
 	protected int avoidOverlap = 3;
 	protected int birdVelocity = 10; 
 	
-	Hawk h = new Hawk(frameWidth, 400);
+	protected static int DISTANCE_FROM_FRAME = 300;
+	
+	
 	/**
 	 * pass frame height/width from view to create models
 	 * @param w
@@ -37,7 +39,7 @@ class MigratingModel extends Model{
 	MigratingModel(int w, int h,boolean isMigrate){
 		frameHeight = h;
 		frameWidth = w;
-		bird = new MigratingBird(frameWidth/2, frameHeight/2); //bird is still
+		bird = new MigratingBird(0, 0); //bird is still
 		enemies = new ArrayList<Enemy>();
 		gusts = new ArrayList<Gust>();
 		backgroundObjects = new ArrayList<Moveable>();
@@ -65,6 +67,12 @@ class MigratingModel extends Model{
 	 * TO DO: update score based on time completion?
 	 */
 	void update() {
+		if(bird.destinationX < DISTANCE_FROM_FRAME) {
+			bird.setDestination(DISTANCE_FROM_FRAME, frameHeight/2);
+		}else if(distance > maxDistance) {
+			bird.setDestination(frameWidth+DISTANCE_FROM_FRAME, frameHeight/2);
+		}
+		
 		bird.update();
 		while(enemies.size() < maxEnemies) {
 			generateEnemy();
@@ -75,6 +83,7 @@ class MigratingModel extends Model{
 		
 		updateMoveableLists();
 		updatePower();
+		distance += birdVelocity*velocityChange; 
 		
 		//System.out.println(this.endGame());
 		System.out.println(powerDown);
@@ -110,9 +119,6 @@ class MigratingModel extends Model{
 			velocityChange = 1;
 			accelerateMoveables(velocityChange);
 		}
-		
-		
-		distance += birdVelocity*velocityChange; 
 
 	}
 	
@@ -120,7 +126,8 @@ class MigratingModel extends Model{
 	 * TO-DO: if overall timer ends? or if traveled certain distance, end game
 	 */
 	boolean endGame() {
-		return (distance >= maxDistance);
+		//return (distance >= maxDistance);
+		return bird.exitsFrame(frameWidth, frameHeight);
 	}
 	
 	Collection<Moveable> getMoveables(){
@@ -178,7 +185,7 @@ class MigratingModel extends Model{
         	removeInBagRange(yloc);
         	}
 		if(powerUp||powerDown) {
-			newEnemy.setVelocity((int)(newEnemy.getXVelocity()*velocityChange), newEnemy.getYVelocity());
+			newEnemy.scaleVelocity(velocityChange);
 		}
 		enemies.add(newEnemy);
 	}
@@ -189,7 +196,7 @@ class MigratingModel extends Model{
 	void generateGust() {
 		Gust g = new Gust(frameWidth, (int) (Math.random()*frameHeight));
 		if(powerUp||powerDown) {
-			g.setVelocity((int)(g.getXVelocity()*velocityChange), g.getYVelocity());
+			g.scaleVelocity(velocityChange);
 		}
 		gusts.add(g);
 	}
@@ -256,7 +263,7 @@ class MigratingModel extends Model{
 	}
 
 	
-	/**
+	/**okay note, move this elsewhere
 	 * If bgObjects exit frame, they loop back around. 
 	 * Mostly for clouds, used to also hold pointer in tutorial
 	 * @author Anna
@@ -309,7 +316,9 @@ class MigratingModel extends Model{
 
 	@Override
 	void mouseMoved(int mouseX, int mouseY) {
-		this.setDestination(mouseX, mouseY);	
+		if(bird.destinationX == DISTANCE_FROM_FRAME) {
+			bird.setDestination(bird.destinationX, mouseY);
+		}
 	}
 
 	/**
