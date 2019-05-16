@@ -8,12 +8,14 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 public class MigratingHUD implements HUD, ImageObserver {
-	static int frameWidth = 1080;
-	static int frameHeight = 720;//1080;
-	
+
+	static int frameWidth;
+	static int frameHeight;//1080;
+
+	BufferedImage background;
 	BufferedImage map;
 	BufferedImage mapBird;
-	BufferedImage background;
+
 	int destinationX;
 	int destinationY;
 	int initialX;
@@ -23,6 +25,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 	int currentDistance;
 	int maxDistance;
 	
+
 	public MigratingHUD(int w, int h, boolean migrating) {
 		frameWidth = w;
 		frameHeight = h;
@@ -42,7 +45,6 @@ public class MigratingHUD implements HUD, ImageObserver {
 	}
 
 	public void paintBack(Graphics g, int[]args) {
-		background = View.createImage(View.IMAGE_PATH+"background_migrating.png");
 		g.drawImage(background,0,0,this);
 	}
 	/**
@@ -52,7 +54,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 	 *  index 2. max distance<br>
 	 * This method draw the minimap at the right corner of the frame.
 	 *
-	 * @author Wenki
+	 * @author -Wenki- Prescott
 	 */
 	public void paint(Graphics g, int[] args) {
 		currentDistance = args[1];
@@ -61,9 +63,23 @@ public class MigratingHUD implements HUD, ImageObserver {
 		int birdY = (int) (initialY + (destinationY-initialY) * (1.0*currentDistance/maxDistance));
 		g.drawImage(map, frameWidth-map.getWidth(), frameHeight-map.getHeight(), this);	
 		g.drawImage(mapBird, birdX, birdY, this);
+		refreshXY();
 	}
 	
-
+	/**Refresh X,Y location so that it could update same pace with the game.
+	 *The X location update by convert the scale of the game to the scale of the map.
+	 * 
+	 * For Y position, used a line function that update Y location with the X location.
+	 * 
+	 * @author Wenki
+	 * @deprecated
+	 */
+	public void refreshXY() {
+		if(x != destinationX) {
+			x  = -(maxDistance - currentDistance)*(destinationX-initialX)/maxDistance + destinationX;
+		}
+	}
+	
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 		// TODO Auto-generated method stub
