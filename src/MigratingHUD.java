@@ -32,7 +32,11 @@ public class MigratingHUD implements HUD, ImageObserver {
 	public MigratingHUD(int w, int h, boolean mig) {
 		frameWidth = w;
 		frameHeight = h;
-		map = View.createImage(View.IMAGE_PATH+"nonMigrateMinimap.png");
+		if(mig) {
+			map = View.createImage(View.IMAGE_PATH+"migrateMinimap.png");
+		}else {
+			map = View.createImage(View.IMAGE_PATH+"nonMigrateMinimap.png");
+		}
 		mapBird = View.createImage(View.IMAGE_PATH+"mapBird.png");
 		background = View.createImage(View.IMAGE_PATH+"background_migrating.png");
 		destinationX = frameWidth - map.getWidth()/3;
