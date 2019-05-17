@@ -12,6 +12,7 @@ import java.awt.image.ImageObserver;
 public class MenuHUD implements HUD, ImageObserver {
 	int frameHeight;
 	int frameWidth;
+	BufferedImage background1;
 	BufferedImage background;
 	
 	public MenuHUD(int w, int h) {

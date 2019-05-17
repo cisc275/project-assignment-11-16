@@ -32,7 +32,11 @@ public class MigratingHUD implements HUD, ImageObserver {
 	public MigratingHUD(int w, int h, boolean mig) {
 		frameWidth = w;
 		frameHeight = h;
-		map = View.createImage(View.IMAGE_PATH+"nonMigrateMinimap.png");
+		if(mig) {
+			map = View.createImage(View.IMAGE_PATH+"migrateMinimap.png");
+		}else {
+			map = View.createImage(View.IMAGE_PATH+"nonMigrateMinimap.png");
+		}
 		mapBird = View.createImage(View.IMAGE_PATH+"mapBird.png");
 		background = View.createImage(View.IMAGE_PATH+"background_migrating.png");
 		destinationX = frameWidth - map.getWidth()/3;
@@ -49,7 +53,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 	 * 	index 0. is migrating (1 = migrating, 0 = not migrating);<br>
 	 *  index 1. current distance<br>
 	 *  index 2. max distance<br>
-	 *This method draw the minimap at the right corner of the frame.
+	 * This method draw the minimap at the right corner of the frame.
 	 *
 	 * @author -Wenki- Prescott
 	 */
@@ -85,9 +89,6 @@ public class MigratingHUD implements HUD, ImageObserver {
 		// TODO Auto-generated method stub
 		return false;
 	}
-//	@Override
-//	public HUD nextHUD(int fw, int fh) {
-//		return new BreedingHUD(fw, fh);
-//	}
+
 
 }

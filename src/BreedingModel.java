@@ -16,6 +16,7 @@ public class BreedingModel extends Model {
 	int switchDir;
 	int correctAnswer;
 	boolean isMigrating;
+	int numPredators = 3;
 	/**
 	 * pass frame height/width from view to create models
 	 */
@@ -85,14 +86,14 @@ public class BreedingModel extends Model {
 			System.out.println("bird collided with p");
 		}
 		if (p.collidesWith(nest)) {
-			byeByePredator(); //this should make the predator leave after colliding once, but does not
+			p.setCollidedWithNest(true); //turns collision off so it can leave nest smoothly 
 			nest.numEggs -= 1;
 			System.out.println("bird collided with n");
 		}
 	}
 	
 	boolean endGame() {
-		if (nest.numEggs == 0) {
+		if (p.exitsFrame(frameWidth, frameHeight)) {
 			return true;
 		}
 		else return false;
@@ -132,28 +133,29 @@ public class BreedingModel extends Model {
 		if(p.getX() >= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
 			//if in bottom right quadrant, go to that corner
 			p.updateBirdLoc(frameWidth+p.radius*2, frameHeight+p.radius*2);
-		}
-		if(p.getX() <= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
+		}else if(p.getX() <= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
 			//if in bottom left quadrant, go to that corner
 			p.updateBirdLoc(-p.radius*2, frameHeight+p.radius*2);
-		}
-		if(p.getX() >= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
+		}else if(p.getX() >= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
 			//if in top right quadrant, go to that corner
-			p.updateBirdLoc(frameWidth+p.radius*2, -p.radius*2);
-		}
-		if(p.getX() <= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
+			p.updateBirdLoc(frameWidth+p.radius*3, -p.radius*2);
+		}else if(p.getX() <= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
 			//if in top left quadrant, go to that corner
 			p.updateBirdLoc(-p.radius*2, -p.radius*2);
 		}
+		
 	}
 	
 	void despawnPredators() {
 		//predators in the view should run away
-		if (distractCountdown < 0) {
+		if (distractCountdown < 0 || p.getCollidedWithNest()){
 			byeByePredator();
+			System.out.print(numPredators);
 		}
-		if (p.exitsFrame(frameWidth, frameHeight)) {
+		//stop generating predators after eggcount hits 0
+		if (p.exitsFrame(frameWidth, frameHeight) && numPredators > 0) {
 			generatePredators();
+			numPredators--;
 			//quizTime = true;
 			//uncomment this to start quiz and break game
 		}

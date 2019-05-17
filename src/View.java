@@ -19,12 +19,16 @@ class View extends JPanel {
 	public static final boolean SPRITE_INFO = false;
 	
 	JFrame frame;
-	static int frameWidth = 1080;
-	static int frameHeight = 720;
-	static Dimension windowSize = new Dimension(frameWidth, frameHeight);  //for setting window
+	static Dimension computerScreen = Toolkit.getDefaultToolkit().getScreenSize(); //for setting window
+	static int taskBarSize = 40;
+	static int frameWidth = (int) computerScreen.getWidth();
+	static int frameHeight = (int) computerScreen.getHeight()- taskBarSize;
+	static Dimension windowSize = new Dimension(frameWidth, frameHeight);
+			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
-	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "grasssitter", "hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3"};
+	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "grasssitter", 
+												"hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3", "migratingbird-powerup", "migratingbird-powerdown"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
 	int[] hudargs;
@@ -147,12 +151,10 @@ class View extends JPanel {
 		subpanel.add(qA2Button);
 		subpanel.add(qA3Button);
 		this.add(subpanel);
-		frame.setVisible(true);
-		
+		frame.setVisible(true);	
 	}
 
 	public void paint(Graphics g) {
-		
 		
 		if(subpanel != null) {
 			subpanel.paint(g);
@@ -173,8 +175,6 @@ class View extends JPanel {
 				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
 			}
 		}
-		
-		//System.out.println(hud);
 		if (hud != null)
 			hud.paint(g, hudargs);
 	}
@@ -213,24 +213,8 @@ class View extends JPanel {
 			//e.printStackTrace();
 		}
 		return null;
-	}
-	
-	/**
-	 * create image for the background
-	 * @param type
-	 * @return
-	 */
-	/*private BufferedImage createImages(String type) {
-		BufferedImage bufferedImage;
-		try {
-			bufferedImage = ImageIO.read(new File("./images/"+type+".png"));
-			return bufferedImage;
-		} catch (IOException e) {
-			System.out.println(type+" could not be found");
-			//e.printStackTrace();
-		}
-		return null;
-	}*/
+	}	
+
 	
 	/**
 	 * Pulls from IMAGE_NAMES.
@@ -279,8 +263,6 @@ class View extends JPanel {
 	 * @author Prescott
 	 */
 	BufferedImage getImage(Moveable m) {
-		//if (m instanceof WalkingBird)
-			//System.out.println((m.getFacing() + Math.PI*2) % (Math.PI*2));
 		try {
 			BufferedImage[] row = images.get(m.getImageName())[angleToFaceIndex(m.getFacing())];
 			Integer Dex = picCycles.get(m);

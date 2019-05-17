@@ -36,7 +36,7 @@ abstract class Model {
 	abstract Collection<Moveable> getMoveables();
 	
 	abstract int[] getHUDargs();
-	
+	 
 	/**
 	 * @param actualX @param actualY for the moving camera
 	 * @author Anna

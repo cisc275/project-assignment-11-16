@@ -23,3 +23,4 @@ public interface HUD {
 	 */
 	public void paintBack(Graphics g, int[] args, int cameraX, int cameraY);
 }
+ 

@@ -32,6 +32,7 @@ public class Grasshopper extends Food {
 		scoreValue = 40;
 	}
 	
+	
 	@Override
 	void update(EatingBird birb) {
 		if (jumpTimer > 0) {
