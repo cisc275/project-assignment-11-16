@@ -140,4 +140,20 @@ class EatingModelTest {
 		assertNotEquals(eModel.bird.destinationX, eModel2.bird.destinationX);
 		assertNotEquals(eModel.bird.destinationY, eModel2.bird.destinationY);
 	}
+	
+	@Test
+	void HUDTest() {
+		EatingModel eModel = new EatingModel(frameWidth, frameHeight, b, foodList, time);
+		int eScore = eModel.score;
+		int eScoreGoal = eModel.scoreGoal;
+		int eTimeTaken = eModel.timeTaken;
+		int eTimeLimit = eModel.timeLimit;
+		
+		int[] HUDargs = eModel.getHUDargs();
+		
+		assertEquals(HUDargs[0], eScore);
+		assertEquals(HUDargs[1], eScoreGoal);
+		assertEquals(HUDargs[2], eTimeTaken);
+		assertEquals(HUDargs[3], eTimeLimit);
+	}
 }
