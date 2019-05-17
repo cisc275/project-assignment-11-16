@@ -46,7 +46,7 @@ public class MigratingHUD implements HUD, ImageObserver {
 	}
 
 	public void paintBack(Graphics g, int[] args, int cameraX, int cameraY) {
-		g.drawImage(background,0,0,this);
+		g.drawImage(background, 0, 0, frameWidth, frameHeight, this);
 	}
 	/**
 	 * args: <br>

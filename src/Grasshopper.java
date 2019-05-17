@@ -29,7 +29,7 @@ public class Grasshopper extends Food {
 	 */
 	public Grasshopper(int inx, int iny, int r, int xV, int yV) {
 		super(inx, iny, r, xV, yV);
-		scoreValue = 40;
+		scoreValue = 50;
 	}
 	
 	
@@ -44,7 +44,9 @@ public class Grasshopper extends Food {
 			} else if (distanceTo(birb) <= JUMP_TRIGGER_RADIUS) {
 				jumpTimer = JUMP_TIMER;
 				jumpCooldown = JUMP_COOLDOWN;
-				velocity.setPolar(JUMP_SPEED, angleTo(birb) + Math.PI*(.5+Math.random()));
+				boolean toRight = (birb.getX() < this.x);
+				//System.out.println(toRight);
+				velocity.setPolar(JUMP_SPEED, Math.PI*((toRight?-.24:.76) + Math.random()*.48));
 			}
 		}
 		move();
