@@ -64,7 +64,7 @@ class EatingModelTest {
 		assertNotEquals(m.getCurrentTime(), m1.getCurrentTime());
 		
 	}
-	
+	 
 	@Test
 	void updateCollisionTest() {
 		//test if collision with food removes food
@@ -81,31 +81,6 @@ class EatingModelTest {
 		m1.updateCollision();
 	}
 	
-	@Test
-	void getMenuObjectsTest() {
-		EatingModel m1 = new EatingModel(frameWidth, frameHeight, b, foodList, time);
-		
-		final int newScore = 1023;
-		final int newTime = 92843;
-		
-		m1.setScore(newScore);
-		m1.setCurrentTime(newTime);
-		
-		List<MenuObject> bex = new ArrayList<MenuObject>();
-		
-		bex.add(new Label(0, 0, 200, 40, m1.getScore() + "/" + m1.scoreGoal));
-		bex.add(new Label(400, 0, 200, 40, m1.getCurrentTime() + "/" + m1.timeLimit));
-		
-		List<MenuObject> a = new ArrayList<MenuObject>();
-		a.addAll(m1.getMenuObjects());
-
-		Iterator<MenuObject> i1 = a.iterator();
-		Iterator<MenuObject> i2 = bex.iterator();
-		while (i1.hasNext()) {
-			assertEquals(i1.next().getText(), i2.next().getText());
-		}
-		
-	}
 	
 	@Test
 	void generateFoodTest() {
