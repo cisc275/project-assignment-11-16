@@ -60,12 +60,13 @@ class EatingModel extends Model {
 		timeTaken++;
 		if (food.size() < maxFood) {
 			spawnRandomFood();
+		}
 		for (Food f : food) {
 			f.update(bird);
 		}
 		bird.update();
 		updateCollision();
-	}
+	
 	}
 	
 	
