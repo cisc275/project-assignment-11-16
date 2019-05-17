@@ -9,7 +9,7 @@ public class Earthworm extends Food {
 	public Earthworm(int inx, int iny) {
 		super(inx, iny, 20, 0, 0);
 		velocity.setPolar(BASE_SPEED, VVector.randomTheta());
-		scoreValue = 20;
+		scoreValue = 25;
 	}
 	
 	/**

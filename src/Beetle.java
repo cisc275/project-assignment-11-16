@@ -9,7 +9,7 @@ public class Beetle extends Food {
 	public Beetle(int inx, int iny) {
 		super(inx, iny, 20, 0, 0);
 		velocity.setPolar(BASE_SPEED, VVector.randomTheta());
-		scoreValue = 35;
+		scoreValue = 20;
 	}
 	
 	/**

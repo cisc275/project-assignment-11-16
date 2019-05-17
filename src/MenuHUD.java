@@ -27,7 +27,8 @@ public class MenuHUD implements HUD, ImageObserver {
 	}
 	@Override
 	public void paintBack(Graphics g,int[] args, int cameraX, int cameraY) {
-		g.drawImage(background,0,0,this);
+		int drawWidth = frameHeight*background.getWidth()/background.getHeight();
+		g.drawImage(background, frameWidth/2-drawWidth/2, 0, drawWidth, frameHeight, this);
 	}
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {

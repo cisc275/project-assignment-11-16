@@ -101,7 +101,7 @@ class EatingModel extends Model {
 	}
 	
 	boolean endGame() {
-		return (this.timeTaken >= this.timeLimit || this.score >= this.scoreGoal);
+		return this.timeTaken >= timeLimit;
 	}
 	
 	Collection<Moveable> getMoveables() {
