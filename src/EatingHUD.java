@@ -15,6 +15,8 @@ public class EatingHUD implements HUD, ImageObserver {
 	BufferedImage background;
 	BufferedImage[] timer;
 	int currentTime;
+	final int X_OFFSET = 30;
+	final int Y_OFFSET = 30;
 	
 	public EatingHUD(int w, int h) {
 		frameWidth = w;
@@ -29,7 +31,7 @@ public class EatingHUD implements HUD, ImageObserver {
 	 * @author Kelly
 	 */
 	private BufferedImage[] loadTimerAnimation() {
-		BufferedImage sheet = View.createImage(View.IMAGE_PATH + "eating-timer.png"); 
+		BufferedImage sheet = View.createImage(View.IMAGE_PATH + "eating-timer-placeholder.png"); 
 		BufferedImage[] imgs;
 		
 		if (sheet != null) {
@@ -57,9 +59,9 @@ public class EatingHUD implements HUD, ImageObserver {
 	 * @author - kelly
 	 */
 	public void paint(Graphics g, int[] args) {
-		g.drawString(Integer.toString(args[0]), 0, 0);
+		g.drawString(Integer.toString(args[0]) + " out of " + Integer.toString(args[1]), 50, 50);
 		BufferedImage currentTimer= timer[getFrame(args[2], args[3])];
-		g.drawImage(currentTimer, frameWidth - currentTimer.getWidth(), frameHeight - currentTimer.getHeight(), this);
+		g.drawImage(currentTimer, frameWidth - currentTimer.getWidth() - X_OFFSET, frameHeight - currentTimer.getHeight() - Y_OFFSET, this);
 		
 	}
 	
