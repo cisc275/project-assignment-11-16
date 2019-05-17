@@ -3,6 +3,13 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.image.RasterFormatException;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 
 /**
  * 
@@ -15,14 +22,17 @@ public class EatingHUD implements HUD, ImageObserver {
 	BufferedImage background;
 	BufferedImage[] timer;
 	int currentTime;
-	final int X_OFFSET = 30;
-	final int Y_OFFSET = 30;
+	Font myFont;
+	final String FONT_NAME = "arial_rounded";
+	final int TIMER_OFFSET = 30;
+	final int SCORE_OFFSET = 50;
 	
 	public EatingHUD(int w, int h) {
 		frameWidth = w;
 		frameHeight = h;
 		background = View.createImage(View.IMAGE_PATH+"background_eating.png");
 		timer = loadTimerAnimation();
+		loadFont();
 	}
 	
 	/**
@@ -56,12 +66,27 @@ public class EatingHUD implements HUD, ImageObserver {
 	
 	/**
 	 * args: score, scoregoal, time elapsed, maxtime
+	 * </br> note: scoregoal deprecated do not use
 	 * @author - kelly
 	 */
 	public void paint(Graphics g, int[] args) {
-		g.drawString(Integer.toString(args[0]) + " out of " + Integer.toString(args[1]), 50, 50);
+		g.setFont(myFont);
+		g.drawString(Integer.toString(args[0]) + " points collected. Try and eat as many bugs as you can before it's time to migrate!", 
+				SCORE_OFFSET, SCORE_OFFSET);
 		BufferedImage currentTimer= timer[getFrame(args[2], args[3])];
-		g.drawImage(currentTimer, frameWidth - currentTimer.getWidth() - X_OFFSET, frameHeight - currentTimer.getHeight() - Y_OFFSET, this);
+		g.drawImage(currentTimer, frameWidth - currentTimer.getWidth() - TIMER_OFFSET, frameHeight - currentTimer.getHeight() - TIMER_OFFSET, this);
+	}
+	
+	private void loadFont() {
+		String fontFileName = "./fonts/" + FONT_NAME + ".ttf";
+		try {
+			InputStream is = new FileInputStream(fontFileName);
+			Font tempFont = Font.createFont(Font.TRUETYPE_FONT, is);
+			myFont = tempFont.deriveFont(24.0f);
+		} catch (IOException | FontFormatException e) {
+			System.out.println("font " + FONT_NAME + " not found");
+		} 
+		
 		
 	}
 	
