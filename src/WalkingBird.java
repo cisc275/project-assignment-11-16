@@ -52,6 +52,14 @@ public class WalkingBird extends Moveable {
 		faceDestination(speed);
 	}
 	
+	public int getDestinationX() {
+		return this.destinationX;
+	}
+	
+	public int getDestinationY() {
+		return this.destinationY;
+	}
+	
 	public String getImageName() {
 		return velocity.getR() > 0 ? "walkingbird" : "standingbird";
 	}
