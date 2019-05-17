@@ -19,10 +19,12 @@ class View extends JPanel {
 	public static final boolean SPRITE_INFO = true;
 	
 	JFrame frame;
-	static Dimension windowSize = Toolkit.getDefaultToolkit().getScreenSize(); //for setting window
-
-	static int frameWidth = (int) windowSize.getWidth();
-	static int frameHeight = (int) windowSize.getHeight();
+	static Dimension computerScreen = Toolkit.getDefaultToolkit().getScreenSize(); //for setting window
+	static int taskBarSize = 40;
+	static int frameWidth = (int) computerScreen.getWidth();
+	static int frameHeight = (int) computerScreen.getHeight()- taskBarSize;
+	static Dimension windowSize = new Dimension(frameWidth, frameHeight);
+			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
 	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", 
