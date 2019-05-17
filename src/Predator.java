@@ -5,6 +5,7 @@ public abstract class Predator extends Moveable {
 	//int xB;
 	//int yB;
 	int speed;
+	boolean collidedWithNest = false;
 
 	Predator(int xP, int yP, int r, int xV, int yV) {
 		super(xP, yP, r, xV, yV);
@@ -18,10 +19,27 @@ public abstract class Predator extends Moveable {
 	void setSpeed(int s) {
 		speed = s;
 	}
+	
+	void setCollidedWithNest(boolean b) {
+		collidedWithNest = b;
+	}
+	boolean getCollidedWithNest() {
+		return collidedWithNest;
+	}
 
 	@Override
 	void update() {
 		move();
+	}
+	
+	//turns off collision after collides w/ nest once 
+	@Override
+	boolean collidesWith(Moveable other){
+		if(collidedWithNest) {
+			return false;
+		}else {
+			return super.collidesWith(other);
+		}
 	}
 	
 	/**
