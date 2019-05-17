@@ -12,6 +12,7 @@ import java.awt.image.ImageObserver;
 public class MenuHUD implements HUD, ImageObserver {
 	int frameHeight;
 	int frameWidth;
+	BufferedImage background1;
 	BufferedImage background;
 	
 	public MenuHUD(int w, int h) {
@@ -26,7 +27,7 @@ public class MenuHUD implements HUD, ImageObserver {
 	}
 	@Override
 	public void paintBack(Graphics g,int[] args) {
-		g.drawImage(background,0,0,this);
+		g.drawImage(background,0,0,frameWidth,frameHeight,this);
 	}
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
