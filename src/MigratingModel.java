@@ -71,7 +71,7 @@ class MigratingModel extends Model{
 	void update() {
 		if(bird.getDestinationX() < BIRD_STARTING_X) {
 			bird.setDestination(BIRD_STARTING_X, frameHeight/2);
-		}else if(distance > maxDistance) {
+		}else if(exitFrame()) {
 			bird.setDestination(frameWidth+BIRD_STARTING_X, bird.getDestinationY());
 		}
 		
@@ -128,6 +128,13 @@ class MigratingModel extends Model{
 	boolean endGame() {
 		//return (distance >= maxDistance);
 		return bird.exitsFrame(frameWidth, frameHeight);
+	}
+	
+	/**
+	 * check when to move bird out of frame/initiate end sequence
+	 */
+	boolean exitFrame() {
+		return (distance >= maxDistance);
 	}
 	
 	Collection<Moveable> getMoveables(){
