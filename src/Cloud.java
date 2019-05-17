@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Cloud extends Moveable {
+public class Cloud extends FlyingObject {
 	private Random nameInt = new Random();
 	private String name;
 	

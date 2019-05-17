@@ -4,18 +4,19 @@ import java.util.Collection;
 import java.util.List;
 
 public class BreedingModel extends Model {
-	
+	static final int DISTRACT_DURATION = 60;
 	BreedingBird bird;
 	Predator p;
 	Nest nest;
 	boolean quizTime = false;
-	int distractCountdown = 50;
+	int distractCountdown = DISTRACT_DURATION;
 	int tutorialSpeed = 0;
 	int normalSpeed = 6;
 	int runawaySpeed = 10;
 	int switchDir;
 	int correctAnswer;
 	boolean isMigrating;
+	int numPredators = 3;
 	/**
 	 * pass frame height/width from view to create models
 	 */
@@ -65,7 +66,7 @@ public class BreedingModel extends Model {
 		if (this.bird.getBrokenWing() == true) {
 			p.updateBirdLoc(xB, yB);
 			distractCountdown--;
-			System.out.println(distractCountdown);
+			//System.out.println(distractCountdown);
 			//predator chases bird
 		}
 		else p.updateBirdLoc(nest.x, nest.y);
@@ -85,14 +86,14 @@ public class BreedingModel extends Model {
 			System.out.println("bird collided with p");
 		}
 		if (p.collidesWith(nest)) {
-			byeByePredator(); //this should make the predator leave after colliding once, but does not
+			p.setCollidedWithNest(true); //turns collision off so it can leave nest smoothly 
 			nest.numEggs -= 1;
 			System.out.println("bird collided with n");
 		}
 	}
 	
 	boolean endGame() {
-		if (nest.numEggs == 0) {
+		if (p.exitsFrame(frameWidth, frameHeight)) {
 			return true;
 		}
 		else return false;
@@ -121,7 +122,7 @@ public class BreedingModel extends Model {
 			//start raccoon at right of screen
 			case 1: p = new Raccoon(frameWidth, frameHeight/2,35,0,0, normalSpeed); break;
 		}
-		distractCountdown = 60;
+		distractCountdown = DISTRACT_DURATION;
 	}
 	
 	/** checks which quadrant raccoon is in and runs off screen
@@ -132,33 +133,32 @@ public class BreedingModel extends Model {
 		if(p.getX() >= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
 			//if in bottom right quadrant, go to that corner
 			p.updateBirdLoc(frameWidth+p.radius*2, frameHeight+p.radius*2);
-		}
-		if(p.getX() <= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
+		}else if(p.getX() <= (frameWidth/2) && p.getY() >= (frameHeight/2)) {
 			//if in bottom left quadrant, go to that corner
 			p.updateBirdLoc(-p.radius*2, frameHeight+p.radius*2);
-		}
-		if(p.getX() >= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
+		}else if(p.getX() >= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
 			//if in top right quadrant, go to that corner
-			p.updateBirdLoc(frameWidth+p.radius*2, -p.radius*2);
-		}
-		if(p.getX() <= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
+			p.updateBirdLoc(frameWidth+p.radius*3, -p.radius*2);
+		}else if(p.getX() <= (frameWidth/2) && p.getY() <= (frameHeight/2)) {
 			//if in top left quadrant, go to that corner
 			p.updateBirdLoc(-p.radius*2, -p.radius*2);
 		}
+		
 	}
 	
 	void despawnPredators() {
 		//predators in the view should run away
-		if (distractCountdown < 0) {
+		if (distractCountdown < 0 || p.getCollidedWithNest()){
 			byeByePredator();
+			System.out.print(numPredators);
 		}
-		if (p.exitsFrame(frameWidth, frameHeight)) {
+		//stop generating predators after eggcount hits 0
+		if (p.exitsFrame(frameWidth, frameHeight) && numPredators > 0) {
 			generatePredators();
+			numPredators--;
 			//quizTime = true;
 			//uncomment this to start quiz and break game
 		}
-	
-		
 	}
 	
 	void isCorrect(int ans) {
@@ -178,9 +178,9 @@ public class BreedingModel extends Model {
 
 	@Override
 	void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick) {
-		if (leftClick == true) {
+		if (leftClick) {
 			this.setDestination(mouseX, mouseY);
-		} else if (rightClick == true) {
+		} else if (rightClick) {
 			this.startBrokenWing();
 		}
 	}
@@ -208,6 +208,7 @@ public class BreedingModel extends Model {
 				p.getY(),
 				bird.brokenWing ? 1 : 0,
 				distractCountdown,
+				DISTRACT_DURATION,
 				isMigrating ? 1 : 0,
 		};
 		return toret;
