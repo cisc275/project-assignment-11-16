@@ -16,6 +16,7 @@ public class BreedingModel extends Model {
 	int switchDir;
 	int correctAnswer;
 	boolean isMigrating;
+	int numPredators = 3;
 	/**
 	 * pass frame height/width from view to create models
 	 */
@@ -92,7 +93,7 @@ public class BreedingModel extends Model {
 	}
 	
 	boolean endGame() {
-		if (nest.numEggs == 0 && p.exitsFrame(frameWidth, frameHeight)) {
+		if (p.exitsFrame(frameWidth, frameHeight)) {
 			return true;
 		}
 		else return false;
@@ -142,16 +143,19 @@ public class BreedingModel extends Model {
 			//if in top left quadrant, go to that corner
 			p.updateBirdLoc(-p.radius*2, -p.radius*2);
 		}
+		
 	}
 	
 	void despawnPredators() {
 		//predators in the view should run away
 		if (distractCountdown < 0 || p.getCollidedWithNest()){
 			byeByePredator();
+			System.out.print(numPredators);
 		}
 		//stop generating predators after eggcount hits 0
-		if (p.exitsFrame(frameWidth, frameHeight) && nest.numEggs > 0) {
+		if (p.exitsFrame(frameWidth, frameHeight) && numPredators > 0) {
 			generatePredators();
+			numPredators--;
 			//quizTime = true;
 			//uncomment this to start quiz and break game
 		}
