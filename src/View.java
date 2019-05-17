@@ -16,7 +16,7 @@ class View extends JPanel {
 	public static final String IMAGE_PATH = "src/images/";
 	
 	public static final boolean NO_IMAGES = false;
-	public static final boolean SPRITE_INFO = true;
+	public static final boolean SPRITE_INFO = false;
 	
 	JFrame frame;
 	static Dimension computerScreen = Toolkit.getDefaultToolkit().getScreenSize(); //for setting window
@@ -27,7 +27,7 @@ class View extends JPanel {
 			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
-	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", 
+	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "grasssitter", 
 												"hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3", "migratingbird-powerup", "migratingbird-powerdown"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
@@ -160,7 +160,7 @@ class View extends JPanel {
 			subpanel.paint(g);
 		}
 		if (hud != null) {
-			 hud.paintBack(g,hudargs);
+			 hud.paintBack(g, hudargs, cameraOffX, cameraOffY);
 		}
 		for(Moveable m : moveables) {
 			int sx = m.getX() - cameraOffX;
@@ -190,9 +190,9 @@ class View extends JPanel {
 		cameraOffY = 0;
 	}
 	
-	void moveCamera(int centerX, int centerY) {
-		cameraOffX = centerX - frameWidth/2;
-		cameraOffY = centerY - frameHeight/2;
+	void moveCamera(int centerX, int centerY, int maxWidth, int maxHeight) {
+		cameraOffX = Math.max(Math.min(centerX - frameWidth/2, maxWidth - frameWidth), 0);
+		cameraOffY = Math.max(Math.min(centerY - frameHeight/2, maxHeight - frameHeight), 0);
 	}
 	
 	int actualX(int clickx) {
@@ -273,6 +273,7 @@ class View extends JPanel {
 			} else {
 				dex = 0;
 			}
+			//TODO bluh
 			picCycles.put(m, dex+1);
 			return row[dex];
 		} catch (NullPointerException e) {

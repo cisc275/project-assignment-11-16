@@ -17,8 +17,10 @@ public interface HUD {
 	 * Paint the background image for each view
 	 * @param g
 	 * @param args
+	 * @param cameraX
+	 * @param cameraY
 	 * @author wenkiliang
 	 */
-	public void paintBack(Graphics g, int[] args);
+	public void paintBack(Graphics g, int[] args, int cameraX, int cameraY);
 }
  

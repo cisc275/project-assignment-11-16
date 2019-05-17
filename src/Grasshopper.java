@@ -38,7 +38,7 @@ public class Grasshopper extends Food {
 		if (jumpTimer > 0) {
 			jumpTimer--;
 		} else {
-			velocity.setXY(0, 0);
+			velocity.zero();
 			if (jumpCooldown > 0) {
 				jumpCooldown--;
 			} else if (distanceTo(birb) <= JUMP_TRIGGER_RADIUS) {
@@ -52,6 +52,6 @@ public class Grasshopper extends Food {
 
 	@Override
 	public String getImageName() {
-		return "grasshopper";
+		return (jumpTimer > 0) ? "grasshopper" : "grasssitter";
 	}
 }
