@@ -123,4 +123,37 @@ class EatingModelTest {
 		eModel2.setScore(newScore-10);
 		assertFalse(eModel2.endGame());
 	}
+	
+	@Test
+	void mouseTest() {
+		EatingModel eModel = new EatingModel(frameWidth, frameHeight, new EatingBird(100, 100), foodList, time);
+		EatingModel eModel1 = new EatingModel(frameWidth, frameHeight, new EatingBird(100, 100), foodList, time);
+		EatingModel eModel2 = new EatingModel(frameWidth, frameHeight, new EatingBird(100, 100), foodList, time);
+
+		eModel1.mouseDragged(100, 100, 1000, 1000);
+		eModel1.update();
+		assertNotEquals(eModel.bird.destinationX, eModel1.bird.destinationX);
+		assertNotEquals(eModel.bird.destinationY, eModel1.bird.destinationY);
+		
+		eModel2.mousePressed(130, 700, 1200, 10, true, false);
+		eModel2.update();
+		assertNotEquals(eModel.bird.destinationX, eModel2.bird.destinationX);
+		assertNotEquals(eModel.bird.destinationY, eModel2.bird.destinationY);
+	}
+	
+	@Test
+	void HUDTest() {
+		EatingModel eModel = new EatingModel(frameWidth, frameHeight, b, foodList, time);
+		int eScore = eModel.score;
+		int eScoreGoal = eModel.scoreGoal;
+		int eTimeTaken = eModel.timeTaken;
+		int eTimeLimit = eModel.timeLimit;
+		
+		int[] HUDargs = eModel.getHUDargs();
+		
+		assertEquals(HUDargs[0], eScore);
+		assertEquals(HUDargs[1], eScoreGoal);
+		assertEquals(HUDargs[2], eTimeTaken);
+		assertEquals(HUDargs[3], eTimeLimit);
+	}
 }
