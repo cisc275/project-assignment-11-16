@@ -4,7 +4,7 @@
  *
  */
 public class WalkingBird extends Moveable {
-	public final int BASE_SPEED = 6;
+	public final int BASE_SPEED = 8;
 	int destinationX;
 	int destinationY;
 	double speed;

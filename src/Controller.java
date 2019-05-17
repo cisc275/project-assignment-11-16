@@ -65,7 +65,7 @@ public class Controller implements MouseMotionListener, MouseListener, ActionLis
 		while (!ended) {
 			if (model instanceof EatingModel) {
 				EatingModel eModel = (EatingModel) model;
-				view.moveCamera(eModel.getBirdX(), eModel.getBirdY());
+				view.moveCamera(eModel.getBirdX(), eModel.getBirdY(), eModel.getWidth(), eModel.getHeight());
 			} else {
 				view.resetCamera();
 			}

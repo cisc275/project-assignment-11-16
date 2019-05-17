@@ -12,6 +12,7 @@ public class EatingHUD implements HUD, ImageObserver {
 	int frameHeight;
 	int frameWidth;
 	BufferedImage background;
+	
 	public EatingHUD(int w, int h) {
 		frameWidth = w;
 		frameHeight = h;
@@ -30,9 +31,9 @@ public class EatingHUD implements HUD, ImageObserver {
 	 * draw the background image.
 	 * 
 	 */
-	public void paintBack(Graphics g, int[]args) {
+	public void paintBack(Graphics g, int[] args, int cameraX, int cameraY) {
 		//TODO moving camera
-		g.drawImage(background,0,0,this);
+		g.drawImage(background, -cameraX, -cameraY, this);
 	}
 
 	@Override
