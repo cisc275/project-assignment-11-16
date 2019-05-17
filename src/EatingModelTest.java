@@ -126,6 +126,18 @@ class EatingModelTest {
 	
 	@Test
 	void mouseTest() {
+		EatingModel eModel = new EatingModel(frameWidth, frameHeight, new EatingBird(100, 100), foodList, time);
+		EatingModel eModel1 = new EatingModel(frameWidth, frameHeight, new EatingBird(100, 100), foodList, time);
+		EatingModel eModel2 = new EatingModel(frameWidth, frameHeight, new EatingBird(100, 100), foodList, time);
+
+		eModel1.mouseDragged(100, 100, 1000, 1000);
+		eModel1.update();
+		assertNotEquals(eModel.bird.destinationX, eModel1.bird.destinationX);
+		assertNotEquals(eModel.bird.destinationY, eModel1.bird.destinationY);
 		
+		eModel2.mousePressed(130, 700, 1200, 10, true, false);
+		eModel2.update();
+		assertNotEquals(eModel.bird.destinationX, eModel2.bird.destinationX);
+		assertNotEquals(eModel.bird.destinationY, eModel2.bird.destinationY);
 	}
 }
