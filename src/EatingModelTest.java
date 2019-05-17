@@ -123,4 +123,9 @@ class EatingModelTest {
 		eModel2.setScore(newScore-10);
 		assertFalse(eModel2.endGame());
 	}
+	
+	@Test
+	void mouseTest() {
+		
+	}
 }
