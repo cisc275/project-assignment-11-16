@@ -58,7 +58,7 @@ public class BreedingHUD implements HUD, ImageObserver {
 	
 	@Override
 	public void paintBack(Graphics g, int[] args) {
-		g.drawImage(background, 0, 0, this);
+		g.drawImage(background, 0, 0,frameWidth,frameHeight, this);
 		//g.drawImage(bushes,0,0,this); currently not transparent :(
 		
 	}
