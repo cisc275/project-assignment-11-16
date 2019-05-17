@@ -66,6 +66,7 @@ class EatingModel extends Model {
 		bird.update();
 		updateCollision();
 	}
+	}
 	
 	
 	public void updateCollision() {
@@ -151,7 +152,7 @@ class EatingModel extends Model {
 		// TODO Auto-generated method stub
 		
 	}
-
+ 
 
 	
 	//for testing
