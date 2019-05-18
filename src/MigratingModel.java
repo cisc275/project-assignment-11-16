@@ -9,12 +9,6 @@ class MigratingModel extends Model{
 	List<Cloud> backgroundObjects; 
 	protected int maxEnemies = 3;
 	protected int maxGusts = 2;
-	
-	protected double velocityScale = 1;
-	protected static double POWERUP_SCALE = 2.5; 
-	protected static double POWERDOWN_SCALE = .5;
-	protected static int POWER_DURATION = 40;
-	protected int powerTimer = 0;
 
 	protected int distance = 0; //how far bird has travelled
 	protected int maxDistance;  //how much it needs to travel varies on migrate or not. 
@@ -25,7 +19,7 @@ class MigratingModel extends Model{
 	protected int avoidOverlap = 3;
 	protected int birdVelocity = 10; 
 	
-	protected static int BIRD_STARTING_X = 300;
+	protected static int BIRD_STARTING_X = 500;
 	protected static int BIRD_STARTING_Y;
 	
 	
@@ -75,10 +69,12 @@ class MigratingModel extends Model{
 			bird.setDestination(frameWidth+BIRD_STARTING_X, bird.getDestinationY());
 		}
 		
+		if(!(bird.getPowerDown() || bird.getPowerUp()) ) {
+			scaleVelocities(bird.getVelocityScale());
+		}
 		bird.update();
 		updateMoveableLists();
-		updatePower();
-		distance += birdVelocity*velocityScale; 
+		distance += birdVelocity*bird.getVelocityScale(); 
 	}
 	
 	
@@ -105,24 +101,6 @@ class MigratingModel extends Model{
 	}
 	
 	/**
-	 * Speed or slow everything when power is turned on
-	 * Decrements powertimer
-	 * @author Anna
-	 */
-	void updatePower(){
-		if(powerTimer == POWER_DURATION) {
-			scaleVelocities(velocityScale);
-			powerTimer--;
-		}else if(powerTimer > 0) {
-			powerTimer--;
-		}else if(powerTimer == 0) {
-			bird.powerReset();
-			velocityScale = 1;
-			scaleVelocities(velocityScale);
-		}
-	}
-	
-	/**
 	 * End when bird exits frame
 	 */
 	boolean endGame() {
@@ -139,10 +117,10 @@ class MigratingModel extends Model{
 	
 	Collection<Moveable> getMoveables(){
 		Collection<Moveable> m = new ArrayList<Moveable>();
+		m.addAll(backgroundObjects); 
 		m.addAll(enemies);
 		m.add(bird);
 		m.addAll(gusts);
-		m.addAll(backgroundObjects); 
 		return m;
 	}
 	
@@ -190,7 +168,7 @@ class MigratingModel extends Model{
 	        	break;
         }
 		if(bird.getPowerUp() || bird.getPowerDown()) {
-			newEnemy.scaleVelocity(velocityScale);
+			newEnemy.scaleVelocity(bird.getVelocityScale());
 		}
 		enemies.add(newEnemy);
 	}
@@ -201,7 +179,7 @@ class MigratingModel extends Model{
 	void generateGust() {
 		Gust g = new Gust(frameWidth, (int) (Math.random()*frameHeight));
 		if(bird.getPowerUp() || bird.getPowerDown()) {
-			g.scaleVelocity(velocityScale);
+			g.scaleVelocity(bird.getVelocityScale());
 		}
 		gusts.add(g);
 	}
@@ -233,9 +211,8 @@ class MigratingModel extends Model{
 			if (bird.collidesWith(e)) {
 				enemiesIterator.remove();
 				if(bird.getPowerDown() == false) {
-					powerTimer = POWER_DURATION;
-					velocityScale = POWERDOWN_SCALE;
 					bird.powerDown();
+					scaleVelocities(bird.getVelocityScale());
 				}
 			} else if (e.exitsFrame(frameWidth, frameHeight)) {
 				enemiesIterator.remove();
@@ -254,12 +231,8 @@ class MigratingModel extends Model{
 			Gust g = gustIterator.next();
 			if(bird.collidesWith(g)) {
 				gustIterator.remove();
-				powerTimer = POWER_DURATION; //outside to enable continuous powerup
-				if(bird.getPowerUp() == false) {
-					velocityScale = POWERUP_SCALE;
-					bird.powerUp();
-				}
-
+				bird.powerUp(); //outside to enable continuous powerup
+				scaleVelocities(bird.getVelocityScale());
 			}else if(g.exitsFrame(frameWidth, frameHeight)) {
 				gustIterator.remove();
 			}
@@ -280,7 +253,7 @@ class MigratingModel extends Model{
 				o.setLocation(frameWidth+o.getR(), o.getY());
 			}
 		}
-	}
+	} 
 	
 	/**
 	 * Speeds up or down all objects besides bird according to input

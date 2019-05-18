@@ -79,7 +79,7 @@ class MigratingModelTest {
 			e.move();
 		}
 		mModel.bird.powerUp();
-		mModel.powerTimer = 30;
+		//mModel.powerTimer = 30;
 		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts,true);
 		
 		assertNotEquals(mModel, mModel2);

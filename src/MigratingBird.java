@@ -1,23 +1,31 @@
+
+
+
+
 /**
  * 
  * @author Prescott
  *
  */
 public class MigratingBird extends Moveable {
-
+	private enum State{ DEFAULT, POWERUP, POWERDOWN} 
+	
 	final static double followDistanceCoefficientX = .05;
 	final static double followDistanceCoefficientY = .4;
 	private int destinationX;
 	private int destinationY;
-	private boolean powerUp;
-	private boolean powerDown;
+	private State birdState = State.DEFAULT;
+	
+	protected double velocityScale = 1;
+	protected static double POWERUP_SCALE = 2.5; 
+	protected static double POWERDOWN_SCALE = .2;
+	protected static int POWER_DURATION = 40;
+	protected int powerTimer = 0;
 	
 	MigratingBird(int xP, int yP){
 		super(xP, yP, 60, 0, 0);
 		destinationX = xP;
 		destinationY = yP;
-		powerUp = false;
-		powerDown = false;
 	}
 	
 	MigratingBird(int xP, int yP, int r, int xV, int yV){
@@ -26,6 +34,15 @@ public class MigratingBird extends Moveable {
 
 	@Override
 	void update() {
+		
+		if(powerTimer == POWER_DURATION) {
+			powerTimer--;
+		}else if(powerTimer < POWER_DURATION && powerTimer > 0) {
+			powerTimer--;
+		}else if(powerTimer == 0) {
+			powerReset();
+		}
+		
 		velocity.setXY( (int) Math.ceil((destinationX - this.x) * followDistanceCoefficientX), (int) Math.ceil((destinationY - this.y) * followDistanceCoefficientY)  );
 		move();
 	}
@@ -45,38 +62,46 @@ public class MigratingBird extends Moveable {
 		return destinationY;
 	}
 	
+	public double getVelocityScale() {
+		return velocityScale;
+	}
+	
 	public boolean getPowerUp() {
-		return powerUp;
+		return (birdState == State.POWERUP);
 	}
 	public boolean getPowerDown() {
-		return powerDown;
+		return (birdState == State.POWERDOWN);
 	}
 	
 	public void powerUp() {
-		powerUp = true;
-		powerDown = false;
+		birdState = State.POWERUP;
+		velocityScale = POWERUP_SCALE;
+		powerTimer = POWER_DURATION;
 	}
 	
 	public void powerDown() {
-		powerUp = false;
-		powerDown = true;
+		birdState = State.POWERDOWN;
+		velocityScale = POWERDOWN_SCALE;
+		powerTimer = POWER_DURATION;
 	}
 	
 	public void powerReset() {
-		powerUp = false;
-		powerDown = false;
+		birdState = State.DEFAULT;
+		velocityScale = 1;
+		powerTimer = 0;
 	}
 	
 
 
 	@Override
 	public String getImageName() {
-		if(powerUp) {
-			return "migratingbird-powerup";
-		}else if (powerDown) {
-			return "migratingbird-powerdown";
-		}else{
-			return "migratingbird";
+		switch(birdState) {
+			case POWERUP:
+				return "migratingbird-powerup";
+			case POWERDOWN:
+				return "migratingbird-powerdown";
+			default:
+				return "migratingbird";
 		}
 	}
 }
