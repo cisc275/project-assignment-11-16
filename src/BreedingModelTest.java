@@ -66,4 +66,9 @@ class BreedingModelTest{
 		assertNotEquals(bModel, bModel2);
 	}
 	
+	@Test
+	void brokenWingTest() {
+		
+	}
+	
 }

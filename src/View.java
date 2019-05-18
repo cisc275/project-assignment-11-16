@@ -9,11 +9,12 @@ import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
+import java.beans.PropertyChangeListener;
 
 
 @SuppressWarnings("serial")
 class View extends JPanel {
-	public static final String IMAGE_PATH = "src/images/";
+	public static final String IMAGE_PATH = "./images/";
 	
 	public static final boolean NO_IMAGES = false;
 	public static final boolean SPRITE_INFO = false;
@@ -24,6 +25,7 @@ class View extends JPanel {
 	static int frameWidth = (int) computerScreen.getWidth();
 	static int frameHeight = (int) computerScreen.getHeight()- taskBarSize;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);
+	
 			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
@@ -47,18 +49,26 @@ class View extends JPanel {
 	int cameraOffX = 0;
 	int cameraOffY = 0;
 	
-
-	static Dimension answerSize = new Dimension(frameWidth,frameHeight/3); //gotta figure out a good size
 	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-50);
 	JPanel subpanel;
 	JButton migrateButton;
 	JButton stayButton;
-	JButton qA1Button;
-	JButton qA2Button;
-	JButton qA3Button;
 	boolean migrate = false;
 	boolean endMenu  = false;
 	boolean quizTime = false;
+	Object[] quizAns = {"Answer 1", "Answer 2", "Answer 3"};
+	int quizInput;
+	
+	JOptionPane quizPane = new JOptionPane(
+			"This is where the question goes", //message/question
+			JOptionPane.QUESTION_MESSAGE,
+			JOptionPane.YES_NO_CANCEL_OPTION,
+			null, // no icon
+			quizAns, //options
+			quizAns[2]); //initialValue???
+	
+	JDialog dialog = quizPane.createDialog(this, "Quiz Title");
+	
 	View() {
 		if (!NO_IMAGES) {
 			this.createImages();
@@ -76,7 +86,7 @@ class View extends JPanel {
 	
 	/**
 	 * sets up frame and button styles
-	 * @author Anna and Zach
+	 * @author Anna
 	 */
 	private void buildFrame() {
 		frame = new JFrame();
@@ -92,15 +102,6 @@ class View extends JPanel {
 		stayButton.addActionListener(someactionevent -> {removeMenu(); endMenu = true;});
 		migrateButton.setPreferredSize(buttonSize);
 		stayButton.setPreferredSize(buttonSize); //must be pref size
-		qA1Button = new JButton("Answer A");
-		qA2Button = new JButton("Answer B");
-		qA3Button = new JButton("Answer C");
-		qA1Button.addActionListener(someactionevent -> {System.out.print("fuck");removeMenu(); endMenu = true; quizTime = false;});
-		qA2Button.addActionListener(someactionevent -> {removeMenu(); endMenu = true; quizTime = false;});
-		qA3Button.addActionListener(someactionevent -> {removeMenu(); endMenu = true; quizTime = false;});
-		//qA1Button.setPreferredSize(answerSize);
-		//qA2Button.setPreferredSize(answerSize);
-		//qA3Button.setPreferredSize(answerSize);
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		stayButton.setBounds(150 + insets1.left, 15 + insets1.top, buttonSize.width + 50, buttonSize.height + 20);
 		stayButton.setOpaque(false);
@@ -111,12 +112,6 @@ class View extends JPanel {
 		
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		this.setFocusable(true);
-	}
-	
-	void addControllerToButton(Controller c){
-		qA1Button.addActionListener(c);
-		qA2Button.addActionListener(c);
-		qA3Button.addActionListener(c);
 	}
 	
 	public void removeMenu() {
@@ -143,15 +138,15 @@ class View extends JPanel {
 	}
 	/**
 	 * called from outside (Controller) to add/show quiz at breeding game
-	 *
+	 *@author ZachC
 	 */
 	public void buildQuiz() {
-		subpanel = new JPanel();
-		subpanel.add(qA1Button);
-		subpanel.add(qA2Button);
-		subpanel.add(qA3Button);
-		this.add(subpanel);
-		frame.setVisible(true);	
+		dialog.setContentPane(quizPane);
+		dialog.setDefaultCloseOperation(
+				JDialog.DO_NOTHING_ON_CLOSE); //they can't just x out?
+		dialog.pack();
+		dialog.setVisible(true);
+		System.out.println(quizPane.getValue());
 	}
 
 	public void paint(Graphics g) {
@@ -307,5 +302,9 @@ class View extends JPanel {
 			return 3;
 		else
 			return 0;
+	}
+
+	public void addPropertyChangeListener(Controller c) {
+		quizPane.addPropertyChangeListener(c);
 	}
 }
