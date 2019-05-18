@@ -4,28 +4,22 @@ import java.util.*;
 class MigratingModel extends Model{
 
 	MigratingBird bird;
-	List<Enemy> enemies;
-	List<Gust> gusts;
-	List<Cloud> backgroundObjects; 
-	protected int maxEnemies = 3;
-	protected int maxGusts = 2;
-	
-	protected double velocityScale = 1;
-	protected static double POWERUP_SCALE = 2.5; 
-	protected static double POWERDOWN_SCALE = .5;
-	protected static int POWER_DURATION = 40;
-	protected int powerTimer = 0;
+	List<FlyingObject> flyingObjects;
+	protected int MAX_OBJECTS = 8;
+	protected static int GENERATE_TIME = 12; //delay so objects aren't made all at once
+	protected int generateTimer = 0;
 
 	protected int distance = 0; //how far bird has travelled
 	protected int maxDistance;  //how much it needs to travel varies on migrate or not. 
 	protected boolean isMigrating;
 	protected static int MIGRATE_DISTANCE = 10000;
-	protected static int STAY_DISTANCE = 2000;
+	protected static int STAY_DISTANCE = 6000;
 	
-	protected int avoidOverlap = 3;
+	protected int avoidObjectOverlap = 3;
+	protected int avoidBagOverlap = 120;
 	protected int birdVelocity = 10; 
 	
-	protected static int BIRD_STARTING_X = 300;
+	protected static int BIRD_STARTING_X;
 	protected static int BIRD_STARTING_Y;
 	
 	
@@ -38,15 +32,14 @@ class MigratingModel extends Model{
 		frameHeight = h;
 		frameWidth = w;
 		bird = new MigratingBird(0, 0); //bird is still
-		enemies = new ArrayList<Enemy>();
-		gusts = new ArrayList<Gust>();
-		backgroundObjects = new ArrayList<Cloud>();
+		flyingObjects = new ArrayList<FlyingObject>();
 		isMigrating = isMigrate;
 		if(isMigrate) {
 			maxDistance =  MIGRATE_DISTANCE;
 		} else {
 			maxDistance = STAY_DISTANCE;
 		}
+		BIRD_STARTING_X = frameWidth/4;
 		BIRD_STARTING_Y = frameHeight/2;
 	}
 	
@@ -55,10 +48,11 @@ class MigratingModel extends Model{
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
-		enemies = e;
-		gusts = g;
-		backgroundObjects = new ArrayList<Cloud>();
+		flyingObjects = new ArrayList<FlyingObject>();
+		flyingObjects.addAll(e);
+		flyingObjects.addAll(g);
 		isMigrating = isMigrate;
+		BIRD_STARTING_X = frameWidth/4;
 		BIRD_STARTING_Y = frameHeight/2;
 	}
 		
@@ -71,55 +65,27 @@ class MigratingModel extends Model{
 	void update() {
 		if(bird.getDestinationX() < BIRD_STARTING_X) {
 			bird.setDestination(BIRD_STARTING_X, frameHeight/2);
-		}else if(exitFrame()) {
+		}else if(endSequence()) {
 			bird.setDestination(frameWidth+BIRD_STARTING_X, bird.getDestinationY());
 		}
-		
+		if(generateTimer > 0) {
+			generateTimer--;
+		}
 		bird.update();
 		updateMoveableLists();
-		updatePower();
-		distance += birdVelocity*velocityScale; 
+		distance += birdVelocity*bird.getVelocityScale(); 
 	}
 	
 	
 	void updateMoveableLists() {
-		while(enemies.size() < maxEnemies) {
-			generateEnemy();
+		while(flyingObjects.size() < MAX_OBJECTS && generateTimer <= 0) {
+			generateObjects();
 		}
-		while(gusts.size() < maxGusts) {
-			generateGust();
+		for(FlyingObject f: flyingObjects) {
+			f.scaleVelocity(bird.getVelocityScale());
+			f.update();
 		}
-		for (Moveable o : enemies) {
-			o.update();
-		}
-		for (Moveable o : gusts) {
-			o.update();
-		}
-		for(Moveable o : backgroundObjects) {
-			o.update();
-		}
-		updateEnemyCollision();
-		updateGustCollision();
-		updateBackgroundObjects();
-		
-	}
-	
-	/**
-	 * Speed or slow everything when power is turned on
-	 * Decrements powertimer
-	 * @author Anna
-	 */
-	void updatePower(){
-		if(powerTimer == POWER_DURATION) {
-			scaleVelocities(velocityScale);
-			powerTimer--;
-		}else if(powerTimer > 0) {
-			powerTimer--;
-		}else if(powerTimer == 0) {
-			bird.powerReset();
-			velocityScale = 1;
-			scaleVelocities(velocityScale);
-		}
+		updateCollision();	
 	}
 	
 	/**
@@ -131,80 +97,57 @@ class MigratingModel extends Model{
 	}
 	
 	/**
-	 * check when to move bird out of frame/initiate end sequence
+	 * check if time to initiate end sequence/ move bird out of frame
 	 */
-	boolean exitFrame() {
+	boolean endSequence() {
 		return (distance >= maxDistance);
 	}
 	
 	Collection<Moveable> getMoveables(){
 		Collection<Moveable> m = new ArrayList<Moveable>();
-		m.addAll(enemies);
+		m.addAll(flyingObjects);
 		m.add(bird);
-		m.addAll(gusts);
-		m.addAll(backgroundObjects); 
 		return m;
-	}
-	
-	/**
-	 * get all the moveable object except bird
-	 * use for avoid overlapping
-	 * @author Wenki
-	 */
-	Collection<Moveable> getOtherMoveables(){
-		Collection<Moveable> m = new ArrayList<Moveable>();
-		m.addAll(enemies);
-		m.addAll(gusts);
-		m.addAll(backgroundObjects);
-		return m;
-	}
+	}	 
 
 
 	/**
-	 * Use random number as switch to generate sub enemies - Hawk or Plastic Bags.
-	 * If switch is on (equals to one), generate Hawk;
-	 * if switch if off (equals to zero), generate Plastic bag.
+	 * Use random number as switch to generate FlyingObjects
+	 * Probability now is 1/3: switch = 0 generate bag, switch = 1 generate Hawk, else generate gust;
 	 * Check the y location with other enemies before generate to avoid overlap with other object.
 	 * @author Wenki
 	 */
-	void generateEnemy() {
+	void generateObjects() {
 		Random r =  new Random();
-        int switchE =  r.nextInt(2);
+        int switchObj =  r.nextInt(3);//r.nextInt(2);
         int yloc = (int) (Math.random()*frameHeight); 
-        Enemy newEnemy = null;
+        FlyingObject newObject = null;
   
-        for(Moveable m: getOtherMoveables()) { //check the exist enemies
-        	if(m.getX() == frameWidth && (yloc == m.getY() ||(yloc < m.getY() && yloc >= m.getY()-m.getR())
-        									||(yloc>m.getY() &&yloc <=m.getY()+m.getR())))
+        for(FlyingObject f: flyingObjects) { //check the exist enemies
+        	if(f.getX() == frameWidth && (yloc == f.getY() ||(yloc < f.getY() && yloc >= f.getY()-f.getR())
+        									||(yloc>f.getY() && yloc <= f.getY() + f.getR())))
         	{//if both at start point, and Y-location is overlapping with the area existing enemy
-        		yloc += avoidOverlap*m.getRadius(); //change the y-location 
+        		yloc += avoidObjectOverlap*f.getRadius(); //change the y-location 
         	}
         }
-        switch(switchE){
+        switch(switchObj){
 	        case 0:
-	        	newEnemy = new Bag(frameWidth,yloc);
+	        	newObject = new Bag(frameWidth,yloc);
 	        	removeInBagRange(yloc);
 	        	break;
 	        case 1:
-	        	newEnemy = new Hawk(frameWidth, yloc);
+	        	newObject = new Hawk(frameWidth, yloc);
 	        	break;
+	        default:
+	        	newObject = new Gust(frameWidth, yloc);
         }
 		if(bird.getPowerUp() || bird.getPowerDown()) {
-			newEnemy.scaleVelocity(velocityScale);
+			 newObject.scaleVelocity(bird.getVelocityScale());
 		}
-		enemies.add(newEnemy);
+		flyingObjects.add(newObject);
+		generateTimer = GENERATE_TIME;
 	}
 	
-	/**
-	 * generate gust
-	 */
-	void generateGust() {
-		Gust g = new Gust(frameWidth, (int) (Math.random()*frameHeight));
-		if(bird.getPowerUp() || bird.getPowerDown()) {
-			g.scaleVelocity(velocityScale);
-		}
-		gusts.add(g);
-	}
 	
 	/**
 	 * Since there the bag is bouncing, if there is object in the bounce range during the generating
@@ -213,91 +156,29 @@ class MigratingModel extends Model{
 	 * @param yloc
 	 */
 	void removeInBagRange(int yloc) {
-		Iterator <Moveable> movableIterator = getOtherMoveables().iterator();
-		while(movableIterator.hasNext()) {
-			Moveable m = movableIterator.next();
-    		if(m.getX() == frameWidth && (m.getY()>= yloc || m.getY()<= yloc+120)){
-    			movableIterator.remove();
+		Iterator <FlyingObject> fIterator = flyingObjects.iterator();
+		while(fIterator.hasNext()) {
+			FlyingObject m = fIterator.next();
+    		if(m.getX() == frameWidth && (m.getY()>= yloc || m.getY()<= yloc+avoidBagOverlap)){
+    			fIterator.remove();
     		}
-    		}
+    	}
 	}
-
-	/**
-	 * If enemy collides with bird or exits frame, remove enemy, deduct hp
-	 * @author Anna
-	 */
-	void updateEnemyCollision() {
-		Iterator <Enemy> enemiesIterator = enemies.iterator();
-		while(enemiesIterator.hasNext()) {
-			Enemy e = enemiesIterator.next();
-			if (bird.collidesWith(e)) {
-				enemiesIterator.remove();
-				if(bird.getPowerDown() == false) {
-					powerTimer = POWER_DURATION;
-					velocityScale = POWERDOWN_SCALE;
-					bird.powerDown();
-				}
-			} else if (e.exitsFrame(frameWidth, frameHeight)) {
-				enemiesIterator.remove();
+	
+	//generalized
+	void updateCollision() {
+		Iterator <FlyingObject> mIterator = flyingObjects.iterator();
+		while(mIterator.hasNext()) {
+			FlyingObject m = mIterator.next();
+			if (bird.collidesWith(m)) {
+				m.updateBirdPower(bird); //call powerUp methods
+				mIterator.remove();		
+			} else if (m.exitsFrame(frameWidth, frameHeight)) {
+				mIterator.remove();
 			}
 		}
 	}
 	
-	
-	/**
-	 * If gusts collide with bird or exits frame, removes gust, and sets up powerUp logic
-	 * @author Anna
-	 */
-	void updateGustCollision() {
-		Iterator <Gust> gustIterator = gusts.iterator();
-		while(gustIterator.hasNext()) {
-			Gust g = gustIterator.next();
-			if(bird.collidesWith(g)) {
-				gustIterator.remove();
-				powerTimer = POWER_DURATION; //outside to enable continuous powerup
-				if(bird.getPowerUp() == false) {
-					velocityScale = POWERUP_SCALE;
-					bird.powerUp();
-				}
-
-			}else if(g.exitsFrame(frameWidth, frameHeight)) {
-				gustIterator.remove();
-			}
-		}
-	}
-
-	
-	/**
-	 * If bgObjects exit frame, they loop back around. 
-	 * For clouds and other things that don't affect bird
-	 * @author Anna
-	 */
-	void updateBackgroundObjects() {
-		Iterator <Cloud> bgIterator = backgroundObjects.iterator();
-		while(bgIterator.hasNext()) {
-			Moveable o = bgIterator.next();
-			if(o.exitsFrame(frameWidth, frameHeight)) {
-				o.setLocation(frameWidth+o.getR(), o.getY());
-			}
-		}
-	}
-	
-	/**
-	 * Speeds up or down all objects besides bird according to input
-	 * @author Anna
-	 */
-	void scaleVelocities(double scale) {
-		for(Gust gust : gusts) {
-			gust.scaleVelocity(scale);
-		}
-		for(Enemy enemy : enemies) {
-			enemy.scaleVelocity(scale);
-		}
-		for(Cloud cloud : backgroundObjects) {
-			cloud.scaleVelocity(scale);
-		}
-		
-	}
 
 	@Override
 	void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick) {
