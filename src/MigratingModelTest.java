@@ -203,11 +203,8 @@ class MigratingModelTest {
 		MigratingModel mModel2 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts,true);
 		MigratingModel mModel3 = new MigratingModel(frameWidth, frameHeight, bird, enemies, gusts,true);
 
-		mModel2.generateEnemy();
+		mModel2.generateObjects();
 		assertNotEquals(mModel, mModel2);
-		
-		mModel3.generateGust();
-		assertNotEquals(mModel,mModel3);
 	}
 	
 	@Test
