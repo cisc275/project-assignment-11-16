@@ -11,8 +11,8 @@ public class BreedingModel extends Model {
 	boolean quizTime = false;
 	int distractCountdown = DISTRACT_DURATION;
 	int tutorialSpeed = 0;
-	int normalSpeed = 6;
-	int runawaySpeed = 10;
+	int normalSpeed = 10;
+	int runawaySpeed = 12;
 	int switchDir;
 	int correctAnswer;
 	boolean isMigrating;
@@ -156,7 +156,7 @@ public class BreedingModel extends Model {
 		if (p.exitsFrame(frameWidth, frameHeight) && numPredators > 0) {
 			generatePredators();
 			numPredators--;
-			//quizTime = true;
+			quizTime = true;
 			//uncomment this to start quiz and break game
 		}
 	}
