@@ -1,10 +1,6 @@
-
-
-
-
 /**
  * 
- * @author Prescott
+ * @author Prescott - Anna
  *
  */
 public class MigratingBird extends Moveable {
@@ -17,8 +13,8 @@ public class MigratingBird extends Moveable {
 	private State birdState = State.DEFAULT;
 	
 	protected double velocityScale = 1;
-	protected static double POWERUP_SCALE = 2.5; 
-	protected static double POWERDOWN_SCALE = .2;
+	protected static double POWERUP_SCALE = 2; 
+	protected static double POWERDOWN_SCALE = .5;
 	protected static int POWER_DURATION = 40;
 	protected int powerTimer = 0;
 	
@@ -91,7 +87,12 @@ public class MigratingBird extends Moveable {
 		powerTimer = 0;
 	}
 	
-
+	public void test(Enemy e) {
+		System.out.println("enemy");
+	}
+	public void test(Gust g) {
+		System.out.println("gust");
+	}
 
 	@Override
 	public String getImageName() {

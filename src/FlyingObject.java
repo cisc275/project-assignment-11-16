@@ -13,5 +13,8 @@ public abstract class FlyingObject extends Moveable{
 	void resetVelocity() {
 		velocity.setXY(xVelocityStorage,velocity.getY());
 	}
+	
+	abstract void updateBirdPower(MigratingBird b);
+
 
 }

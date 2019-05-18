@@ -27,5 +27,11 @@ public class Cloud extends FlyingObject {
 	public String getImageName() {
 		return name;
 	}
+	@Override
+	void updateBirdPower(MigratingBird b) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

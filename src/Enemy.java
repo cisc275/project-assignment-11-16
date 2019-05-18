@@ -10,4 +10,11 @@ public abstract class Enemy extends FlyingObject {
 		move();
 	}
 	
+	@Override
+	void updateBirdPower(MigratingBird b) {
+		if(b.getPowerDown() == false) {
+			b.powerDown();
+		}
+	}
+	
 }
