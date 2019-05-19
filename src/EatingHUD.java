@@ -41,7 +41,7 @@ public class EatingHUD implements HUD, ImageObserver {
 	 * @author Kelly
 	 */
 	private BufferedImage[] loadTimerAnimation() {
-		BufferedImage sheet = View.createImage(View.IMAGE_PATH + "eating-timer-placeholder.png"); 
+		BufferedImage sheet = View.createImage(View.IMAGE_PATH + "eating-timer.png"); 
 		BufferedImage[] imgs;
 		
 		if (sheet != null) {
