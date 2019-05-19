@@ -9,7 +9,6 @@ import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
-import java.beans.PropertyChangeListener;
 
 
 @SuppressWarnings("serial")
@@ -25,7 +24,7 @@ class View extends JPanel {
 	static int frameWidth = (int) computerScreen.getWidth();
 	static int frameHeight = (int) computerScreen.getHeight()- taskBarSize;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);
-	
+	int questionNumber = 0;
 			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
@@ -56,20 +55,11 @@ class View extends JPanel {
 	JButton stayButton;
 	boolean migrate = false;
 	boolean endMenu  = false;
-	boolean quizTime = false;
-	Object[] quizAns = {"Answer 1", "Answer 2", "Answer 3"};
+	//boolean quizTime = false;
+
 	int quizInput;
 	
-	JOptionPane quizPane = new JOptionPane(
-			"This is where the question goes", //message/question
-			JOptionPane.QUESTION_MESSAGE,
-			JOptionPane.YES_NO_CANCEL_OPTION,
-			null, // no icon
-			quizAns, //options
-			quizAns[2]); //initialValue???
-	
-	JDialog dialog = quizPane.createDialog(this, "Quiz Title");
-	
+
 	View() {
 		if (!NO_IMAGES) {
 			this.createImages();
@@ -141,13 +131,23 @@ class View extends JPanel {
 	 * called from outside (Controller) to add/show quiz at breeding game
 	 *@author ZachC
 	 */
-	public void buildQuiz() {
-		dialog.setContentPane(quizPane);
-		dialog.setDefaultCloseOperation(
-				JDialog.DO_NOTHING_ON_CLOSE); //they can't just x out?
-		dialog.pack();
-		dialog.setVisible(true);
-		System.out.println(quizPane.getValue());
+	public void buildQuiz(Quiz quiz) {
+
+		Object[] quizAnswers = quiz.getQuizAnswers();
+		int answer = JOptionPane.showOptionDialog(null, quiz.getQuestion(), "Quiz Time!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, quizAnswers, quiz.getCorrectAnswer());
+		System.out.println(answer);
+		if(answer == -1) {
+			JOptionPane.showOptionDialog(null, "Can't exit quiz", "Answer the question", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+			buildQuiz(quiz);
+		}else if(answer == quiz.getCorrectAnswer()) {
+			JOptionPane.showOptionDialog(null, "CORRECT!", "Good Job", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+		}else {
+			JOptionPane.showOptionDialog(null, "SORRY, INCORRECT.", "Try Again", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+			buildQuiz(quiz);
+		}
+		
+		questionNumber++;
+		
 	}
 
 	public void paint(Graphics g) {
@@ -168,7 +168,7 @@ class View extends JPanel {
 				g.drawImage(img, sx-img.getWidth()/2, sy-img.getHeight()/2, this);
 			}
 			if (SPRITE_INFO) {
-				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
+				g.drawString(m.getImageName() + angleToFaceIndex(m.getFacing()), sx+m.getRadius()+3, sy);
 			}
 		}
 		if (hud != null)
@@ -304,8 +304,9 @@ class View extends JPanel {
 		else
 			return 0;
 	}
-
-	public void addPropertyChangeListener(Controller c) {
+/*
+	public void addPropertyChangeListener(JOptionPane j, Controller c) {
 		quizPane.addPropertyChangeListener(c);
 	}
+	*/
 }

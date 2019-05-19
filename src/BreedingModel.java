@@ -20,6 +20,7 @@ public class BreedingModel extends Model {
 	boolean tutorialMove = true;
 	boolean tutorial = true;
 	Mouse mouse;
+	int questionNumber = -1;
 	/**
 	 * pass frame height/width from view to create models
 	 */
@@ -121,6 +122,18 @@ public class BreedingModel extends Model {
 			m.add(mouse);
 		}
 		return m;
+	}
+		
+	/**
+	 * checks when to create pop-up quiz
+	 * @return
+	 */
+	boolean isQuizTime() {
+		return quizTime;
+	}
+
+	void setQuizTime(boolean b) {
+		quizTime = b;
 	}
 	
 	void generatePredators() {
@@ -228,5 +241,10 @@ public class BreedingModel extends Model {
 	void buttonClicked(int answer) {
 		isCorrect(answer);
 		this.quizTime = false;
+	}
+	
+	Quiz getQuiz() {
+		questionNumber++;
+		return new Quiz(questionNumber);
 	}
 }
