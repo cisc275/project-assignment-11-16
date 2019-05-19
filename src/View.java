@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
 
 @SuppressWarnings("serial")
 class View extends JPanel {
-	public static final String IMAGE_PATH = "./images/";
+	public static final String IMAGE_PATH = "src/images/";
 	
 	public static final boolean NO_IMAGES = false;
 	public static final boolean SPRITE_INFO = false;

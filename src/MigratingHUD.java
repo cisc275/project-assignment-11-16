@@ -3,6 +3,7 @@
  * Generate background image for the game with paintBack method.
  * @author Wenki
  */
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -14,10 +15,16 @@ public class MigratingHUD implements HUD, ImageObserver {
 	BufferedImage background;
 	BufferedImage map;
 	BufferedImage mapBird;
+	BufferedImage centralAmerica;
+	BufferedImage nestingGrounds;
+	BufferedImage readyToFly;
 	int destinationX;
 	int destinationY;
 	int initialX;
 	int initialY;
+	
+	Font font = new Font("TimesRoman", Font.PLAIN, 150);
+	
 	/**
 	 * @deprecated
 	 */
@@ -41,12 +48,30 @@ public class MigratingHUD implements HUD, ImageObserver {
 		background = View.createImage(View.IMAGE_PATH+"background_migrating.png");
 		destinationX = frameWidth - map.getWidth()/3;
 		destinationY = frameHeight - map.getHeight()/3;
-		initialX = frameWidth - map.getWidth()*2/3;
-		initialY = frameHeight - map.getHeight()*7/8;
+		if(mig) {
+			initialX = frameWidth - map.getWidth()*1/3;
+			initialY = frameHeight - map.getHeight()*6/8;
+		}else {
+			initialX = frameWidth - map.getWidth()*2/3;
+			initialY = frameHeight - map.getHeight()*7/8;
+		}
+		centralAmerica = View.createImage(View.IMAGE_PATH+"textCentralAmerica.png");
+		nestingGrounds = View.createImage(View.IMAGE_PATH+"textNestingGrounds.png");
+		readyToFly =View.createImage(View.IMAGE_PATH+"textFly.png");
+		
 	}
 
-	public void paintBack(Graphics g, int[] args, int cameraX, int cameraY) {
+	public void paintBack(Graphics g, int[] args, int cameraX, int cameraY) {	
 		g.drawImage(background, 0, 0, frameWidth, frameHeight, this);
+		if(args[3] == 1 ) {//if transition to endSequence
+			if(args[4] == 1) { //tutorial
+				g.drawImage(readyToFly, 0, 0, this);
+			}else if(args[4] == 0 && args[0] == 1) { //migrating
+				g.drawImage(centralAmerica, 0, 0, this);
+			}else if(args[4] == 0 && args[0] == 0) { // non
+				g.drawImage(nestingGrounds, 0, 0, this);
+			}
+		}
 	}
 	/**
 	 * args: <br>
@@ -58,13 +83,14 @@ public class MigratingHUD implements HUD, ImageObserver {
 	 * @author -Wenki- Prescott
 	 */
 	public void paint(Graphics g, int[] args) {
-		currentDistance = args[1];
-		maxDistance = args[2];
-		int birdX = (int) (initialX + (destinationX-initialX) * (1.0*currentDistance/maxDistance));
-		int birdY = (int) (initialY + (destinationY-initialY) * (1.0*currentDistance/maxDistance));
-		g.drawImage(map, frameWidth-map.getWidth(), frameHeight-map.getHeight(), this);	
-		g.drawImage(mapBird, birdX, birdY, this);
-		refreshXY();
+		if(args[4] == 0) {
+			currentDistance = args[1];
+			maxDistance = args[2];
+			int birdX = (int) (initialX + (destinationX-initialX) * (1.0*currentDistance/maxDistance));
+			int birdY = (int) (initialY + (destinationY-initialY) * (1.0*currentDistance/maxDistance));
+			g.drawImage(map, frameWidth-map.getWidth(), frameHeight-map.getHeight(), this);	
+			g.drawImage(mapBird, birdX, birdY, this);
+		}
 	}
 	
 	/**Refresh X,Y location so that it could update same pace with the game.
