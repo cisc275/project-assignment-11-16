@@ -1,10 +1,7 @@
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-//import java.util.Collection;
-import java.beans.PropertyChangeListener;
 
 
-public class Controller implements MouseMotionListener, MouseListener, PropertyChangeListener {
+public class Controller implements MouseMotionListener, MouseListener{
 	// if i update this it updates that
 	private Model model;
 	private View view;
@@ -13,8 +10,6 @@ public class Controller implements MouseMotionListener, MouseListener, PropertyC
 	public Controller(){
 		view = new View();
 		view.addControllerToMouse(this);
-		view.addPropertyChangeListener(this);
-		
 		sequence = new GameSequence(view.getFrameWidth(), view.getFrameHeight(),view.migrate);
 		
 	}
@@ -75,8 +70,9 @@ public class Controller implements MouseMotionListener, MouseListener, PropertyC
 				//starts quiz when necessary
 				BreedingModel bModel = (BreedingModel) model;
 				if (bModel.quizTime == true) {
-					view.buildQuiz();
-					bModel.quizTime = false;
+					Quiz quiz = bModel.getQuiz();
+					view.buildQuiz(quiz);
+					bModel.setQuizTime(false);
 				}
 			}
 			
@@ -141,7 +137,7 @@ public class Controller implements MouseMotionListener, MouseListener, PropertyC
 	public void mouseMoved(MouseEvent e) {
 		model.mouseMoved(e.getX(), e.getY());
 	}
-
+/*
 	@Override
 	public void propertyChange(PropertyChangeEvent arg0) {
 		int ans = 3; //should not stay 3
@@ -154,4 +150,5 @@ public class Controller implements MouseMotionListener, MouseListener, PropertyC
 		//view.dialog.setVisible(false);
 		
 	}
+	*/
 }

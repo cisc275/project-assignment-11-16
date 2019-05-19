@@ -19,6 +19,20 @@ public class Nest extends Moveable{
 		
 	}
 	
+	@Override
+	public double getFacing() {
+		switch(numEggs) {
+			case 3: 
+				return 0;
+			case 2:
+				return 1;
+			case 1:
+				return 3;
+			default:
+				return 4;
+		}
+	}
+	
 	public String getImageName() {
 		return "nest";
 	}

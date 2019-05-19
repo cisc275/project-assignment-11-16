@@ -9,8 +9,6 @@ import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 
 @SuppressWarnings("serial")
@@ -26,7 +24,7 @@ class View extends JPanel {
 	static int frameWidth = (int) computerScreen.getWidth();
 	static int frameHeight = (int) computerScreen.getHeight()- taskBarSize;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);
-	
+	int questionNumber = 0;
 			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
@@ -58,7 +56,7 @@ class View extends JPanel {
 	boolean migrate = false;
 	boolean endMenu  = false;
 	//boolean quizTime = false;
-	Object[] quizAns = {"Answer 1", "Answer 2", "Answer 3"};
+
 	int quizInput;
 	
 
@@ -133,39 +131,23 @@ class View extends JPanel {
 	 * called from outside (Controller) to add/show quiz at breeding game
 	 *@author ZachC
 	 */
-	public void buildQuiz() {
-		JOptionPane quizPane = new JOptionPane(
-				"eh?", //message/question
-				JOptionPane.QUESTION_MESSAGE,
-				JOptionPane.YES_NO_CANCEL_OPTION,
-				null, // no icon
-				quizAns, //options
-				quizAns[2]); //initialValue???
-		
-		JDialog dialog = quizPane.createDialog(this, "Quiz Title");
-		
-		quizPane.addPropertyChangeListener(
-			    new PropertyChangeListener() {
-			        public void propertyChange(PropertyChangeEvent e) {
-			            String prop = e.getPropertyName();
+	public void buildQuiz(Quiz quiz) {
 
-			            if (dialog.isVisible() 
-			             && (e.getSource() == quizPane)
-			             && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
-			                //If you were going to check something
-			                //before closing the window, you'd do
-			                //it here.
-			                dialog.setVisible(false);
-			            }
-			        }
-			    }
-			    );
-		dialog.setContentPane(quizPane);
-		dialog.setDefaultCloseOperation(
-				JDialog.DO_NOTHING_ON_CLOSE); //they can't just x out?
-		dialog.pack();
-		dialog.setVisible(true);
-		System.out.println(quizPane.getValue());
+		Object[] quizAnswers = quiz.getQuizAnswers();
+		int answer = JOptionPane.showOptionDialog(null, quiz.getQuestion(), "Quiz Time!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, quizAnswers, quiz.getCorrectAnswer());
+		System.out.println(answer);
+		if(answer == -1) {
+			JOptionPane.showOptionDialog(null, "Can't exit quiz", "Answer the question", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+			buildQuiz(quiz);
+		}else if(answer == quiz.getCorrectAnswer()) {
+			JOptionPane.showOptionDialog(null, "CORRECT!", "Good Job", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+		}else {
+			JOptionPane.showOptionDialog(null, "SORRY, INCORRECT.", "Try Again", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+			buildQuiz(quiz);
+		}
+		
+		questionNumber++;
+		
 	}
 
 	public void paint(Graphics g) {
@@ -323,7 +305,7 @@ class View extends JPanel {
 			return 0;
 	}
 /*
-	public void addPropertyChangeListener(Controller c) {
+	public void addPropertyChangeListener(JOptionPane j, Controller c) {
 		quizPane.addPropertyChangeListener(c);
 	}
 	*/
