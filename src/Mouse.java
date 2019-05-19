@@ -31,6 +31,14 @@ public class Mouse extends Moveable{
 		distanceCount = dist;
 	}
 	
+	public Mouse(int xP, int yP, int dist, int ms, int velo) {
+		super(xP, yP, 50, 0, 0);
+		mouseState = ms;
+		distance = dist;
+		distanceCount = dist;
+		moveVelocity = velo;
+	}
+	
 	public void enableUpDown() {
 		updown = true;
 		leftright = false;
@@ -43,6 +51,10 @@ public class Mouse extends Moveable{
 	public void resetMouse() {
 		leftright = false;
 		updown = false;
+	}
+	
+	public void setState(int i) {
+		mouseState = i;
 	}
 	
 	@Override

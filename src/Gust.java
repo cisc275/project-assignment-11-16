@@ -9,6 +9,10 @@ public class Gust extends FlyingObject{
 		super(xP, yP, 30, -10, 0);
 	}
 	
+	Gust(int xP, int yP, int v) {
+		super(xP, yP, 30, v, 0);
+	}
+	
 	Gust(int xP, int yP, int r, int xV, int yV){
 		super(xP, yP, r, xV, yV);
 	}

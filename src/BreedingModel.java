@@ -17,6 +17,9 @@ public class BreedingModel extends Model {
 	int correctAnswer;
 	boolean isMigrating;
 	int numPredators = 3;
+	boolean tutorialMove = true;
+	boolean tutorial = true;
+	Mouse mouse;
 	/**
 	 * pass frame height/width from view to create models
 	 */
@@ -27,6 +30,8 @@ public class BreedingModel extends Model {
 		p = new Raccoon(frameWidth/2, frameHeight-100, 35, 0, 0, tutorialSpeed);
 		nest = new Nest(frameWidth/2,(frameHeight/2)-100,50);
 		isMigrating = mig;
+		mouse = new Mouse(frameWidth*2/3,frameHeight*2/3,300,2,8);
+		mouse.enableLeftRight();
 	}
 	
 	/**
@@ -74,6 +79,11 @@ public class BreedingModel extends Model {
 	}
 	
 	void update() {
+		if(!tutorialMove) {
+			mouse.setState(3);
+			mouse.resetMouse();
+		}
+		mouse.update();
 		bird.update();
 		p.update();
 		this.updateBird(this.bird.getX(), this.bird.getY());
@@ -101,9 +111,12 @@ public class BreedingModel extends Model {
 	
 	Collection<Moveable> getMoveables(){
 		Collection<Moveable> m = new ArrayList<Moveable>();
-		m.add(p);
-		m.add(bird);
 		m.add(nest);
+		m.add(bird);
+		m.add(p);
+		if(tutorial) {
+			m.add(mouse);
+		}
 		return m;
 	}
 		
@@ -143,22 +156,21 @@ public class BreedingModel extends Model {
 			//if in top left quadrant, go to that corner
 			p.updateBirdLoc(-p.radius*2, -p.radius*2);
 		}
-		
+		tutorial = false;
 	}
 	
 	void despawnPredators() {
 		//predators in the view should run away
 		if (distractCountdown < 0 || p.getCollidedWithNest()){
 			byeByePredator();
-			System.out.print(numPredators);
 		}
 		//stop generating predators after eggcount hits 0
 		if (p.exitsFrame(frameWidth, frameHeight) && numPredators > 0) {
 			generatePredators();
 			numPredators--;
-			quizTime = true;
-			//uncomment this to start quiz and break game
+			quizTime = true; //uncomment this to start quiz and break game
 		}
+		
 	}
 	
 	void isCorrect(int ans) {
@@ -180,6 +192,7 @@ public class BreedingModel extends Model {
 	void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick) {
 		if (leftClick) {
 			this.setDestination(mouseX, mouseY);
+			tutorialMove = false;
 		} else if (rightClick) {
 			this.startBrokenWing();
 		}
@@ -210,6 +223,8 @@ public class BreedingModel extends Model {
 				distractCountdown,
 				DISTRACT_DURATION,
 				isMigrating ? 1 : 0,
+				numPredators,
+				nest.numEggs
 		};
 		return toret;
 	}
