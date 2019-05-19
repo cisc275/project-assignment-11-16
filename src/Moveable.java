@@ -1,4 +1,5 @@
 import java.lang.Math;
+import java.util.Collection;
 
 /**
  * The basis of every object in the game.
@@ -77,6 +78,7 @@ public abstract class Moveable {
 		return distanceTo(other) <= (this.radius + other.getRadius());
 	}
 	
+
 	/**
 	 * 
 	 * @param frameWidth

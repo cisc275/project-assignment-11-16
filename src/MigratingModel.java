@@ -5,7 +5,7 @@ class MigratingModel extends Model{
 
 	MigratingBird bird;
 	List<FlyingObject> flyingObjects;
-	protected int MAX_OBJECTS = 8;
+	protected static int MAX_OBJECTS;
 	protected static int GENERATE_TIME = 12; //delay so objects aren't made all at once
 	protected int generateTimer = 0;
 
@@ -21,6 +21,7 @@ class MigratingModel extends Model{
 	
 	protected static int BIRD_STARTING_X;
 	protected static int BIRD_STARTING_Y;
+	protected boolean tutorial;
 	
 	
 	/**
@@ -41,6 +42,8 @@ class MigratingModel extends Model{
 		}
 		BIRD_STARTING_X = frameWidth/4;
 		BIRD_STARTING_Y = frameHeight/2;
+		MAX_OBJECTS = 8;
+		tutorial = false;
 	}
 	
 	//for testing ease
@@ -54,6 +57,8 @@ class MigratingModel extends Model{
 		isMigrating = isMigrate;
 		BIRD_STARTING_X = frameWidth/4;
 		BIRD_STARTING_Y = frameHeight/2;
+		MAX_OBJECTS = 8;
+		tutorial = false;
 	}
 		
 	/**
@@ -65,15 +70,18 @@ class MigratingModel extends Model{
 	void update() {
 		if(bird.getDestinationX() < BIRD_STARTING_X) {
 			bird.setDestination(BIRD_STARTING_X, frameHeight/2);
-		}else if(endSequence()) {
+		}
+		if(endSequence()) {
 			bird.setDestination(frameWidth+BIRD_STARTING_X, bird.getDestinationY());
+		}else {
+			distance += birdVelocity*bird.getVelocityScale(); 
 		}
 		if(generateTimer > 0) {
 			generateTimer--;
 		}
 		bird.update();
 		updateMoveableLists();
-		distance += birdVelocity*bird.getVelocityScale(); 
+		
 	}
 	
 	
@@ -207,6 +215,11 @@ class MigratingModel extends Model{
 
 	/**
 	 * return the HuD argument list for the Hud to generate image.
+	 * [0] isMigrating? 1=true : 0=false
+	 * [1] distance bird has traveled
+	 * [2] migrating distance
+	 * [3] move to endSequnce? 1=true, 0=false
+	 * [4] is tutorial mode? 1=true, 0=false
 	 */
 	@Override
 	int[] getHUDargs() {
@@ -214,6 +227,8 @@ class MigratingModel extends Model{
 				isMigrating ? 1 : 0,
 				distance,
 				isMigrating ? MIGRATE_DISTANCE : STAY_DISTANCE,
+				this.endSequence() ? 1 : 0,
+				tutorial ? 1 : 0
 		};
 		return toret;
 	}
