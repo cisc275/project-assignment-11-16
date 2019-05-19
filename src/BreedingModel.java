@@ -36,11 +36,13 @@ public class BreedingModel extends Model {
 	 * @param b
 	 * @param p
 	 */
-	BreedingModel(int w, int h, BreedingBird b, List<Predator> p){
+	BreedingModel(int w, int h, BreedingBird b, Raccoon r){
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
-		nest = new Nest(0, 0, 0);
+		p = r;
+		nest = new Nest(frameWidth/2,(frameHeight/2)-100,50);
+		isMigrating = true;
 	}	
 	
 	/**
@@ -51,11 +53,12 @@ public class BreedingModel extends Model {
 	 * @param p
 	 * @param n
 	 */
-	BreedingModel(int w, int h, BreedingBird b, List<Predator> p, Nest n){
+	BreedingModel(int w, int h, BreedingBird b, Raccoon r, Nest n){
 		frameHeight = w;
 		frameWidth = h;
 		bird = b;
 		nest = n;
+		isMigrating = true;
 	}	
 	
 	void setDestination(int x, int y) {
@@ -82,9 +85,9 @@ public class BreedingModel extends Model {
 	}
 	
 	void updateCollision() {
-		if (bird.collidesWith(p)) {
-			System.out.println("bird collided with p");
-		}
+		/*
+		 * if (bird.collidesWith(p)) { System.out.println("bird collided with p"); }
+		 */
 		if (p.collidesWith(nest)) {
 			p.setCollidedWithNest(true); //turns collision off so it can leave nest smoothly 
 			nest.numEggs -= 1;
@@ -93,7 +96,7 @@ public class BreedingModel extends Model {
 	}
 	
 	boolean endGame() {
-		if (p.exitsFrame(frameWidth, frameHeight)) {
+		if (numPredators <= 0) {
 			return true;
 		}
 		else return false;
@@ -105,14 +108,6 @@ public class BreedingModel extends Model {
 		m.add(bird);
 		m.add(nest);
 		return m;
-	}
-		
-	/**
-	 * checks when to create pop-up quiz
-	 * @return
-	 */
-	boolean isQuizTime() {
-		return quizTime;
 	}
 	
 	void generatePredators() {
@@ -150,14 +145,13 @@ public class BreedingModel extends Model {
 		//predators in the view should run away
 		if (distractCountdown < 0 || p.getCollidedWithNest()){
 			byeByePredator();
-			System.out.print(numPredators);
+			//System.out.print(numPredators);
 		}
 		//stop generating predators after eggcount hits 0
 		if (p.exitsFrame(frameWidth, frameHeight) && numPredators > 0) {
 			generatePredators();
 			numPredators--;
 			quizTime = true;
-			//uncomment this to start quiz and break game
 		}
 	}
 	
