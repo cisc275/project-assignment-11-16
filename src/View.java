@@ -9,6 +9,7 @@ import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 
@@ -56,20 +57,11 @@ class View extends JPanel {
 	JButton stayButton;
 	boolean migrate = false;
 	boolean endMenu  = false;
-	boolean quizTime = false;
+	//boolean quizTime = false;
 	Object[] quizAns = {"Answer 1", "Answer 2", "Answer 3"};
 	int quizInput;
 	
-	JOptionPane quizPane = new JOptionPane(
-			"This is where the question goes", //message/question
-			JOptionPane.QUESTION_MESSAGE,
-			JOptionPane.YES_NO_CANCEL_OPTION,
-			null, // no icon
-			quizAns, //options
-			quizAns[2]); //initialValue???
-	
-	JDialog dialog = quizPane.createDialog(this, "Quiz Title");
-	
+
 	View() {
 		if (!NO_IMAGES) {
 			this.createImages();
@@ -142,6 +134,32 @@ class View extends JPanel {
 	 *@author ZachC
 	 */
 	public void buildQuiz() {
+		JOptionPane quizPane = new JOptionPane(
+				"eh?", //message/question
+				JOptionPane.QUESTION_MESSAGE,
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				null, // no icon
+				quizAns, //options
+				quizAns[2]); //initialValue???
+		
+		JDialog dialog = quizPane.createDialog(this, "Quiz Title");
+		
+		quizPane.addPropertyChangeListener(
+			    new PropertyChangeListener() {
+			        public void propertyChange(PropertyChangeEvent e) {
+			            String prop = e.getPropertyName();
+
+			            if (dialog.isVisible() 
+			             && (e.getSource() == quizPane)
+			             && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
+			                //If you were going to check something
+			                //before closing the window, you'd do
+			                //it here.
+			                dialog.setVisible(false);
+			            }
+			        }
+			    }
+			    );
 		dialog.setContentPane(quizPane);
 		dialog.setDefaultCloseOperation(
 				JDialog.DO_NOTHING_ON_CLOSE); //they can't just x out?
@@ -168,7 +186,7 @@ class View extends JPanel {
 				g.drawImage(img, sx-img.getWidth()/2, sy-img.getHeight()/2, this);
 			}
 			if (SPRITE_INFO) {
-				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
+				g.drawString(m.getImageName() + angleToFaceIndex(m.getFacing()), sx+m.getRadius()+3, sy);
 			}
 		}
 		if (hud != null)
@@ -304,8 +322,9 @@ class View extends JPanel {
 		else
 			return 0;
 	}
-
+/*
 	public void addPropertyChangeListener(Controller c) {
 		quizPane.addPropertyChangeListener(c);
 	}
+	*/
 }

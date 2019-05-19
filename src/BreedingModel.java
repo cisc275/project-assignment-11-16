@@ -127,6 +127,10 @@ public class BreedingModel extends Model {
 	boolean isQuizTime() {
 		return quizTime;
 	}
+
+	void setQuizTime(boolean b) {
+		quizTime = b;
+	}
 	
 	void generatePredators() {
 		switch ((int) Math.random()*2) {

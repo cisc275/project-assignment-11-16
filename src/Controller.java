@@ -73,11 +73,10 @@ public class Controller implements MouseMotionListener, MouseListener, PropertyC
 			}
 			if (model instanceof BreedingModel) {
 				//starts quiz when necessary
-				BreedingModel bMode1 = (BreedingModel) model;
-				view.quizTime = bMode1.quizTime;
-				while (view.quizTime) {
+				BreedingModel bModel = (BreedingModel) model;
+				if (bModel.quizTime == true) {
 					view.buildQuiz();
-					view.quizTime = bMode1.quizTime;
+					bModel.quizTime = false;
 				}
 			}
 			
@@ -152,7 +151,7 @@ public class Controller implements MouseMotionListener, MouseListener, PropertyC
 			}
 		}
 		model.buttonClicked(ans);
-		view.dialog.setVisible(false);
+		//view.dialog.setVisible(false);
 		
 	}
 }
