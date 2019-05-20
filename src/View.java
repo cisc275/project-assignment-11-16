@@ -14,7 +14,7 @@ import java.awt.image.*;
 
 @SuppressWarnings("serial")
 class View extends JPanel {
-	public static final String IMAGE_PATH = "./images/";
+	public static final String IMAGE_PATH = "src/images/";
 	
 	public static final boolean NO_IMAGES = false;
 	public static final boolean SPRITE_INFO = false;
@@ -30,9 +30,9 @@ class View extends JPanel {
 			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
-	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "fox",
+	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "grasshopper2", "fox",
 												"hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3", "migratingbird-powerup", "migratingbird-powerdown",
-												"mousedefault", "mouserightclick", "mouseleftclick","mouserighthold"};
+												"mousedefault", "mouserightclick", "mouseleftclick","mouserighthold", "arrow"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
 	int[] hudargs;
@@ -91,8 +91,8 @@ class View extends JPanel {
 		frame.setTitle("Killdeer Simulator");
 		Insets insets1 = this.getInsets();
 	
-		ImageIcon migrateIcon = new ImageIcon("./images/button-migrate.png");
-		ImageIcon stayIcon = new ImageIcon("./images/button-stay.png");
+		ImageIcon migrateIcon = new ImageIcon("src/images/button-migrate.png");
+		ImageIcon stayIcon = new ImageIcon("src/images/button-stay.png");
 
 		migrateButton = buildButton("MIGRATE", someactionevent -> {removeMenu(); migrate = true; endMenu = true;}); 
 		stayButton = buildButton("STAY", someactionevent -> {removeMenu(); endMenu = true;}); 
@@ -201,7 +201,7 @@ class View extends JPanel {
 	}
 	
 	static Font loadFont(String fontName, float size) {
-		String fontFileName = "./fonts/" + fontName + ".ttf";
+		String fontFileName = "src/fonts/" + fontName + ".ttf";
 		try {
 			InputStream is = new FileInputStream(fontFileName);
 			Font tempFont = Font.createFont(Font.TRUETYPE_FONT, is);

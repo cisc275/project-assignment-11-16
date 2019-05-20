@@ -45,7 +45,8 @@ public class EndMenuHUD implements HUD, ImageObserver {
 	public void paint(Graphics g, int[] args) {
 		g.drawImage(chicks[View.getFrame(chicks, score, 1000)], 
 				0, frameHeight - chicks[0].getHeight(), this);
-		Controller.overallScore = score;
+		score = Controller.overallScore;
+		//score = 580;
 		g.setFont(announceFont);
 		g.drawString("Congratulations!", 500, 300);
 		g.setFont(scoreFont);
