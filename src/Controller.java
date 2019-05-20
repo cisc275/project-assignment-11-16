@@ -6,6 +6,7 @@ public class Controller implements MouseMotionListener, MouseListener{
 	private Model model;
 	private View view;
 	private GameSequence sequence;
+	static int overallScore = 0;
 	
 	public Controller(){
 		view = new View();
@@ -75,7 +76,10 @@ public class Controller implements MouseMotionListener, MouseListener{
 					bModel.setQuizTime(false);
 				}
 			}
+			/*
 			if (model instanceof EndMenu) {
+				
+				
 				view.endMenu = false;
 				startMainMenu();
 				while (!view.endMenu) {
@@ -90,6 +94,8 @@ public class Controller implements MouseMotionListener, MouseListener{
 				sequence.restart(view.getFrameWidth(), view.getFrameHeight(), view.migrate);
 				ended = false;
 			}
+			*/
+			
 			
 			view.update(model.getMoveables(), model.getHUDargs());
 			model.update();
@@ -113,6 +119,7 @@ public class Controller implements MouseMotionListener, MouseListener{
 	}
 	
 	public void loadNextGame() {
+		overallScore += model.getScore();
 		sequence.advance();
 		model = sequence.getModel();
 		view.hud = sequence.getHUD();

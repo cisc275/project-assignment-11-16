@@ -107,10 +107,7 @@ public class BreedingModel extends Model {
 	}
 	
 	boolean endGame() {
-		if (numPredators <= 0) {
-			return true;
-		}
-		else return false;
+		return (numPredators <= 0);
 	}
 	
 	Collection<Moveable> getMoveables(){
