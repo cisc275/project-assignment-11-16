@@ -54,6 +54,6 @@ public class Grasshopper extends Food {
 
 	@Override
 	public String getImageName() {
-		return (jumpTimer > 0) ? "grasshopper" : "grasssitter";
+		return (jumpTimer > 0) ? "grasshopper2" : "grasshopper";
 	}
 }
