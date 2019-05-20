@@ -181,6 +181,18 @@ class View extends JPanel {
 		frame.repaint();
 	}
 	
+	static Font loadFont(String fontName, float size) {
+		String fontFileName = "./fonts/" + fontName + ".ttf";
+		try {
+			InputStream is = new FileInputStream(fontFileName);
+			Font tempFont = Font.createFont(Font.TRUETYPE_FONT, is);
+			return tempFont.deriveFont(size);
+		} catch (IOException | FontFormatException e) {
+			System.out.println("font " + fontName + " not found");
+			return null;
+		} 
+	}
+	
 	void resetCamera() {
 		cameraOffX = 0;
 		cameraOffY = 0;

@@ -34,7 +34,7 @@ public class EatingHUD implements HUD, ImageObserver {
 		frameHeight = h;
 		background = View.createImage(View.IMAGE_PATH+"background_eating.png");
 		timer = loadTimerAnimation();
-		loadFont();
+		myFont = View.loadFont(FONT_NAME, 24.0f);
 	}
 	
 	/**
@@ -77,19 +77,6 @@ public class EatingHUD implements HUD, ImageObserver {
 				SCORE_OFFSET, SCORE_OFFSET);
 		BufferedImage currentTimer= timer[getFrame(args[2], args[3])];
 		g.drawImage(currentTimer, frameWidth - currentTimer.getWidth() - TIMER_OFFSET, frameHeight - currentTimer.getHeight() - TIMER_OFFSET, this);
-	}
-	
-	private void loadFont() {
-		String fontFileName = "./fonts/" + FONT_NAME + ".ttf";
-		try {
-			InputStream is = new FileInputStream(fontFileName);
-			Font tempFont = Font.createFont(Font.TRUETYPE_FONT, is);
-			myFont = tempFont.deriveFont(24.0f);
-		} catch (IOException | FontFormatException e) {
-			System.out.println("font " + FONT_NAME + " not found");
-		} 
-		
-		
 	}
 	
 	/**
