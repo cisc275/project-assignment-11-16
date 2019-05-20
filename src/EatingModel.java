@@ -199,8 +199,18 @@ class EatingModel extends Model {
 		this.score = sc;
 	}
 	
-	public int getScore() {
-		return this.score;
+	@Override
+	public boolean isScrolling() {
+		return true;
 	}
 	
+	@Override
+	public int getFocusX() {
+		return bird.getX();
+	}
+
+	@Override
+	public int getFocusY() {
+		return bird.getY();
+	}
 }

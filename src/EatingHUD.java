@@ -107,13 +107,12 @@ public class EatingHUD implements HUD, ImageObserver {
 	
 	/**
 	 * draw the background image.
-	 * 
+	 * @author Prescott
 	 */
 	public void paintBack(Graphics g, int[] args, int cameraX, int cameraY) {
-		//TODO moving camera
 		g.drawImage(background, -cameraX, -cameraY, this);
 	}
-	
+
 	@Override
 	public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
 		// TODO Auto-generated method stub

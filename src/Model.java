@@ -19,6 +19,33 @@ abstract class Model {
 	}
 	
 	/**
+	 * 
+	 * @return returns whether this model uses a moving camera
+	 * @author Prescott
+	 */
+	public boolean isScrolling() {
+		return false;
+	}
+	
+	/**
+	 * only relevant if isScrolling() returns true
+	 * @return the X coordinate of where the camera should probably focus
+	 * @author Prescott
+	 */
+	public int getFocusX() {
+		return frameWidth/2;
+	}
+
+	/**
+	 * only relevant if isScrolling() returns true
+	 * @return the Y coordinate of where the camera should probably focus
+	 * @author Prescott
+	 */
+	public int getFocusY() {
+		return frameHeight/2;
+	}
+	
+	/**
 	 * contains logic of what to do each tick, call smaller updates within
 	 */
 	abstract void update();

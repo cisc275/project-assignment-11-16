@@ -20,25 +20,6 @@ public class Controller implements MouseMotionListener, MouseListener{
 		view.hud = new MenuHUD(view.getFrameWidth(), view.getFrameHeight());
 		view.buildMenu();
 	}
-
-	
-	/**
-	 * for testing
-	 * @return
-	 */
-	public String checkModel() {
-		String string = "? not e, b, or m model ?";
-
-		if (model instanceof EatingModel) {
-			string = "currently EatingModel";
-		} else if(model instanceof BreedingModel) {
-			string = "currently BreedingModel";
-		} else if(model instanceof MigratingModel) {
-			string = "currently MigratingModel";
-		}
-		System.out.println(string);
-		return string;
-	}
 	
 	/**
 	 * handles ticking: update model, update view 
@@ -60,9 +41,8 @@ public class Controller implements MouseMotionListener, MouseListener{
 		loadNextGame();
 		boolean ended = false;
 		while (!ended) {
-			if (model instanceof EatingModel) {
-				EatingModel eModel = (EatingModel) model;
-				view.moveCamera(eModel.getBirdX(), eModel.getBirdY(), eModel.getWidth(), eModel.getHeight());
+			if (model.isScrolling()) {
+				view.moveCamera(model.getFocusX(), model.getFocusY(), model.getWidth(), model.getHeight());
 			} else {
 				view.resetCamera();
 			}
@@ -73,7 +53,7 @@ public class Controller implements MouseMotionListener, MouseListener{
 					Quiz quiz = bModel.getQuiz();
 					view.buildQuiz(quiz);
 					bModel.setQuizTime(false);
-				}else if(bModel.loseGame()) {
+				} else if (bModel.loseGame()) {
 					view.restartGamePrompt();
 					bModel.retryGame();
 				}
