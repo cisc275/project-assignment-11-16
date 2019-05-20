@@ -104,6 +104,7 @@ public class Controller implements MouseMotionListener, MouseListener{
 	}
 	
 	private void winGame() {
+		
 		System.out.println("you won.");
 	}
 	
