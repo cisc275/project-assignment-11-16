@@ -9,7 +9,15 @@ abstract class Model {
 	
 	int getScore() {return score;}
 	void setScore(int s) {score = s;}	
-
+	
+	public int getWidth() {
+		return frameWidth;
+	}
+	
+	public int getHeight() {
+		return frameHeight;
+	}
+	
 	/**
 	 * contains logic of what to do each tick, call smaller updates within
 	 */

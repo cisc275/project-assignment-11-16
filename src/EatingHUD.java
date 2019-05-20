@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ import java.io.InputStream;
  *
  */
 public class EatingHUD implements HUD, ImageObserver {
+	final int SCORE_SIZE = 30;
 	int frameHeight;
 	int frameWidth;
 	BufferedImage background;
@@ -100,17 +102,18 @@ public class EatingHUD implements HUD, ImageObserver {
 		float percent = (float) timeTaken/maxTime;
 		int frame = (int) (a * percent);
 		return frame; //int conversion truncates so that it won't go beyond array range
+
 	}
 	
 	/**
 	 * draw the background image.
 	 * 
 	 */
-	public void paintBack(Graphics g, int[]args) {
+	public void paintBack(Graphics g, int[] args, int cameraX, int cameraY) {
 		//TODO moving camera
-		g.drawImage(background,0,0,this);
+		g.drawImage(background, -cameraX, -cameraY, this);
 	}
-
+	
 	@Override
 	public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
 		// TODO Auto-generated method stub

@@ -1,8 +1,7 @@
 import java.awt.event.*;
-//import java.util.Collection;
 
 
-public class Controller implements MouseMotionListener, MouseListener, ActionListener {
+public class Controller implements MouseMotionListener, MouseListener{
 	// if i update this it updates that
 	private Model model;
 	private View view;
@@ -11,8 +10,6 @@ public class Controller implements MouseMotionListener, MouseListener, ActionLis
 	public Controller(){
 		view = new View();
 		view.addControllerToMouse(this);
-		view.addControllerToButton(this);
-		
 		sequence = new GameSequence(view.getFrameWidth(), view.getFrameHeight(),view.migrate);
 		
 	}
@@ -65,20 +62,18 @@ public class Controller implements MouseMotionListener, MouseListener, ActionLis
 		while (!ended) {
 			if (model instanceof EatingModel) {
 				EatingModel eModel = (EatingModel) model;
-				view.moveCamera(eModel.getBirdX(), eModel.getBirdY());
+				view.moveCamera(eModel.getBirdX(), eModel.getBirdY(), eModel.getWidth(), eModel.getHeight());
 			} else {
 				view.resetCamera();
 			}
 			if (model instanceof BreedingModel) {
-				BreedingModel bMode1 = (BreedingModel) model;
-				view.quizTime = bMode1.quizTime;
-				while (view.quizTime) {
-					view.buildQuiz();
-					//System.out.println("While loop");
-					view.quizTime = bMode1.quizTime;
+				//starts quiz when necessary
+				BreedingModel bModel = (BreedingModel) model;
+				if (bModel.quizTime == true) {
+					Quiz quiz = bModel.getQuiz();
+					view.buildQuiz(quiz);
+					bModel.setQuizTime(false);
 				}
-				//System.out.println("Outside the loop");
-				
 			}
 			
 			view.update(model.getMoveables(), model.getHUDargs());
@@ -142,21 +137,18 @@ public class Controller implements MouseMotionListener, MouseListener, ActionLis
 	public void mouseMoved(MouseEvent e) {
 		model.mouseMoved(e.getX(), e.getY());
 	}
-
+/*
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		view.endMenu = true;
-		System.out.println("button was pressed!");
-		int answer = -1;
-		if (e.getSource() == view.qA1Button) {
-			answer = 0;
-		} else if (e.getSource() == view.qA2Button) {
-			answer = 1;
-		} else if (e.getSource() == view.qA3Button) {
-			answer = 2;
+	public void propertyChange(PropertyChangeEvent arg0) {
+		int ans = 3; //should not stay 3
+		for (int i = 0; i <3; i++) {
+			if (arg0.getPropertyName().equals(view.quizAns[i])) {
+				ans = i;
+			}
 		}
-		view.quizTime = false;
-		view.removeMenu();
-		model.buttonClicked(answer);
+		model.buttonClicked(ans);
+		//view.dialog.setVisible(false);
+		
 	}
+	*/
 }

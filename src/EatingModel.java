@@ -9,25 +9,29 @@ import java.util.List;
  *
  */
 class EatingModel extends Model {
-	
+	final int TIME_LIMIT_STAYING = 600;
+	final int TIME_LIMIT_MIGRATING = 600;
 	EatingBird bird;
 	List<Food> food;
-	int scoreGoal = 500;
-	int score;
+	int scoreGoal;// = 500;
 	int timeLimit;
 	int timeTaken;
 	int foodSpawnTimer;
-	int maxFood = 20;
-	final int worldWidth = 2000;
-	final int worldHeight = 1200;
+	int maxFood = 30;
+	final int worldWidth = 2160;
+	final int worldHeight = 1440;
+	
+	EatingModel(int w, int h) {
+		this(w, h, false);
+	}
 	
 	/**
 	 * pass frame height/width from view to create models
 	 * @param w
 	 * @param h
 	 */
-	EatingModel(int w, int h) {
-		timeLimit = 200; //600;
+	EatingModel(int w, int h, boolean mig) {
+		timeLimit = mig ? TIME_LIMIT_MIGRATING : TIME_LIMIT_STAYING;
 		timeTaken = 0;
 		frameHeight = w;
 		frameWidth = h;
@@ -97,7 +101,7 @@ class EatingModel extends Model {
 	}
 	
 	boolean endGame() {
-		return (this.timeTaken >= this.timeLimit || this.score >= this.scoreGoal);
+		return this.timeTaken >= timeLimit;
 	}
 	
 	Collection<Moveable> getMoveables() {
@@ -119,8 +123,18 @@ class EatingModel extends Model {
 	public int getBirdY() {
 		return bird.getY();
 	}
+	
+	@Override
+	public int getWidth() {
+		return worldWidth;
+	}
 
 
+	@Override
+	public int getHeight() {
+		return worldHeight;
+	}
+	
 	@Override
 	void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick) {
 		this.setDestination(actualX, actualY);

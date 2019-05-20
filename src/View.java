@@ -16,17 +16,21 @@ class View extends JPanel {
 	public static final String IMAGE_PATH = "./images/";
 	
 	public static final boolean NO_IMAGES = false;
-	public static final boolean SPRITE_INFO = true;
+	public static final boolean SPRITE_INFO = false;
 	
 	JFrame frame;
-	static Dimension windowSize = Toolkit.getDefaultToolkit().getScreenSize(); //for setting window
-
-	static int frameWidth = (int) windowSize.getWidth();
-	static int frameHeight = (int) windowSize.getHeight();
+	static Dimension computerScreen = Toolkit.getDefaultToolkit().getScreenSize(); //for setting window
+	static int taskBarSize = 40;
+	static int frameWidth = (int) computerScreen.getWidth();
+	static int frameHeight = (int) computerScreen.getHeight()- taskBarSize;
+	static Dimension windowSize = new Dimension(frameWidth, frameHeight);
+	int questionNumber = 0;
+			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
 	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", 
-												"hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3", "migratingbird-powerup", "migratingbird-powerdown"};
+												"hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3", "migratingbird-powerup", "migratingbird-powerdown",
+												"mousedefault", "mouserightclick", "mouseleftclick","mouserighthold"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
 	int[] hudargs;
@@ -45,18 +49,17 @@ class View extends JPanel {
 	int cameraOffX = 0;
 	int cameraOffY = 0;
 	
-
-	static Dimension answerSize = new Dimension(frameWidth,frameHeight/3); //gotta figure out a good size
 	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-50);
 	JPanel subpanel;
 	JButton migrateButton;
 	JButton stayButton;
-	JButton qA1Button;
-	JButton qA2Button;
-	JButton qA3Button;
 	boolean migrate = false;
 	boolean endMenu  = false;
-	boolean quizTime = false;
+	//boolean quizTime = false;
+
+	int quizInput;
+	
+
 	View() {
 		if (!NO_IMAGES) {
 			this.createImages();
@@ -74,7 +77,7 @@ class View extends JPanel {
 	
 	/**
 	 * sets up frame and button styles
-	 * @author Anna and Zach
+	 * @author Anna
 	 */
 	private void buildFrame() {
 		frame = new JFrame();
@@ -90,15 +93,6 @@ class View extends JPanel {
 		stayButton.addActionListener(someactionevent -> {removeMenu(); endMenu = true;});
 		migrateButton.setPreferredSize(buttonSize);
 		stayButton.setPreferredSize(buttonSize); //must be pref size
-		qA1Button = new JButton("Answer A");
-		qA2Button = new JButton("Answer B");
-		qA3Button = new JButton("Answer C");
-		qA1Button.addActionListener(someactionevent -> {System.out.print("fuck");removeMenu(); endMenu = true; quizTime = false;});
-		qA2Button.addActionListener(someactionevent -> {removeMenu(); endMenu = true; quizTime = false;});
-		qA3Button.addActionListener(someactionevent -> {removeMenu(); endMenu = true; quizTime = false;});
-		//qA1Button.setPreferredSize(answerSize);
-		//qA2Button.setPreferredSize(answerSize);
-		//qA3Button.setPreferredSize(answerSize);
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		stayButton.setBounds(150 + insets1.left, 15 + insets1.top, buttonSize.width + 50, buttonSize.height + 20);
 		stayButton.setOpaque(false);
@@ -109,12 +103,6 @@ class View extends JPanel {
 		
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		this.setFocusable(true);
-	}
-	
-	void addControllerToButton(Controller c){
-		qA1Button.addActionListener(c);
-		qA2Button.addActionListener(c);
-		qA3Button.addActionListener(c);
 	}
 	
 	public void removeMenu() {
@@ -141,15 +129,25 @@ class View extends JPanel {
 	}
 	/**
 	 * called from outside (Controller) to add/show quiz at breeding game
-	 *
+	 *@author ZachC
 	 */
-	public void buildQuiz() {
-		subpanel = new JPanel();
-		subpanel.add(qA1Button);
-		subpanel.add(qA2Button);
-		subpanel.add(qA3Button);
-		this.add(subpanel);
-		frame.setVisible(true);	
+	public void buildQuiz(Quiz quiz) {
+
+		Object[] quizAnswers = quiz.getQuizAnswers();
+		int answer = JOptionPane.showOptionDialog(null, quiz.getQuestion(), "Quiz Time!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, quizAnswers, quiz.getCorrectAnswer());
+		System.out.println(answer);
+		if(answer == -1) {
+			JOptionPane.showOptionDialog(null, "Can't exit quiz", "Answer the question", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+			buildQuiz(quiz);
+		}else if(answer == quiz.getCorrectAnswer()) {
+			JOptionPane.showOptionDialog(null, "CORRECT!", "Good Job", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+		}else {
+			JOptionPane.showOptionDialog(null, "SORRY, INCORRECT.", "Try Again", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+			buildQuiz(quiz);
+		}
+		
+		questionNumber++;
+		
 	}
 
 	public void paint(Graphics g) {
@@ -158,7 +156,7 @@ class View extends JPanel {
 			subpanel.paint(g);
 		}
 		if (hud != null) {
-			 hud.paintBack(g,hudargs);
+			 hud.paintBack(g, hudargs, cameraOffX, cameraOffY);
 		}
 		for(Moveable m : moveables) {
 			int sx = m.getX() - cameraOffX;
@@ -170,7 +168,7 @@ class View extends JPanel {
 				g.drawImage(img, sx-img.getWidth()/2, sy-img.getHeight()/2, this);
 			}
 			if (SPRITE_INFO) {
-				g.drawString(m.getImageName(), sx+m.getRadius()+3, sy);
+				g.drawString(m.getImageName() + angleToFaceIndex(m.getFacing()), sx+m.getRadius()+3, sy);
 			}
 		}
 		if (hud != null)
@@ -188,9 +186,9 @@ class View extends JPanel {
 		cameraOffY = 0;
 	}
 	
-	void moveCamera(int centerX, int centerY) {
-		cameraOffX = centerX - frameWidth/2;
-		cameraOffY = centerY - frameHeight/2;
+	void moveCamera(int centerX, int centerY, int maxWidth, int maxHeight) {
+		cameraOffX = Math.max(Math.min(centerX - frameWidth/2, maxWidth - frameWidth), 0);
+		cameraOffY = Math.max(Math.min(centerY - frameHeight/2, maxHeight - frameHeight), 0);
 	}
 	
 	int actualX(int clickx) {
@@ -271,6 +269,7 @@ class View extends JPanel {
 			} else {
 				dex = 0;
 			}
+			//TODO bluh
 			picCycles.put(m, dex+1);
 			return row[dex];
 		} catch (NullPointerException e) {
@@ -305,4 +304,9 @@ class View extends JPanel {
 		else
 			return 0;
 	}
+/*
+	public void addPropertyChangeListener(JOptionPane j, Controller c) {
+		quizPane.addPropertyChangeListener(c);
+	}
+	*/
 }

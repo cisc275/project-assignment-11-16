@@ -6,7 +6,11 @@
 public class Gust extends FlyingObject{
 
 	Gust(int xP, int yP) {
-		super(xP, yP, 30, -5, 0);
+		super(xP, yP, 30, -10, 0);
+	}
+	
+	Gust(int xP, int yP, int v) {
+		super(xP, yP, 30, v, 0);
 	}
 	
 	Gust(int xP, int yP, int r, int xV, int yV){
@@ -22,7 +26,13 @@ public class Gust extends FlyingObject{
 	public String getImageName() {
 		return "gust";
 	}
-	
+
+	@Override
+	void updateBirdPower(MigratingBird b) {
+		b.powerUp();
+		
+	}
+
 
 
 }

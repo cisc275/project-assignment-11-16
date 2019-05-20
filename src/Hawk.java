@@ -5,7 +5,7 @@
 public class Hawk extends Enemy {
 
 	Hawk(int xP, int yP) {
-		super(xP, yP, 60, -10, 0);
+		super(xP, yP, 60, -12, 0);
 	}
 	Hawk(int xP, int yP, int velocity) {
 		super(xP, yP, 60, velocity, 0);
