@@ -16,7 +16,7 @@ public class BreedingModel extends Model {
 	int switchDir;
 	int correctAnswer;
 	boolean isMigrating;
-	int numPredators = 3;
+	int numPredators = 4; //including tutorial one, when restart don't play tutorial
 	boolean tutorialMove = true;
 	boolean tutorial = true;
 	Mouse mouse;
@@ -67,6 +67,19 @@ public class BreedingModel extends Model {
 		isMigrating = true;
 	}	
 	
+	/**
+	 * called from Controller if eggs drops to 0, 
+	 * start game again without tutorial
+	 */
+	void retryGame() {
+		quizTime = false;
+		distractCountdown = DISTRACT_DURATION;
+		numPredators = 3;
+		questionNumber = -1;
+		nest.numEggs = 3;
+		generatePredators();
+	}
+	
 	void setDestination(int x, int y) {
 		this.bird.setDestination(x, y);
 	}
@@ -102,7 +115,7 @@ public class BreedingModel extends Model {
 		if (p.collidesWith(nest)) {
 			p.setCollidedWithNest(true); //turns collision off so it can leave nest smoothly 
 			nest.numEggs -= 1;
-			System.out.println("bird collided with n");
+			System.out.println(nest.numEggs);
 		}
 	}
 	
@@ -246,5 +259,8 @@ public class BreedingModel extends Model {
 	Quiz getQuiz() {
 		questionNumber++;
 		return new Quiz(questionNumber);
+	}
+	public boolean loseGame() {
+		return (nest.numEggs <= 0);
 	}
 }
