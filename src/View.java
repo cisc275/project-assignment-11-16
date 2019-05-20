@@ -8,6 +8,7 @@ import java.util.WeakHashMap;
 import javax.imageio.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.*;
 
 
@@ -19,6 +20,7 @@ class View extends JPanel {
 	public static final boolean SPRITE_INFO = false;
 	
 	JFrame frame;
+	JFrame endFrame;
 	static Dimension computerScreen = Toolkit.getDefaultToolkit().getScreenSize(); //for setting window
 	static int taskBarSize = 40;
 	static int frameWidth = (int) computerScreen.getWidth();
@@ -51,10 +53,13 @@ class View extends JPanel {
 	
 	static Dimension buttonSize = new Dimension(frameWidth*2/5, frameHeight-50);
 	JPanel subpanel;
+	JPanel endSubpanel;
 	JButton migrateButton;
 	JButton stayButton;
+	JButton restartButton;
 	boolean migrate = false;
 	boolean endMenu  = false;
+	boolean restart = false;
 	//boolean quizTime = false;
 
 	int quizInput;
@@ -86,25 +91,38 @@ class View extends JPanel {
 		frame.setTitle("Killdeer Simulator");
 		Insets insets1 = this.getInsets();
 	
+		ImageIcon migrateIcon = new ImageIcon("./images/button-migrate.png");
+		ImageIcon stayIcon = new ImageIcon("./images/button-stay.png");
 
-		migrateButton = new JButton("MIGRATE"); 
-		stayButton = new JButton("STAY"); 
-		migrateButton.addActionListener(someactionevent -> {removeMenu(); migrate = true; endMenu = true;});
-		stayButton.addActionListener(someactionevent -> {removeMenu(); endMenu = true;});
-		migrateButton.setPreferredSize(buttonSize);
-		stayButton.setPreferredSize(buttonSize); //must be pref size
+		migrateButton = buildButton("MIGRATE", someactionevent -> {removeMenu(); migrate = true; endMenu = true;}); 
+		stayButton = buildButton("STAY", someactionevent -> {removeMenu(); endMenu = true;}); 
+
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
-		stayButton.setBounds(150 + insets1.left, 15 + insets1.top, buttonSize.width + 50, buttonSize.height + 20);
+		
 		stayButton.setOpaque(false);
 		migrateButton.setOpaque(false);
+		
 		Insets insets = frame.getInsets();
 		//set the frame size to fit the panel
+		
 		frame.setSize(frameWidth + insets.left + insets.right, frameHeight + insets.top + insets.bottom);
 		
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		this.setFocusable(true);
 	}
 	
+	private JButton buildButton(String buttonStyle, ActionListener al) {
+		ImageIcon myIcon = new ImageIcon(".images/button-" + buttonStyle + ".png");
+		JButton myButton = new JButton(myIcon);
+		
+		//JButton myButton = new JButton(buttonStyle);
+		
+		myButton.addActionListener(al);
+		myButton.setPreferredSize(buttonSize);
+		myButton.setOpaque(false);
+		
+		return myButton;
+	}
 	public void removeMenu() {
 		if (subpanel != null) {
 			this.remove(subpanel);
@@ -127,6 +145,7 @@ class View extends JPanel {
 		this.add(subpanel);
 		frame.setVisible(true);
 	}
+	
 	/**
 	 * called from outside (Controller) to add/show quiz at breeding game
 	 *@author ZachC

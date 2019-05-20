@@ -75,6 +75,21 @@ public class Controller implements MouseMotionListener, MouseListener{
 					bModel.setQuizTime(false);
 				}
 			}
+			if (model instanceof EndMenu) {
+				view.endMenu = false;
+				startMainMenu();
+				while (!view.endMenu) {
+					view.update(model.getMoveables(), model.getHUDargs());
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				view.endMenu = false;
+				sequence.restart(view.getFrameWidth(), view.getFrameHeight(), view.migrate);
+				ended = false;
+			}
 			
 			view.update(model.getMoveables(), model.getHUDargs());
 			model.update();

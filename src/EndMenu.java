@@ -1,8 +1,9 @@
 import java.util.Collection;
 
 public class EndMenu extends Model {
+	boolean restart = false;
+	
 	EndMenu(int w, int h) {
-
 		frameHeight = w;
 		frameWidth = h;
 		score = 0;
@@ -16,8 +17,7 @@ public class EndMenu extends Model {
 
 	@Override
 	boolean endGame() {
-		// TODO Auto-generated method stub
-		return false;
+		return restart;
 	}
 
 	@Override
@@ -34,8 +34,9 @@ public class EndMenu extends Model {
 
 	@Override
 	void mousePressed(int mouseX, int mouseY, int actualX, int actualY, boolean leftClick, boolean rightClick) {
-		// TODO Auto-generated method stub
-		
+		if (leftClick) {
+			this.restart = true;
+		}
 	}
 
 	@Override
