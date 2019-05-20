@@ -76,7 +76,7 @@ public class Controller implements MouseMotionListener, MouseListener{
 					bModel.setQuizTime(false);
 				}
 			}
-			/*
+			
 			if (model instanceof EndMenu) {
 				
 				
@@ -91,10 +91,10 @@ public class Controller implements MouseMotionListener, MouseListener{
 					}
 				}
 				view.endMenu = false;
-				sequence.restart(view.getFrameWidth(), view.getFrameHeight(), view.migrate);
+				sequence = new GameSequence(view.getFrameWidth(), view.getFrameHeight(), view.migrate);
 				ended = false;
 			}
-			*/
+			
 			
 			
 			view.update(model.getMoveables(), model.getHUDargs());

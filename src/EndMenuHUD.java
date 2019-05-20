@@ -14,12 +14,14 @@ public class EndMenuHUD implements HUD, ImageObserver {
 	int frameHeight;
 	int frameWidth;
 	BufferedImage background;
+	BufferedImage[] chicks = new BufferedImage[3];
 	static String ANNOUNCE_FONT_NAME = "maiandra";
-	static float ANNOUNCE_FONT_SIZE = 36.0f;
-	static String SCORE_FONT_NAME = "arial_rounded";
-	static float SCORE_FONT_SIZE = 64.0f;
+	static float ANNOUNCE_FONT_SIZE = 64.0f;
+	static String SCORE_FONT_NAME = "maiandra";
+	static float SCORE_FONT_SIZE = 85.0f;
 	Font scoreFont;
 	Font announceFont;
+	int score;
 	
 	public EndMenuHUD(int w, int h) {
 		frameWidth = w;
@@ -27,7 +29,12 @@ public class EndMenuHUD implements HUD, ImageObserver {
 		background = View.createImage(View.IMAGE_PATH+"background_ending_blank.png");
 		announceFont = View.loadFont(ANNOUNCE_FONT_NAME, ANNOUNCE_FONT_SIZE);
 		scoreFont = View.loadFont(SCORE_FONT_NAME, SCORE_FONT_SIZE);
+
+		for (int i = 0; i < chicks.length; i++) {
+			chicks[i] = View.createImage(View.IMAGE_PATH + "score-" + (i+1) + ".png");
+		}
 	}
+	
 	
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
@@ -36,16 +43,20 @@ public class EndMenuHUD implements HUD, ImageObserver {
 	
 	@Override
 	public void paint(Graphics g, int[] args) {
+		g.drawImage(chicks[View.getFrame(chicks, score, 1000)], 
+				0, frameHeight - chicks[0].getHeight(), this);
+		Controller.overallScore = score;
+		g.setFont(announceFont);
+		g.drawString("Congratulations!", 500, 300);
 		g.setFont(scoreFont);
-		g.drawString("Congratulations!", 500, 500);
-		g.drawString("You earned " + Controller.overallScore + " points!" , 500, 550);
-		
+		g.drawString("You earned " + score + " points!" , 500, 370);
+		g.setFont(announceFont);
+		g.drawString("Click to restart", 500, 600);
 	}
 	
 	@Override
 	public void paintBack(Graphics g, int[] args, int cameraX, int cameraY) {
-		int drawWidth = frameHeight*background.getWidth()/background.getHeight();
-		g.drawImage(background, frameWidth/2-drawWidth/2, 0, drawWidth, frameHeight, this);
+		g.drawImage(background, 0, 0, frameWidth, frameHeight, this);
 		
 	}
 }

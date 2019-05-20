@@ -30,7 +30,7 @@ class View extends JPanel {
 			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
-	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", 
+	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "fox",
 												"hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3", "migratingbird-powerup", "migratingbird-powerdown",
 												"mousedefault", "mouserightclick", "mouseleftclick","mouserighthold"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
@@ -334,6 +334,18 @@ class View extends JPanel {
 			return 3;
 		else
 			return 0;
+	}	
+	/**
+	 * pass in time elapsed and time limit to find current frame of sprite </br>
+	 * returns int
+	 * @author - kelly
+	 */
+	static int getFrame(BufferedImage[] imgs, int over, int under) {
+		int a = imgs.length;
+		float percent = (float) over/under;
+		int frame = (int) (a * percent);
+		return frame; //int conversion truncates so that it won't go beyond array range
+
 	}
 /*
 	public void addPropertyChangeListener(JOptionPane j, Controller c) {
