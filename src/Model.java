@@ -21,7 +21,7 @@ abstract class Model {
 	/**
 	 * contains logic of what to do each tick, call smaller updates within
 	 */
-	abstract void update();
+	abstract void update(); 
 	
 	/**
 	 * checks if game related to the model is ended

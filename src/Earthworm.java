@@ -24,7 +24,7 @@ public class Earthworm extends Food {
 		super(inx, iny, r, xV, yV);
 		scoreValue = 20;
 	}
-	
+	 
 	@Override
 	void update(EatingBird birb) {
 		move();

@@ -73,19 +73,20 @@ public class EatingHUD implements HUD, ImageObserver {
 	 */
 	public void paint(Graphics g, int[] args) {
 		g.setFont(myFont);
-		g.drawString(Integer.toString(args[0]) + " points collected. Try and eat as many bugs as you can before it's time to migrate!", 
-				SCORE_OFFSET, SCORE_OFFSET);
+		g.drawString(Integer.toString(args[0]) + " points. Eat as many bugs as you can before migration time!", 
+				frameWidth*2/5, frameHeight-SCORE_OFFSET);
 		BufferedImage currentTimer= timer[getFrame(args[2], args[3])];
 		g.drawImage(currentTimer, frameWidth - currentTimer.getWidth() - TIMER_OFFSET, frameHeight - currentTimer.getHeight() - TIMER_OFFSET, this);
 	}
 	
 	private void loadFont() {
-		String fontFileName = "./fonts/" + FONT_NAME + ".ttf";
+		String fontFileName = "src/fonts/" + FONT_NAME + ".ttf";
 		try {
 			InputStream is = new FileInputStream(fontFileName);
 			Font tempFont = Font.createFont(Font.TRUETYPE_FONT, is);
 			myFont = tempFont.deriveFont(24.0f);
 		} catch (IOException | FontFormatException e) {
+			myFont = new Font ("Zapfino", Font.BOLD, 24);
 			System.out.println("font " + FONT_NAME + " not found");
 		} 
 		

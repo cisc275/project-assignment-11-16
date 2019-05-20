@@ -13,7 +13,7 @@ import java.awt.image.*;
 
 @SuppressWarnings("serial")
 class View extends JPanel {
-	public static final String IMAGE_PATH = "./images/";
+	public static final String IMAGE_PATH = "src/images/";
 	
 	public static final boolean NO_IMAGES = false;
 	public static final boolean SPRITE_INFO = false;
@@ -27,7 +27,7 @@ class View extends JPanel {
 			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
-	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", 
+	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", "grasssitter",
 												"hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3", "migratingbird-powerup", "migratingbird-powerdown",
 												"mousedefault", "mouserightclick", "mouseleftclick","mouserighthold", "arrow"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
@@ -155,7 +155,7 @@ class View extends JPanel {
 		JOptionPane.showOptionDialog(null, "Lost all eggs \nRetry game?", "Lost Game", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 	}
 
-	public void paint(Graphics g) {
+	public void paint(Graphics g) { 
 		
 		if(subpanel != null) {
 			subpanel.paint(g);

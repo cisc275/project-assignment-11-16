@@ -8,7 +8,7 @@ import java.util.function.Supplier;
  * @author Prescott
  *
  */
-public class GameSequence {
+public class GameSequence { 
 	LinkedList<Supplier<GameSequenceElement>> elements;
 	GameSequenceElement current;
 	Iterator<Supplier<GameSequenceElement>> itty;
