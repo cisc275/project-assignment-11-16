@@ -18,11 +18,23 @@ public class GameSequence {
 		//elements.add(new GameSequenceElement(new Menu(w, h), new MenuHUD(w, h)));
 
 		elements.add(() -> new GameSequenceElement(new EatingTutorial(w, h), new EatingHUD(w, h)));
+		//elements.add(() -> new GameSequenceElement(new EatingModel(w, h, mig), new EatingHUD(w, h)));
+		//elements.add(() -> new GameSequenceElement(new MigratingTutorial(w, h, mig), new MigratingHUD(w, h, mig)));
+		//elements.add(() -> new GameSequenceElement(new MigratingModel(w, h, mig), new MigratingHUD(w, h, mig)));
+		//elements.add(() -> new GameSequenceElement(new BreedingModel(w, h, mig), new BreedingHUD(w, h, mig)));
+		//elements.add(() -> new GameSequenceElement(new EndMenu(w, h), new EndMenuHUD(w, h)));
+		itty = elements.iterator();
+	}
+	
+	public void restart(int w, int h, boolean mig) {
+		elements.add(() -> new GameSequenceElement(new Menu(w, h), new MenuHUD(w, h)));
+		elements.add(() -> new GameSequenceElement(new EatingTutorial(w, h), new EatingHUD(w, h)));
 		elements.add(() -> new GameSequenceElement(new EatingModel(w, h, mig), new EatingHUD(w, h)));
 		elements.add(() -> new GameSequenceElement(new MigratingTutorial(w, h, mig), new MigratingHUD(w, h, mig)));
 		elements.add(() -> new GameSequenceElement(new MigratingModel(w, h, mig), new MigratingHUD(w, h, mig)));
 		elements.add(() -> new GameSequenceElement(new BreedingModel(w, h, mig), new BreedingHUD(w, h, mig)));
-		itty = elements.iterator();
+		//elements.add(() -> new GameSequenceElement(new EndMenu(w, h), new EndMenuHUD(w, h)));
+		
 	}
 	
 	public void advance() {

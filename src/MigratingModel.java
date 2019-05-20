@@ -149,8 +149,14 @@ class MigratingModel extends Model{
 	        default:
 	        	newObject = new Gust(frameWidth, yloc);
         }
+        
 		if(bird.getPowerUp() || bird.getPowerDown()) {
 			 newObject.scaleVelocity(bird.getVelocityScale());
+			 if (bird.getPowerUp()) {
+				 this.score += 40;
+			 } else {
+				 this.score -= 40;
+			 }
 		}
 		flyingObjects.add(newObject);
 		generateTimer = GENERATE_TIME;

@@ -6,6 +6,7 @@ public class Controller implements MouseMotionListener, MouseListener{
 	private Model model;
 	private View view;
 	private GameSequence sequence;
+	static int overallScore = 0;
 	
 	public Controller(){
 		view = new View();
@@ -101,12 +102,26 @@ public class Controller implements MouseMotionListener, MouseListener{
 	}
 	
 	public void loadNextGame() {
+		overallScore += model.getScore();
 		sequence.advance();
 		model = sequence.getModel();
 		view.hud = sequence.getHUD();
 	}
 	
 	private void winGame() {
+		EndMenu end = new EndMenu(view.getFrameWidth(), view.getFrameHeight());
+		model = end;
+		view.setHUD(new EndMenuHUD(view.getFrameWidth(), view.getFrameHeight()));
+		while (!end.endGame()) {
+			view.update(model.getMoveables(), model.getHUDargs());
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		view.endMenu = false;
+		start();
 		//System.out.println("you won.");
 	}
 	

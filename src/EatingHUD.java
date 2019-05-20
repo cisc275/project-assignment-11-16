@@ -26,15 +26,17 @@ public class EatingHUD implements HUD, ImageObserver {
 	int currentTime;
 	Font myFont;
 	final String FONT_NAME = "arial_rounded";
+	final float FONT_SIZE = 24.0f;
 	final int TIMER_OFFSET = 30;
-	final int SCORE_OFFSET = 50;
+	final int SCORE_OFFSET_X = 1140;
+	final int SCORE_OFFSET_Y = 85;
 	
 	public EatingHUD(int w, int h) {
 		frameWidth = w;
 		frameHeight = h;
 		background = View.createImage(View.IMAGE_PATH+"background_eating.png");
 		timer = loadTimerAnimation();
-		loadFont();
+		myFont = View.loadFont(FONT_NAME, FONT_SIZE);
 	}
 	
 	/**
@@ -74,36 +76,12 @@ public class EatingHUD implements HUD, ImageObserver {
 	public void paint(Graphics g, int[] args) {
 		g.setFont(myFont);
 		g.drawString(Integer.toString(args[0]) + " points collected. Try and eat as many bugs as you can before it's time to migrate!", 
-				SCORE_OFFSET, SCORE_OFFSET);
-		BufferedImage currentTimer= timer[getFrame(args[2], args[3])];
+				frameWidth-SCORE_OFFSET_X, frameHeight-SCORE_OFFSET_Y);
+		BufferedImage currentTimer= timer[View.getFrame(timer, args[2], args[3])];
 		g.drawImage(currentTimer, frameWidth - currentTimer.getWidth() - TIMER_OFFSET, frameHeight - currentTimer.getHeight() - TIMER_OFFSET, this);
 	}
 	
-	private void loadFont() {
-		String fontFileName = "./fonts/" + FONT_NAME + ".ttf";
-		try {
-			InputStream is = new FileInputStream(fontFileName);
-			Font tempFont = Font.createFont(Font.TRUETYPE_FONT, is);
-			myFont = tempFont.deriveFont(24.0f);
-		} catch (IOException | FontFormatException e) {
-			System.out.println("font " + FONT_NAME + " not found");
-		} 
-		
-		
-	}
-	
-	/**
-	 * pass in time elapsed and time limit to find current timer frame </br>
-	 * returns int
-	 * @author - kelly
-	 */
-	private int getFrame(int timeTaken, int maxTime) {
-		int a = timer.length;
-		float percent = (float) timeTaken/maxTime;
-		int frame = (int) (a * percent);
-		return frame; //int conversion truncates so that it won't go beyond array range
 
-	}
 	
 	/**
 	 * draw the background image.
