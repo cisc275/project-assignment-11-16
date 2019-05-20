@@ -105,8 +105,6 @@ public class Controller implements MouseMotionListener, MouseListener{
 	
 	private void winGame() {
 
-		model = new EndMenu(view.getFrameWidth(), view.getFrameHeight());
-		view.hud = new EndMenuHUD(view.getFrameWidth(), view.getFrameHeight());
 		System.out.println("you won.");
 	}
 	
