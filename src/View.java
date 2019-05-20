@@ -24,13 +24,12 @@ class View extends JPanel {
 	static int frameWidth = (int) computerScreen.getWidth();
 	static int frameHeight = (int) computerScreen.getHeight()- taskBarSize;
 	static Dimension windowSize = new Dimension(frameWidth, frameHeight);
-	int questionNumber = 0;
 			
 	BufferedImage bird;
 	//final String[] IMAGE_NAMES_STATIC = {"nest", "rock1", "rock2", "grass1", "grass2", "grass3", "grass4", "grass5"};
 	static final String[] IMAGE_NAMES_ANIMATED = {"walkingbird", "standingbird", "brokenwingbird", "migratingbird", "earthworm", "beetle", "grasshopper", 
 												"hawk", "raccoon", "pointerarea", "gust", "bag", "nest", "cloud1", "cloud2", "cloud3", "migratingbird-powerup", "migratingbird-powerdown",
-												"mousedefault", "mouserightclick", "mouseleftclick","mouserighthold"};
+												"mousedefault", "mouserightclick", "mouseleftclick","mouserighthold", "arrow"};
 	static final String[] DIRECTION_NAMES = {"right", "down", "left", "up"};
 	HUD hud;
 	int[] hudargs;
@@ -135,7 +134,6 @@ class View extends JPanel {
 
 		Object[] quizAnswers = quiz.getQuizAnswers();
 		int answer = JOptionPane.showOptionDialog(null, quiz.getQuestion(), "Quiz Time!", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, quizAnswers, quiz.getCorrectAnswer());
-		System.out.println(answer);
 		if(answer == -1) {
 			JOptionPane.showOptionDialog(null, "Can't exit quiz", "Answer the question", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
 			buildQuiz(quiz);
@@ -145,9 +143,16 @@ class View extends JPanel {
 			JOptionPane.showOptionDialog(null, "SORRY, INCORRECT.", "Try Again", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 			buildQuiz(quiz);
 		}
-		
-		questionNumber++;
-		
+
+	}
+	
+	/**
+	 * called to open popup stating lost game, try again.
+	 * specifically says lost all eggs, but can make more general later
+	 * @author Anna
+	 */
+	public void restartGamePrompt() {
+		JOptionPane.showOptionDialog(null, "Lost all eggs \nRetry game?", "Lost Game", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 	}
 
 	public void paint(Graphics g) {

@@ -73,6 +73,9 @@ public class Controller implements MouseMotionListener, MouseListener{
 					Quiz quiz = bModel.getQuiz();
 					view.buildQuiz(quiz);
 					bModel.setQuizTime(false);
+				}else if(bModel.loseGame()) {
+					view.restartGamePrompt();
+					bModel.retryGame();
 				}
 			}
 			
@@ -104,7 +107,7 @@ public class Controller implements MouseMotionListener, MouseListener{
 	}
 	
 	private void winGame() {
-		System.out.println("you won.");
+		//System.out.println("you won.");
 	}
 	
 	public void mouseClicked(MouseEvent e) {
