@@ -77,26 +77,6 @@ public class Controller implements MouseMotionListener, MouseListener{
 				}
 			}
 			
-			if (model instanceof EndMenu) {
-				
-				
-				view.endMenu = false;
-				startMainMenu();
-				while (!view.endMenu) {
-					view.update(model.getMoveables(), model.getHUDargs());
-					try {
-						Thread.sleep(50);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				view.endMenu = false;
-				sequence = new GameSequence(view.getFrameWidth(), view.getFrameHeight(), view.migrate);
-				ended = false;
-			}
-			
-			
-			
 			view.update(model.getMoveables(), model.getHUDargs());
 			model.update();
 			
@@ -126,8 +106,20 @@ public class Controller implements MouseMotionListener, MouseListener{
 	}
 	
 	private void winGame() {
-
-		System.out.println("you won.");
+		EndMenu end = new EndMenu(view.getFrameWidth(), view.getFrameHeight());
+		model = end;
+		view.setHUD(new EndMenuHUD(view.getFrameWidth(), view.getFrameHeight()));
+		while (!end.endGame()) {
+			view.update(model.getMoveables(), model.getHUDargs());
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		view.endMenu = false;
+		start();
+		//System.out.println("you won.");
 	}
 	
 	public void mouseClicked(MouseEvent e) {
