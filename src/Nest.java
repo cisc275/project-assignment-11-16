@@ -23,13 +23,13 @@ public class Nest extends Moveable{
 	public double getFacing() {
 		switch(numEggs) {
 			case 3: 
-				return 0;
+				return 0; //right direction
 			case 2:
-				return 1;
+				return 1; //down
 			case 1:
-				return 3;
+				return 3; //left
 			default:
-				return 4;
+				return 4; //up
 		}
 	}
 	

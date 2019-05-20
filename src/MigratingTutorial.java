@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
- * Prompts player to collide with a gust and a hawk to show what happens
+ * Prompts player to move, collide with a gust, and avoid hawks to show what happens
  * @author Anna
  *
  */
@@ -18,6 +18,10 @@ public class MigratingTutorial extends MigratingModel {
 
 	private int tutorialGustVelocity = -12;
 	private int tutorialEnemyVelocity = -12;
+	
+	private Arrow arrow1 = new Arrow(frameWidth*2/5, frameHeight*1/4);
+	private Arrow arrow2 = new Arrow(frameWidth*2/5, frameHeight*2/4);
+	private Arrow arrow3 = new Arrow(frameWidth*2/5, frameHeight*3/4);
 
 	
 	MigratingTutorial(int w, int h, boolean isMigrate) {
@@ -31,16 +35,15 @@ public class MigratingTutorial extends MigratingModel {
 		mouse.enableUpDown();
 		tutorialObjects.add(mouse);
 		tutorial = true;
-		//gusts.add(new Gust(frameWidth-10,150));
-		//PointerArea pointer = new PointerArea(500, 150, 50);
-		//tutorialObjects.add(pointer);
-		//pointer = new PointerArea(h, h, h);
 	}
 	
 	private void generateGustLine() {
 		flyingObjects.add(new Gust(frameWidth, frameHeight*1/4, tutorialGustVelocity));
 		flyingObjects.add(new Gust(frameWidth, frameHeight*2/4, tutorialGustVelocity));
 		flyingObjects.add(new Gust(frameWidth, frameHeight*3/4, tutorialGustVelocity));
+		tutorialObjects.add(arrow1);
+		tutorialObjects.add(arrow2);
+		tutorialObjects.add(arrow3);
 	}
 	
 	private void generateEnemyLine() {
@@ -48,6 +51,8 @@ public class MigratingTutorial extends MigratingModel {
 		flyingObjects.add(new Hawk(frameWidth, frameHeight*2/4, tutorialEnemyVelocity));
 		flyingObjects.add(new Hawk(frameWidth, frameHeight*3/4, tutorialEnemyVelocity));
 		flyingObjects.add(new Hawk(frameWidth, frameHeight, tutorialEnemyVelocity));
+		tutorialObjects.remove(arrow2);
+		tutorialObjects.remove(arrow3);
 	}
 	
 	@Override
@@ -59,20 +64,18 @@ public class MigratingTutorial extends MigratingModel {
 		return r;
 	}
 	
+	
+	/**
+	 * handles transition of stages. 
+	 * stage 0 is initial, 1 is powerup tutorial, 2 is avoid enemy tutorial, 3 is end sequence
+	 */
 	@Override
 	public void update() {
 		super.update();
 		if(delay > 0){
 			delay--;
 		}
-		
-		/*
-		 * if stage 0, delay 0 -> stage 1, remove mouse, maxGust = smth, restart delay
-		 * if 1 and bird collide with gust -> stage 2, maxGust = 0, restart delay
-		 * 
-		 * have predators in line??
-		 */
-
+	
 		if(stage == 0 && delay == 0) {
 			stage=1;
 			tutorialObjects.remove(mouse);
@@ -90,6 +93,8 @@ public class MigratingTutorial extends MigratingModel {
 					generateEnemyLine();
 					hitEnemy = false;
 			}
+		}else {
+			tutorialObjects.remove(arrow1);
 		}
 	}
 	
@@ -129,7 +134,7 @@ public class MigratingTutorial extends MigratingModel {
 		}
 	}
 	
-	//note to change this later
+	
 	@Override
 	public boolean endSequence() {
 		return (stage == 3 && flyingObjects.isEmpty());

@@ -74,6 +74,9 @@ public class Controller implements MouseMotionListener, MouseListener{
 					Quiz quiz = bModel.getQuiz();
 					view.buildQuiz(quiz);
 					bModel.setQuizTime(false);
+				}else if(bModel.loseGame()) {
+					view.restartGamePrompt();
+					bModel.retryGame();
 				}
 			}
 			
