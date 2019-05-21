@@ -1,5 +1,8 @@
 import java.util.*;
 
+/**
+ * @author Anna
+ */
 public class Quiz {
 
 	String question;
@@ -7,7 +10,9 @@ public class Quiz {
 	int correctAnswer;
 	
 	
-	// 
+	/**
+	 * @param i input random num to get random question from pool, else can iterate through the questions 
+	 */
 	Quiz(int i){
 		questionPool(i);
 	}
@@ -33,18 +38,18 @@ public class Quiz {
 				break;
 			case 1: 
 				question = "Where do killdeer live?";
-				quizAnswers = Arrays.asList("North America", "Australia", "North pole", "Only South Dakota");
-				correctAnswer = 0;
+				quizAnswers = Arrays.asList("Australia", "North pole", "Only South Dakota", "North America");
+				correctAnswer = 3;
 				break;
 			case 2: 
-				question = "What environments do killdeer nest in?";
-				quizAnswers = Arrays.asList("Tall trees", "Underground", "Fields or parking lots", "Skyscrapers");
-				correctAnswer = 2;
-				break;
-			case 3: 
 				question = "How do killdeer protect their young?";
 				quizAnswers = Arrays.asList("Attack","Feign injury", "Spit acid");
 				correctAnswer = 1;
+				break;
+			case 3: 
+				question = "What environments do killdeer nest in?";
+				quizAnswers = Arrays.asList("Tall trees", "Underground", "Fields or parking lots", "Skyscrapers");
+				correctAnswer = 2;
 				break;
 			default: 
 				question = "Do killdeer migrate?";
