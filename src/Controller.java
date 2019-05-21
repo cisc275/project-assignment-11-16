@@ -122,7 +122,6 @@ public class Controller implements MouseMotionListener, MouseListener{
 		}
 		view.endMenu = false;
 		start();
-		//System.out.println("you won.");
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -155,18 +154,5 @@ public class Controller implements MouseMotionListener, MouseListener{
 	public void mouseMoved(MouseEvent e) {
 		model.mouseMoved(e.getX(), e.getY());
 	}
-/*
-	@Override
-	public void propertyChange(PropertyChangeEvent arg0) {
-		int ans = 3; //should not stay 3
-		for (int i = 0; i <3; i++) {
-			if (arg0.getPropertyName().equals(view.quizAns[i])) {
-				ans = i;
-			}
-		}
-		model.buttonClicked(ans);
-		//view.dialog.setVisible(false);
-		
-	}
-	*/
+
 }
