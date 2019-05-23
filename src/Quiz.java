@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * @author Anna
  */
-public class Quiz {
+public class Quiz implements Serializable{
 
 	String question;
 	List<String> quizAnswers;

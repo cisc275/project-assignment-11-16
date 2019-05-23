@@ -1,4 +1,10 @@
 import java.awt.event.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 
 public class Controller implements MouseMotionListener, MouseListener{
@@ -107,21 +113,67 @@ public class Controller implements MouseMotionListener, MouseListener{
 		view.hud = sequence.getHUD();
 	}
 	
-	private void winGame() {
+	/**
+	 * initiates end screen and restart logic. 
+	 * also writes current model (and score) to save.ser file
+	 */
+	private void winGame(){
 		EndMenu end = new EndMenu(view.getFrameWidth(), view.getFrameHeight());
 		model = end;
 		view.setHUD(new EndMenuHUD(view.getFrameWidth(), view.getFrameHeight()));
-		while (!end.endGame()) {
+		
+		while (end.endGame() == false ) {
 			view.update(model.getMoveables(), model.getHUDargs());
+			//System.out.print(model.getLoadScore());
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}
+			}  
 		}
+		
+		saveModel();
 		view.endMenu = false;
 		start();
 	}
+	
+	
+	/**
+	 * serializable implementation
+	 * writes current model to save file (save.ser)
+	 */
+	public void saveModel() {
+		try {
+			FileOutputStream fos = new FileOutputStream("save.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(model);
+			oos.close();
+			
+		} catch (IOException e) {
+			System.out.println("something to do with the file WRITE");
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * method for loading a model in from a save file
+	 */
+	public void loadSavedModel() {
+		try {
+			 FileInputStream fis = new FileInputStream("save.ser");
+		     ObjectInputStream ois = new ObjectInputStream(fis);
+		     model = (Model) ois.readObject();
+		     ois.close();
+			
+		} catch (IOException e) {
+			System.out.println("something to do with the file READ");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	
 	public void mouseClicked(MouseEvent e) {
 

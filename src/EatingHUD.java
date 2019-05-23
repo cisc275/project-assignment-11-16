@@ -21,8 +21,8 @@ public class EatingHUD implements HUD, ImageObserver {
 	final int SCORE_SIZE = 30;
 	int frameHeight;
 	int frameWidth;
-	BufferedImage background;
-	BufferedImage[] timer;
+	transient BufferedImage background;
+	transient BufferedImage[] timer;
 	int currentTime;
 	Font myFont;
 	final String FONT_NAME = "arial_rounded";

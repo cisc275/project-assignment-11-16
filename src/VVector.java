@@ -3,7 +3,7 @@
  * @author pedz
  *
  */
-public class VVector {
+public class VVector implements Serializable{
 	private double x;
 	private double y;
 	private double r;
