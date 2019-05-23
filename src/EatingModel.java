@@ -20,6 +20,7 @@ class EatingModel extends Model {
 	int maxFood = 30;
 	final int worldWidth = 2160;
 	final int worldHeight = 1440;
+	boolean migrating;
 	
 	EatingModel(int w, int h) {
 		this(w, h, false);
@@ -31,6 +32,7 @@ class EatingModel extends Model {
 	 * @param h
 	 */
 	EatingModel(int w, int h, boolean mig) {
+		migrating = mig;
 		timeLimit = mig ? TIME_LIMIT_MIGRATING : TIME_LIMIT_STAYING;
 		timeTaken = 0;
 		frameHeight = w;

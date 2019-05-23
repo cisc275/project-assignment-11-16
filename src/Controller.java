@@ -43,7 +43,6 @@ public class Controller implements MouseMotionListener, MouseListener{
 	
 	/**
 	 * handles ticking: update model, update view 
-	 * note to get rid of instance of later
 	 */
 	public void start() {
 		startMainMenu();
