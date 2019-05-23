@@ -6,8 +6,9 @@ import java.util.Collection;
  * @author Prescott
  *
  */
-public abstract class Moveable {
+public abstract class Moveable implements Serializable{
 	
+
 	protected int x;
 	protected int y;
 	protected int radius;

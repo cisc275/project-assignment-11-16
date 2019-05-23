@@ -85,7 +85,7 @@ class View extends JPanel {
 	 * sets up frame and button styles
 	 * @author Anna
 	 */
-	private void buildFrame() {
+	public void buildFrame() {
 		frame = new JFrame();
 		frame.add(this);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,7 +94,7 @@ class View extends JPanel {
 	
 
 		migrateButton = buildButton("MIGRATE", someactionevent -> {removeMenu(); migrate = true; endMenu = true;}); 
-		stayButton = buildButton("STAY", someactionevent -> {removeMenu(); endMenu = true;}); 
+		stayButton = buildButton("STAY", someactionevent -> {removeMenu(); migrate = false; endMenu = true;}); 
 
 		frame.setVisible(true); //NOTE: must put all in frame before setVisible
 		

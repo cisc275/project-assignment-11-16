@@ -10,8 +10,8 @@ public class EatingTutorial extends EatingModel {
 	PointerArea pointer;
 	Food tutTarget;
 	
-	EatingTutorial(int w, int h) {
-		super(w, h);
+	EatingTutorial(int w, int h, boolean mig) {
+		super(w, h, mig);
 		food = new ArrayList<Food>();
 		tutTarget = new Earthworm(bird.getX()+w/3, bird.getY()-h/8);
 		food.add(tutTarget);

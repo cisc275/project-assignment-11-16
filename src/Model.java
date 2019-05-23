@@ -1,6 +1,6 @@
 import java.util.Collection;
 
-abstract class Model {
+abstract class Model implements Serializable{
 	int score;
 	int frameHeight;
 	int frameWidth;
