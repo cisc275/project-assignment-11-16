@@ -28,7 +28,7 @@ public class EatingHUD implements HUD, ImageObserver {
 	final String FONT_NAME = "arial_rounded";
 	final float FONT_SIZE = 24.0f;
 	final int TIMER_OFFSET = 30;
-	final int SCORE_OFFSET_X = 1080;
+	final int SCORE_OFFSET_X = 1050;
 	final int SCORE_OFFSET_Y = 85;
 	
 	public EatingHUD(int w, int h, boolean mig) {
@@ -80,7 +80,7 @@ public class EatingHUD implements HUD, ImageObserver {
 	 */
 	public void paint(Graphics g, int[] args) {
 		g.setFont(myFont);
-		g.drawString(Integer.toString(args[0]) + " points collected. Eat as many bugs as you can before it's migration time!", 
+		g.drawString(Integer.toString(args[0]) + " points collected. Eat as many bugs as you can before it's time to fly!", 
 				frameWidth-SCORE_OFFSET_X, frameHeight-SCORE_OFFSET_Y);
 		BufferedImage currentTimer= timer[View.getFrame(timer, args[2], args[3])];
 		g.drawImage(currentTimer, frameWidth - currentTimer.getWidth() - TIMER_OFFSET, frameHeight - currentTimer.getHeight() - TIMER_OFFSET, this);

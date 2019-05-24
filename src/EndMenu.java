@@ -2,7 +2,6 @@ import java.util.Collection;
 
 public class EndMenu extends Model {
 	boolean restart = false;
-	boolean loadScore = false;
 	
 	EndMenu(int w, int h) {
 		frameHeight = w;

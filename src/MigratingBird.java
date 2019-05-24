@@ -87,13 +87,6 @@ public class MigratingBird extends Moveable {
 		powerTimer = 0;
 	}
 	
-	public void test(Enemy e) {
-		System.out.println("enemy");
-	}
-	public void test(Gust g) {
-		System.out.println("gust");
-	}
-
 	@Override
 	public String getImageName() {
 		switch(birdState) {
